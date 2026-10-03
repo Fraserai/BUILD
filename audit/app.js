@@ -14,8 +14,9 @@
     var opts;
     if (v >= 1000) opts = { maximumFractionDigits: 0 };
     else if (v >= 0.1) opts = { minimumFractionDigits: 2, maximumFractionDigits: 2 };
-    else opts = { maximumSignificantDigits: 2 };
-    return "A$" + v.toLocaleString("en-AU", opts);
+    else if (v >= 0.001) opts = { minimumFractionDigits: 2, maximumFractionDigits: 3 };
+    else return "<$0.001";
+    return "$" + v.toLocaleString("en-AU", opts);
   }
 
   function fmtGb(v) {
