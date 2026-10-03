@@ -69,8 +69,7 @@
       ],
       "auHosting": {
         "status": "none",
-        "warning": "Amazon Bedrock offers Fable 5.1 in Sydney only through global routing, so requests can be processed overseas.",
-        "closest": "Claude Opus 5.5 and Claude Opus 5 run fully in Australia on Amazon Bedrock."
+        "warning": "Amazon Bedrock offers Fable 5.1 in Sydney only through global routing, so requests can be processed overseas."
       }
     },
     {
@@ -357,14 +356,7 @@
         "note": "Self-hosting a 2.4T model needs a multi-GPU server cluster."
       },
       "auHosting": {
-        "status": "none",
-        "closest": "Qwen3 models such as Qwen3 235B and Qwen3 Coder run in-region on Amazon Bedrock Sydney.",
-        "links": [
-          [
-            "Bedrock Sydney",
-            "https://aws.amazon.com/about-aws/whats-new/2026/02/amazon-bedrock-support-latest-open-weight-models-asia-pacific-sydney"
-          ]
-        ]
+        "status": "none"
       }
     },
     {
@@ -428,18 +420,7 @@
         "DeepInfra"
       ],
       "auHosting": {
-        "status": "none",
-        "closest": "Older GLM models run fully in Australia: GLM-5.2 at AI Compute AU in Melbourne (billed in AUD, A$0.49 in / A$1.53 out) and GLM 5 in-region on Amazon Bedrock Sydney.",
-        "links": [
-          [
-            "AI Compute AU",
-            "https://aicompute.au/"
-          ],
-          [
-            "Bedrock Sydney",
-            "https://aws.amazon.com/about-aws/whats-new/2026/02/amazon-bedrock-support-latest-open-weight-models-asia-pacific-sydney"
-          ]
-        ]
+        "status": "none"
       }
     },
     {
@@ -692,18 +673,7 @@
         "gguf": "https://huggingface.co/unsloth/GLM-5.3-Flash-GGUF"
       },
       "auHosting": {
-        "status": "none",
-        "closest": "Older GLM models run fully in Australia: GLM-5.2 at AI Compute AU in Melbourne and GLM 5 in-region on Amazon Bedrock Sydney.",
-        "links": [
-          [
-            "AI Compute AU",
-            "https://aicompute.au/"
-          ],
-          [
-            "Bedrock Sydney",
-            "https://aws.amazon.com/about-aws/whats-new/2026/02/amazon-bedrock-support-latest-open-weight-models-asia-pacific-sydney"
-          ]
-        ]
+        "status": "none"
       }
     },
     {
@@ -811,18 +781,7 @@
         "Databricks"
       ],
       "auHosting": {
-        "status": "none",
-        "closest": "DeepSeek V3.2 runs fully in Australia, in-region on Amazon Bedrock Sydney and at SCX.ai in Sydney.",
-        "links": [
-          [
-            "Bedrock Sydney",
-            "https://aws.amazon.com/about-aws/whats-new/2026/02/amazon-bedrock-support-latest-open-weight-models-asia-pacific-sydney"
-          ],
-          [
-            "SCX.ai",
-            "https://scx.ai/models"
-          ]
-        ]
+        "status": "none"
       }
     },
     {
@@ -930,14 +889,7 @@
         "lmstudio": "https://lmstudio.ai/models/qwen/qwen3.8-27b"
       },
       "auHosting": {
-        "status": "none",
-        "closest": "Qwen3 models such as Qwen3 32B run in-region on Amazon Bedrock Sydney.",
-        "links": [
-          [
-            "Bedrock Sydney",
-            "https://aws.amazon.com/about-aws/whats-new/2026/02/amazon-bedrock-support-latest-open-weight-models-asia-pacific-sydney"
-          ]
-        ]
+        "status": "none"
       }
     },
     {
@@ -1051,18 +1003,7 @@
         "SambaNova"
       ],
       "auHosting": {
-        "status": "none",
-        "closest": "Older MiniMax models run fully in Australia: MiniMax M2.5 in-region on Amazon Bedrock Sydney and MiniMax M2.7 at SCX.ai in Sydney.",
-        "links": [
-          [
-            "Bedrock Sydney",
-            "https://aws.amazon.com/about-aws/whats-new/2026/02/amazon-bedrock-support-latest-open-weight-models-asia-pacific-sydney"
-          ],
-          [
-            "SCX.ai",
-            "https://scx.ai/models"
-          ]
-        ]
+        "status": "none"
       }
     },
     {
@@ -1180,14 +1121,7 @@
         "Lightning AI"
       ],
       "auHosting": {
-        "status": "none",
-        "closest": "You can deploy it to your own dedicated endpoint with Amazon SageMaker JumpStart and choose the region yourself. You pay for the GPUs by the hour, not per token.",
-        "links": [
-          [
-            "SageMaker JumpStart",
-            "https://aws.amazon.com/blogs/machine-learning/nvidia-nemotron-3-ultra-now-available-on-amazon-sagemaker-jumpstart/"
-          ]
-        ]
+        "status": "none"
       }
     },
     {
@@ -1213,8 +1147,7 @@
       ],
       "auHosting": {
         "status": "none",
-        "warning": "It has no Sydney endpoint. Google only offers it through global and US or EU endpoints.",
-        "closest": "Gemini 3.8 Flash runs fully in Australia on Google Cloud."
+        "warning": "It has no Sydney endpoint. Google only offers it through global and US or EU endpoints."
       }
     },
     {

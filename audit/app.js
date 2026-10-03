@@ -166,10 +166,8 @@
     var body = ok ? "<p>" + esc(h.how) + "</p>" : "<p>No provider runs this model fully in Australia yet.</p>";
     if (h.warning) body += '<p class="warn-line">' + ICON.warn + "<span>" + esc(h.warning) + "</span></p>";
     if (h.closest) body += "<p>" + esc(h.closest) + "</p>";
-    if (!ok && m.open) {
-      body += "<p>" + (m.localRun && m.localRun.tier === "laptop"
-        ? "It runs on your own computer, so every prompt can stay onshore today."
-        : "To keep data onshore today, run it on your own hardware or an Australian GPU cloud.") + "</p>";
+    if (!ok && m.localRun && m.localRun.tier === "laptop") {
+      body += "<p>It runs on your own computer, so every prompt can stay onshore today.</p>";
     }
     var links = (h.links || []).map(function (l) { return link(l[0], l[1]); }).join("");
     return '<section class="card au-card ' + (ok ? "is-ok" : "is-no") + '">' +
