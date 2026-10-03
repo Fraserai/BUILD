@@ -18,7 +18,8 @@
       "price": {
         "in": 4.0,
         "out": 20.0,
-        "cached": 0.2
+        "cached": 0.2,
+        "batch": 0.5
       },
       "context": 1000000,
       "speed_tps": 93,
@@ -30,7 +31,10 @@
       },
       "sources": [
         "https://docs.aws.amazon.com/bedrock/latest/userguide/model-card-anthropic-claude-opus-5-5.html",
-        "https://artificialanalysis.ai/models/comparisons/claude-opus-5-5-vs-gpt-6-astra"
+        "https://artificialanalysis.ai/models/comparisons/claude-opus-5-5-vs-gpt-6-astra",
+        "https://x.com/ArtificialAnlys/status/2102932119995756613",
+        "https://llm-stats.com/blog/research/claude-opus-5-5-launch",
+        "https://platform.claude.com/docs/en/models/opus-5-5/overview"
       ],
       "auHosting": {
         "status": "available",
@@ -41,7 +45,87 @@
             "https://docs.aws.amazon.com/bedrock/latest/userguide/model-card-anthropic-claude-opus-5-5.html"
           ]
         ]
-      }
+      },
+      "spec": {
+        "release": "2026-09-22",
+        "maxOutput": 128000,
+        "inputs": "text, image",
+        "cutoff": "2026-06",
+        "reasoning": "Adaptive thinking always on (cannot be disabled); effort low to max, default medium"
+      },
+      "bestFor": "Long-running agentic coding and knowledge work; Anthropic's default recommendation for most workloads.",
+      "benchmarks": [
+        {
+          "name": "AA Coding Agent Index",
+          "score": "66",
+          "lab": false,
+          "source": "https://x.com/ArtificialAnlys/status/2102932119995756613"
+        },
+        {
+          "name": "SWE-bench Pro",
+          "score": "89.9%",
+          "lab": true,
+          "source": "https://llm-stats.com/blog/research/claude-opus-5-5-launch"
+        },
+        {
+          "name": "Terminal-Bench 4.0",
+          "score": "66.4%",
+          "lab": false,
+          "source": "https://www.anthropic.com/claude-opus-5-5"
+        },
+        {
+          "name": "Humanity's Last Exam",
+          "score": "67.7%",
+          "lab": false,
+          "source": "https://www.anthropic.com/claude-opus-5-5"
+        }
+      ],
+      "platforms": [
+        "Claude API",
+        "Amazon Bedrock",
+        "Google Vertex AI",
+        "Microsoft Foundry",
+        "OpenRouter",
+        "GitHub Copilot"
+      ]
+    },
+    {
+      "id": "gpt-6-1-sol",
+      "name": "GPT-6.1 Sol",
+      "variant": "max",
+      "lab": "OpenAI",
+      "origin": "US",
+      "index": 52,
+      "open": false,
+      "price": {
+        "in": 2.0,
+        "out": 10.0,
+        "cached": 0.1,
+        "batch": 0.5
+      },
+      "openrouter": "openai/gpt-6.1-sol",
+      "autoPrice": true,
+      "au": {
+        "status": "offshore",
+        "note": ""
+      },
+      "auHosting": {
+        "status": "none"
+      },
+      "spec": {
+        "release": "2026-09-29"
+      },
+      "bestFor": "OpenAI's latest Sol model, at the same price as GPT-6 Sol.",
+      "platforms": [
+        "OpenAI API",
+        "Microsoft Foundry"
+      ],
+      "benchmarks": [],
+      "sources": [
+        "https://artificialanalysis.ai/models/gpt-6-1-sol",
+        "https://thenextweb.com/news/openai-gpt-6-1-sol-price-astra-devday",
+        "https://foundrymap.fyi/models/gpt-6-1-sol"
+      ]
     },
     {
       "id": "claude-fable-5-1",
@@ -54,7 +138,8 @@
       "price": {
         "in": 10.0,
         "out": 50.0,
-        "cached": 0.25
+        "cached": 0.25,
+        "batch": 0.5
       },
       "context": 1000000,
       "openrouter": "anthropic/claude-fable-5.1",
@@ -65,12 +150,58 @@
       },
       "sources": [
         "https://platform.claude.com/docs/en/about-claude/pricing",
-        "https://docs.aws.amazon.com/bedrock/latest/userguide/model-card-anthropic-claude-fable-5-1.html"
+        "https://docs.aws.amazon.com/bedrock/latest/userguide/model-card-anthropic-claude-fable-5-1.html",
+        "https://x.com/ArtificialAnlys/status/2102932119995756613",
+        "https://codingfleet.com/blog/swe-bench-pro-leaderboard-2026/",
+        "https://platform.claude.com/docs/en/models/fable-5-1/overview"
       ],
       "auHosting": {
         "status": "none",
         "warning": "Amazon Bedrock offers Fable 5.1 in Sydney only through global routing, so requests can be processed overseas."
-      }
+      },
+      "spec": {
+        "release": "2026-09-01",
+        "maxOutput": 128000,
+        "inputs": "text, image",
+        "cutoff": "2026-06",
+        "reasoning": "Adaptive thinking always on; effort low to max, default high"
+      },
+      "speed_tps": 68,
+      "bestFor": "Demanding reasoning and long-horizon agentic work where Opus-tier models fall short.",
+      "benchmarks": [
+        {
+          "name": "AA Coding Agent Index",
+          "score": "62",
+          "lab": false,
+          "source": "https://x.com/ArtificialAnlys/status/2102932119995756613"
+        },
+        {
+          "name": "SWE-bench Pro",
+          "score": "81.2%",
+          "lab": true,
+          "source": "https://codingfleet.com/blog/swe-bench-pro-leaderboard-2026/"
+        },
+        {
+          "name": "Terminal-Bench 4.0",
+          "score": "55.8%",
+          "lab": false,
+          "source": "https://www.anthropic.com/claude-fable-and-mythos-5-1"
+        },
+        {
+          "name": "Humanity's Last Exam",
+          "score": "65.0%",
+          "lab": false,
+          "source": "https://www.anthropic.com/claude-fable-and-mythos-5-1"
+        }
+      ],
+      "platforms": [
+        "Claude API",
+        "Amazon Bedrock",
+        "Google Vertex AI",
+        "Microsoft Foundry",
+        "OpenRouter",
+        "GitHub Copilot"
+      ]
     },
     {
       "id": "gpt-6-astra",
@@ -82,7 +213,9 @@
       "open": false,
       "price": {
         "in": 10.0,
-        "out": 50.0
+        "out": 50.0,
+        "cached": 1.0,
+        "batch": 0.5
       },
       "context": 1050000,
       "speed_tps": 54,
@@ -94,12 +227,57 @@
       },
       "sources": [
         "https://artificialanalysis.ai/models/comparisons/claude-opus-5-5-vs-gpt-6-astra",
-        "https://foundrymap.fyi/models/gpt-6-astra"
+        "https://foundrymap.fyi/models/gpt-6-astra",
+        "https://artificialanalysis.ai/models/gpt-6-astra",
+        "https://artificialanalysis.ai/articles/benchmarking-gpt-6-astra",
+        "https://developers.openai.com/api/docs/models/gpt-6-astra"
       ],
       "auHosting": {
         "status": "none",
         "warning": "Azure lists GPT-6 Astra in Australia East, but only as Global deployments, so requests can be processed overseas. OpenAI's own Australian data residency stores data in Australia, but prompts are still processed overseas and it costs 10% more."
-      }
+      },
+      "spec": {
+        "release": "2026-09-03",
+        "maxOutput": 128000,
+        "inputs": "text, image, pdf",
+        "cutoff": "2026-04",
+        "reasoning": "Always on; effort low, medium, high, xhigh, max (none not supported)"
+      },
+      "bestFor": "Long, complex multi-step work in coding, computer use, research and professional analysis.",
+      "benchmarks": [
+        {
+          "name": "AA Coding Agent Index",
+          "score": "67",
+          "lab": false,
+          "source": "https://artificialanalysis.ai/articles/benchmarking-gpt-6-astra"
+        },
+        {
+          "name": "Terminal-Bench 4.0",
+          "score": "57.7%",
+          "lab": false,
+          "source": "https://www.vellum.ai/blog/gpt-6-astra-benchmarks-explained"
+        },
+        {
+          "name": "GPQA Diamond",
+          "score": "96.0%",
+          "lab": false,
+          "source": "https://www.vellum.ai/blog/gpt-6-astra-benchmarks-explained"
+        },
+        {
+          "name": "Humanity's Last Exam",
+          "score": "57.2%",
+          "lab": false,
+          "source": "https://www.vellum.ai/blog/gpt-6-astra-benchmarks-explained"
+        }
+      ],
+      "platforms": [
+        "OpenAI API",
+        "Amazon Bedrock",
+        "Microsoft Foundry",
+        "GitHub Copilot",
+        "OpenRouter"
+      ],
+      "priceNote": "Prompts over 272K tokens cost US$20 in / US$75 out for the whole request."
     },
     {
       "id": "claude-opus-5",
@@ -111,7 +289,9 @@
       "open": false,
       "price": {
         "in": 5.0,
-        "out": 25.0
+        "out": 25.0,
+        "cached": 0.5,
+        "batch": 0.5
       },
       "context": 1000000,
       "openrouter": "anthropic/claude-opus-5",
@@ -121,7 +301,10 @@
         "note": "Available on Amazon Bedrock. AU geo profile not yet verified for this model."
       },
       "sources": [
-        "https://docs.aws.amazon.com/bedrock/latest/userguide/model-card-anthropic-claude-opus-5.html"
+        "https://docs.aws.amazon.com/bedrock/latest/userguide/model-card-anthropic-claude-opus-5.html",
+        "https://x.com/ArtificialAnlys/status/2102932119995756613",
+        "https://benchlm.ai/benchmarks/swe-bench-pro",
+        "https://platform.claude.com/docs/en/models/opus-5/overview"
       ],
       "auHosting": {
         "status": "available",
@@ -132,7 +315,50 @@
             "https://docs.aws.amazon.com/bedrock/latest/userguide/model-card-anthropic-claude-opus-5.html"
           ]
         ]
-      }
+      },
+      "spec": {
+        "release": "2026-07-24",
+        "maxOutput": 128000,
+        "inputs": "text, image",
+        "cutoff": "2026-05",
+        "reasoning": "Adaptive thinking on by default (not always-on); effort default high"
+      },
+      "speed_tps": 52,
+      "bestFor": "Coding, knowledge work and agentic tasks; now legacy, superseded by Opus 5.5.",
+      "benchmarks": [
+        {
+          "name": "AA Coding Agent Index",
+          "score": "60",
+          "lab": false,
+          "source": "https://x.com/ArtificialAnlys/status/2102932119995756613"
+        },
+        {
+          "name": "SWE-bench Pro",
+          "score": "79.2%",
+          "lab": false,
+          "source": "https://benchlm.ai/benchmarks/swe-bench-pro"
+        },
+        {
+          "name": "Terminal-Bench 4.0",
+          "score": "52.3%",
+          "lab": false,
+          "source": "https://www.anthropic.com/claude-fable-and-mythos-5-1"
+        },
+        {
+          "name": "Humanity's Last Exam",
+          "score": "63.6%",
+          "lab": false,
+          "source": "https://www.anthropic.com/claude-opus-5-5"
+        }
+      ],
+      "platforms": [
+        "Claude API",
+        "Amazon Bedrock",
+        "Google Vertex AI",
+        "Microsoft Foundry",
+        "OpenRouter",
+        "GitHub Copilot"
+      ]
     },
     {
       "id": "muse-spark-1-3",
@@ -154,12 +380,56 @@
         "note": "No Australian-region hosting found."
       },
       "sources": [
-        "https://openrouter.ai/meta/muse-spark-1.3"
+        "https://openrouter.ai/meta/muse-spark-1.3",
+        "https://artificialanalysis.ai/models/muse-spark-1-3",
+        "https://cellcog.ai/blog/muse-spark-1-3/",
+        "https://dev.meta.ai/docs/models"
       ],
       "auHosting": {
         "status": "none",
         "warning": "Meta hasn't said where its API processes requests."
-      }
+      },
+      "spec": {
+        "release": "2026-09-02",
+        "maxOutput": 131072,
+        "inputs": "text, image, video",
+        "reasoning": "Reasoning effort minimal to xhigh, plus max (opened to API on 2026-09-04)"
+      },
+      "context": 1048576,
+      "speed_tps": 147,
+      "bestFor": "Meta's closed reasoning model for long-running agentic, multi-agent and coding work.",
+      "benchmarks": [
+        {
+          "name": "Terminal-Bench 2.1",
+          "score": "88.8%",
+          "lab": true,
+          "source": "https://cellcog.ai/blog/muse-spark-1-3/"
+        },
+        {
+          "name": "DeepSWE v1.1",
+          "score": "75.4%",
+          "lab": true,
+          "source": "https://developer.tenten.co/meta-muse-spark-1-3-coding-benchmark"
+        },
+        {
+          "name": "GPQA Diamond",
+          "score": "94%",
+          "lab": false,
+          "source": "https://artificialanalysis.ai/articles/muse-spark-1-3"
+        },
+        {
+          "name": "Humanity's Last Exam",
+          "score": "47%",
+          "lab": false,
+          "source": "https://artificialanalysis.ai/articles/muse-spark-1-3"
+        }
+      ],
+      "platforms": [
+        "Meta Model API",
+        "Google Vertex AI",
+        "OpenRouter"
+      ],
+      "priceNote": "A Contributor tier costs US$0.10 in / US$0.20 out if you let Meta train on your data."
     },
     {
       "id": "gpt-6-sol",
@@ -171,7 +441,9 @@
       "open": false,
       "price": {
         "in": 2.0,
-        "out": 10.0
+        "out": 10.0,
+        "cached": 0.2,
+        "batch": 0.5
       },
       "openrouter": "openai/gpt-6-sol",
       "autoPrice": true,
@@ -181,12 +453,59 @@
       },
       "sources": [
         "https://finance.yahoo.com/technology/ai/articles/openai-cuts-gpt-6-sol-111351382.html",
-        "https://foundrymap.fyi/models/gpt-6-1-sol"
+        "https://foundrymap.fyi/models/gpt-6-1-sol",
+        "https://artificialanalysis.ai/models/gpt-6-sol",
+        "https://artificialanalysis.ai/articles/gpt-6-sol-and-luna-push-the-cost-efficiency-frontier",
+        "https://developers.openai.com/api/docs/models/gpt-6-sol"
       ],
       "auHosting": {
         "status": "none",
         "warning": "Azure lists GPT-6 Sol in Australia East, but only as a Global deployment, so requests can be processed overseas. OpenAI's own Australian data residency stores data in Australia, but prompts are still processed overseas and it costs 10% more."
-      }
+      },
+      "spec": {
+        "release": "2026-09-22",
+        "maxOutput": 128000,
+        "inputs": "text, image",
+        "cutoff": "2026-04",
+        "reasoning": "Adjustable effort none, low, medium (default), high, xhigh, max"
+      },
+      "context": 1050000,
+      "speed_tps": 74,
+      "bestFor": "Recurring complex tasks, software development and agentic workflows at lower cost than Astra.",
+      "benchmarks": [
+        {
+          "name": "AA Coding Agent Index",
+          "score": "57",
+          "lab": false,
+          "source": "https://artificialanalysis.ai/articles/gpt-6-sol-and-luna-push-the-cost-efficiency-frontier"
+        },
+        {
+          "name": "Terminal-Bench 4.0",
+          "score": "43%",
+          "lab": false,
+          "source": "https://artificialanalysis.ai/articles/gpt-6-sol-and-luna-push-the-cost-efficiency-frontier"
+        },
+        {
+          "name": "DeepSWE v1.1",
+          "score": "68.8%",
+          "lab": false,
+          "source": "https://openai.com/index/introducing-gpt-6-sol-and-luna/"
+        },
+        {
+          "name": "OSWorld 2.0 offline",
+          "score": "60.5%",
+          "lab": false,
+          "source": "https://openai.com/index/introducing-gpt-6-sol-and-luna/"
+        }
+      ],
+      "platforms": [
+        "OpenAI API",
+        "Amazon Bedrock",
+        "Microsoft Foundry",
+        "GitHub Copilot",
+        "OpenRouter"
+      ],
+      "priceNote": "Prompts over 272K tokens cost US$4 in / US$15 out for the whole request."
     },
     {
       "id": "gpt-5-6-sol",
@@ -198,7 +517,8 @@
       "open": false,
       "price": {
         "in": 4.0,
-        "out": 20.0
+        "out": 20.0,
+        "cached": 0.4
       },
       "openrouter": "openai/gpt-5.6-sol",
       "autoPrice": true,
@@ -207,12 +527,59 @@
         "note": "Check Azure Foundry region availability before relying on Australian hosting."
       },
       "sources": [
-        "https://www.finout.io/blog/gpt-5.6-pricing-2026-sol-terra-and-luna-tiers-explained"
+        "https://www.finout.io/blog/gpt-5.6-pricing-2026-sol-terra-and-luna-tiers-explained",
+        "https://artificialanalysis.ai/models/gpt-5-6-sol",
+        "https://openai.com/index/gpt-5-6/",
+        "https://developers.openai.com/api/docs/models/gpt-5.6-sol"
       ],
       "auHosting": {
         "status": "none",
         "warning": "Azure offers GPT-5.6 Sol in Australia East as a Data Zone deployment, which keeps requests in the Asia Pacific zone but not only in Australia. OpenAI's own Australian data residency stores data in Australia, but prompts are still processed overseas and it costs 10% more."
-      }
+      },
+      "spec": {
+        "release": "2026-07-09",
+        "maxOutput": 128000,
+        "inputs": "text, image",
+        "cutoff": "2026-02",
+        "reasoning": "Reasoning effort none, low, medium (default), high, xhigh, max"
+      },
+      "context": 1050000,
+      "speed_tps": 80,
+      "bestFor": "OpenAI's flagship tier for complex professional work, coding and long-horizon agentic tasks.",
+      "benchmarks": [
+        {
+          "name": "SWE-bench Pro",
+          "score": "64.6%",
+          "lab": false,
+          "source": "https://openai.com/index/gpt-5-6/"
+        },
+        {
+          "name": "Terminal-Bench 2.1",
+          "score": "88.8%",
+          "lab": false,
+          "source": "https://openai.com/index/gpt-5-6/"
+        },
+        {
+          "name": "GPQA Diamond",
+          "score": "94.6%",
+          "lab": false,
+          "source": "https://openai.com/index/gpt-5-6/"
+        },
+        {
+          "name": "AA Coding Agent Index",
+          "score": "80",
+          "lab": false,
+          "source": "https://openai.com/index/gpt-5-6/"
+        }
+      ],
+      "platforms": [
+        "OpenAI API",
+        "Microsoft Foundry",
+        "Amazon Bedrock",
+        "GitHub Copilot",
+        "OpenRouter"
+      ],
+      "priceNote": "Promotional price until at least 21 Nov 2026. It launched at US$5 in / US$30 out."
     },
     {
       "id": "grok-4-7",
@@ -237,12 +604,57 @@
       },
       "sources": [
         "https://www.eesel.ai/blog/grok-4-7-pricing",
-        "https://codersera.com/blog/grok-4-7-complete-guide-2026/"
+        "https://codersera.com/blog/grok-4-7-complete-guide-2026/",
+        "https://artificialanalysis.ai/models/grok-4-7",
+        "https://x.com/ArtificialAnlys/status/2102074909623271513",
+        "https://docs.x.ai/developers/grok-4-7"
       ],
       "auHosting": {
         "status": "none",
         "warning": "xAI's API runs in US regions only."
-      }
+      },
+      "spec": {
+        "release": "2026-09-21",
+        "maxOutput": 450000,
+        "inputs": "text, image",
+        "cutoff": "2026-05",
+        "reasoning": "Always on, effort low / medium / high (default) / xhigh"
+      },
+      "speed_tps": 77,
+      "bestFor": "Coding, agentic tasks and knowledge work, including problems that take many hours.",
+      "benchmarks": [
+        {
+          "name": "AA Coding Agent Index",
+          "score": "56",
+          "lab": false,
+          "source": "https://x.com/ArtificialAnlys/status/2102074909623271513"
+        },
+        {
+          "name": "Humanity's Last Exam",
+          "score": "43%",
+          "lab": false,
+          "source": "https://artificialanalysis.ai/models/grok-4-7"
+        },
+        {
+          "name": "Terminal-Bench 4.0",
+          "score": "26%",
+          "lab": false,
+          "source": "https://artificialanalysis.ai/models/comparisons/grok-4-7-vs-grok-4-6-xhigh"
+        },
+        {
+          "name": "GDPval-AA",
+          "score": "1695 Elo",
+          "lab": false,
+          "source": "https://artificialanalysis.ai/models/comparisons/grok-4-7-vs-grok-4-6"
+        }
+      ],
+      "platforms": [
+        "xAI API",
+        "Amazon Bedrock",
+        "Oracle OCI",
+        "GitHub Copilot",
+        "OpenRouter"
+      ]
     },
     {
       "id": "mimo-v2-6-pro",
@@ -259,11 +671,11 @@
         "hf": "https://huggingface.co/XiaomiMiMo/MiMo-V2.6-Pro-RL"
       },
       "price": {
-        "in": 0.43,
+        "in": 0.435,
         "out": 0.87,
-        "cached": 0.0038
+        "cached": 0.0036
       },
-      "context": 1000000,
+      "context": 1048576,
       "openrouter": "xiaomi/mimo-v2.6-pro",
       "au": {
         "status": "self-host",
@@ -272,20 +684,24 @@
       "sources": [
         "https://openrouter.ai/xiaomi/mimo-v2.6-pro",
         "https://venturebeat.com/technology/better-than-deepseek-xiaomis-mimo-v2-6-pro-debuts-as-the-top-open-weights-model-in-the-world-alongside-cheaper-v2-6-flash",
-        "https://artificialanalysis.ai/models/mimo-v2-6-pro/providers"
+        "https://artificialanalysis.ai/models/mimo-v2-6-pro/providers",
+        "https://github.com/sst/models.dev/blob/dev/models/xiaomi/mimo-v2.6-pro.toml",
+        "https://github.com/sst/models.dev/blob/dev/providers/xiaomi/models/mimo-v2.6-pro.toml"
       ],
       "providers": [
         {
           "name": "Xiaomi",
-          "in": 0.43,
+          "in": 0.435,
           "out": 0.87,
           "official": true,
-          "tps": 42
+          "tps": 42,
+          "cached": 0.0036
         },
         {
           "name": "OpenRouter",
-          "in": 0.4133,
-          "out": 0.8265
+          "in": 0.435,
+          "out": 0.87,
+          "cached": 0.0036
         }
       ],
       "alsoOn": [
@@ -296,7 +712,44 @@
       ],
       "auHosting": {
         "status": "none"
-      }
+      },
+      "spec": {
+        "release": "2026-09-22",
+        "maxOutput": 131072,
+        "inputs": "text, image, audio, video",
+        "reasoning": "Hybrid thinking on/off (thinking.type enabled or disabled)"
+      },
+      "bestFor": "Multimodal coding agents and long-context automation, per Xiaomi's model listing.",
+      "benchmarks": [
+        {
+          "name": "Terminal-Bench 2.1",
+          "score": "89.9%",
+          "lab": true,
+          "source": "https://github.com/sst/models.dev/blob/dev/models/xiaomi/mimo-v2.6-pro.toml"
+        },
+        {
+          "name": "GDPval-AA",
+          "score": "1673 Elo",
+          "lab": true,
+          "source": "https://github.com/sst/models.dev/blob/dev/models/xiaomi/mimo-v2.6-pro.toml"
+        },
+        {
+          "name": "OSWorld-Verified",
+          "score": "82.0%",
+          "lab": true,
+          "source": "https://github.com/sst/models.dev/blob/dev/models/xiaomi/mimo-v2.6-pro.toml"
+        },
+        {
+          "name": "Toolathlon-Verified",
+          "score": "76.9%",
+          "lab": true,
+          "source": "https://github.com/sst/models.dev/blob/dev/models/xiaomi/mimo-v2.6-pro.toml"
+        }
+      ],
+      "platforms": [
+        "Xiaomi MiMo API",
+        "OpenRouter"
+      ]
     },
     {
       "id": "qwen3-8-max",
@@ -310,7 +763,7 @@
         "params_b": 2400,
         "active_b": 95,
         "arch": "MoE",
-        "license": "Apache 2.0",
+        "license": "Qwen licence",
         "note": "The downloadable version is text-only and has a shorter context window than the hosted API.",
         "hf": "https://huggingface.co/Qwen/Qwen3.8-2.4T-A95B"
       },
@@ -325,7 +778,9 @@
         "https://openrouter.ai/qwen/qwen3.8-max-0902",
         "https://www.developersdigest.tech/blog/qwen-3-8-max-release-2026",
         "https://llm-stats.com/blog/research/qwen3-8-max-open-weights",
-        "https://aireiter.com/blog/qwen3-8-max-api-pricing"
+        "https://aireiter.com/blog/qwen3-8-max-api-pricing",
+        "https://github.com/sst/models.dev/blob/dev/models/alibaba/qwen3.8-max.toml",
+        "https://github.com/sst/models.dev/blob/dev/models/alibaba/qwen3.8-max-0902.toml"
       ],
       "providers": [
         {
@@ -347,8 +802,9 @@
         },
         {
           "name": "Together AI",
-          "in": 2.5,
-          "out": 6.25
+          "in": 2.0,
+          "out": 6.0,
+          "cached": 0.25
         }
       ],
       "au": {
@@ -357,7 +813,44 @@
       },
       "auHosting": {
         "status": "none"
-      }
+      },
+      "spec": {
+        "release": "2026-09-02",
+        "maxOutput": 131072,
+        "inputs": "text, image, video, pdf",
+        "reasoning": "Hybrid thinking on/off; effort low, medium or xhigh (default xhigh); budget up to 262,144 tokens"
+      },
+      "bestFor": "Coding, professional work and long-horizon agent tasks, per Alibaba's Qwen3.8 release.",
+      "benchmarks": [
+        {
+          "name": "SWE-bench Pro",
+          "score": "67.7%",
+          "lab": true,
+          "source": "https://github.com/sst/models.dev/blob/dev/models/alibaba/qwen3.8-max.toml"
+        },
+        {
+          "name": "Terminal-Bench 2.1",
+          "score": "86.6%",
+          "lab": true,
+          "source": "https://github.com/sst/models.dev/blob/dev/models/alibaba/qwen3.8-max.toml"
+        },
+        {
+          "name": "GPQA Diamond",
+          "score": "92.6%",
+          "lab": true,
+          "source": "https://github.com/sst/models.dev/blob/dev/models/alibaba/qwen3.8-max.toml"
+        },
+        {
+          "name": "Humanity's Last Exam",
+          "score": "43.6%",
+          "lab": true,
+          "source": "https://github.com/sst/models.dev/blob/dev/models/alibaba/qwen3.8-max.toml"
+        }
+      ],
+      "platforms": [
+        "Alibaba Cloud",
+        "OpenRouter"
+      ]
     },
     {
       "id": "glm-5-3",
@@ -368,14 +861,16 @@
       "index": 45,
       "open": true,
       "weights": {
-        "params_b": 753,
+        "params_b": 744,
         "arch": "MoE",
-        "license": "GLM-5.3 licence",
-        "hf": "https://huggingface.co/zai-org/GLM-5.3"
+        "license": "Open weights",
+        "hf": "https://huggingface.co/zai-org/GLM-5.3",
+        "active_b": 40
       },
       "price": {
         "in": 1.4,
-        "out": 4.4
+        "out": 4.4,
+        "cached": 0.26
       },
       "context": 1000000,
       "openrouter": "z-ai/glm-5.3",
@@ -384,7 +879,8 @@
           "name": "Z.ai",
           "in": 1.4,
           "out": 4.4,
-          "official": true
+          "official": true,
+          "cached": 0.26
         },
         {
           "name": "Together AI",
@@ -405,6 +901,12 @@
           "name": "Novita",
           "in": 1.4,
           "out": 4.4
+        },
+        {
+          "name": "DeepInfra",
+          "in": 0.9,
+          "out": 4.0,
+          "cached": 0.2
         }
       ],
       "au": {
@@ -414,14 +916,54 @@
       "sources": [
         "https://www.layer3labs.io/guides/glm-5-3-explained",
         "https://artificialanalysis.ai/models/glm-5-3/providers",
-        "https://pricepertoken.com/pricing-page/model/z-ai-glm-5.3"
+        "https://pricepertoken.com/pricing-page/model/z-ai-glm-5.3",
+        "https://github.com/sst/models.dev/blob/8db4933d347d2c862ed8d6404bd43766f79bde0b/models/zhipuai/glm-5.3.toml",
+        "https://github.com/zai-org/GLM-5/blob/c8ad661c6cf4cb0a78064987bc42f97e14355929/resources/bench_53_2.png"
       ],
-      "alsoOn": [
-        "DeepInfra"
-      ],
+      "alsoOn": [],
       "auHosting": {
         "status": "none"
-      }
+      },
+      "spec": {
+        "release": "2026-08-14",
+        "maxOutput": 131072,
+        "inputs": "text",
+        "reasoning": "Always on; effort low, high or max (default max)"
+      },
+      "bestFor": "Z.ai's flagship open-weights model for complex coding and long-horizon agent tasks.",
+      "benchmarks": [
+        {
+          "name": "Terminal-Bench 2.1",
+          "score": "88.2%",
+          "lab": true,
+          "source": "https://github.com/sst/models.dev/blob/8db4933d347d2c862ed8d6404bd43766f79bde0b/models/zhipuai/glm-5.3.toml"
+        },
+        {
+          "name": "Terminal-Bench 3.0",
+          "score": "28.3%",
+          "lab": true,
+          "source": "https://github.com/zai-org/GLM-5/blob/c8ad661c6cf4cb0a78064987bc42f97e14355929/resources/bench_53_2.png"
+        },
+        {
+          "name": "Humanity's Last Exam",
+          "score": "62.5%",
+          "lab": true,
+          "source": "https://github.com/zai-org/GLM-5/blob/c8ad661c6cf4cb0a78064987bc42f97e14355929/resources/bench_53_2.png"
+        },
+        {
+          "name": "DeepSWE v1.1",
+          "score": "66.9%",
+          "lab": true,
+          "source": "https://github.com/zai-org/GLM-5/blob/c8ad661c6cf4cb0a78064987bc42f97e14355929/resources/bench_53_2.png"
+        }
+      ],
+      "platforms": [
+        "Z.ai API",
+        "OpenRouter",
+        "Microsoft Foundry",
+        "Databricks",
+        "Cloudflare Workers AI"
+      ]
     },
     {
       "id": "grok-4-6",
@@ -445,12 +987,59 @@
         "note": "No Australian-region hosting found."
       },
       "sources": [
-        "https://www.lindy.ai/blog/grok-4-7"
+        "https://www.lindy.ai/blog/grok-4-7",
+        "https://artificialanalysis.ai/models/grok-4-6",
+        "https://artificialanalysis.ai/models/comparisons/grok-4-6-vs-claude-opus-5",
+        "https://docs.oracle.com/en-us/iaas/Content/generative-ai/xai-grok-4-6.htm"
       ],
       "auHosting": {
         "status": "none",
         "warning": "xAI's API runs in US regions only."
-      }
+      },
+      "spec": {
+        "release": "2026-08-12",
+        "maxOutput": 450000,
+        "inputs": "text, image",
+        "cutoff": "2026-02",
+        "reasoning": "Always on, effort low / medium / high (default) / xhigh"
+      },
+      "speed_tps": 76,
+      "bestFor": "Coding, agentic tasks and knowledge work, aimed at long-running agents.",
+      "benchmarks": [
+        {
+          "name": "Humanity's Last Exam",
+          "score": "43%",
+          "lab": false,
+          "source": "https://artificialanalysis.ai/models/comparisons/grok-4-6-vs-claude-opus-5"
+        },
+        {
+          "name": "Terminal-Bench 4.0",
+          "score": "21%",
+          "lab": false,
+          "source": "https://artificialanalysis.ai/models/comparisons/grok-4-6-vs-claude-opus-5"
+        },
+        {
+          "name": "GDPval-AA",
+          "score": "1605 Elo",
+          "lab": false,
+          "source": "https://artificialanalysis.ai/models/comparisons/grok-4-7-vs-grok-4-6"
+        },
+        {
+          "name": "AA Coding Agent Index",
+          "score": "47",
+          "lab": false,
+          "source": "https://x.com/ArtificialAnlys/status/2102074909623271513"
+        }
+      ],
+      "platforms": [
+        "xAI API",
+        "Amazon Bedrock",
+        "Microsoft Foundry",
+        "Google Vertex AI",
+        "Oracle OCI",
+        "GitHub Copilot",
+        "OpenRouter"
+      ]
     },
     {
       "id": "step-5-preview",
@@ -458,29 +1047,22 @@
       "lab": "StepFun",
       "origin": "CN",
       "index": 44,
-      "open": true,
-      "weights": {
-        "params_b": 600,
-        "active_b": 27,
-        "arch": "MoE",
-        "license": "Due 15 Oct",
-        "note": "StepFun says weights ship on 15 October 2026."
-      },
+      "open": false,
       "price": {
         "in": 1.0,
         "out": 2.7,
         "cached": 0.05
       },
       "context": 1000000,
-      "openrouter": "stepfun/step-5-preview",
       "au": {
-        "status": "self-host",
-        "note": "Self-hosting possible once weights are published."
+        "status": "offshore",
+        "note": ""
       },
       "sources": [
         "https://www.eesel.ai/blog/stepfun-step-5",
         "https://www.datastudios.org/post/stepfun-launches-step-5-preview-with-600b-parameters-1m-context-and-open-weights-coming-october-15",
-        "https://artificialanalysis.ai/models/step-5/providers"
+        "https://artificialanalysis.ai/models/step-5/providers",
+        "https://github.com/sst/models.dev/blob/8db4933d347d2c862ed8d6404bd43766f79bde0b/models/stepfun/step-5-preview.toml"
       ],
       "providers": [
         {
@@ -498,7 +1080,18 @@
       ],
       "auHosting": {
         "status": "none"
-      }
+      },
+      "spec": {
+        "release": "2026-09-16",
+        "maxOutput": 65536,
+        "inputs": "text, image, video",
+        "reasoning": "Reasoning model; effort low, medium or high"
+      },
+      "bestFor": "StepFun's flagship model for coding and professional knowledge work, with image and video input.",
+      "benchmarks": [],
+      "platforms": [
+        "StepFun API"
+      ]
     },
     {
       "id": "kimi-k3",
@@ -511,7 +1104,7 @@
       "weights": {
         "params_b": 2800,
         "arch": "MoE",
-        "license": "Open weights",
+        "license": "Kimi K3 licence",
         "hf": "https://huggingface.co/moonshotai/Kimi-K3",
         "active_b": 104
       },
@@ -520,7 +1113,7 @@
         "out": 15.0,
         "cached": 0.3
       },
-      "context": 1000000,
+      "context": 1048576,
       "openrouter": "moonshotai/kimi-k3",
       "providers": [
         {
@@ -580,7 +1173,9 @@
       "sources": [
         "https://www.developersdigest.tech/blog/where-to-access-kimi-k3-2026",
         "https://codersera.com/blog/kimi-k3-complete-guide-2026/",
-        "https://pricepertoken.com/pricing-page/model/moonshotai-kimi-k3"
+        "https://pricepertoken.com/pricing-page/model/moonshotai-kimi-k3",
+        "https://artificialanalysis.ai/models/kimi-k3",
+        "https://www.morphllm.com/kimi-k3"
       ],
       "alsoOn": [
         "Relace"
@@ -588,7 +1183,46 @@
       "auHosting": {
         "status": "none",
         "warning": "Amazon Bedrock lists Kimi K3 in Sydney, but only through global routing, so requests can be processed overseas."
-      }
+      },
+      "spec": {
+        "release": "2026-07-16",
+        "inputs": "text, image, video",
+        "cutoff": "2025-07",
+        "reasoning": "Always-on thinking; low/high/max effort (max default)"
+      },
+      "speed_tps": 35,
+      "bestFor": "Long-horizon agentic coding and knowledge work over very long documents.",
+      "benchmarks": [
+        {
+          "name": "Terminal-Bench 2.1",
+          "score": "85%",
+          "lab": false,
+          "source": "https://artificialanalysis.ai/models/kimi-k3"
+        },
+        {
+          "name": "GPQA Diamond",
+          "score": "94%",
+          "lab": false,
+          "source": "https://artificialanalysis.ai/models/kimi-k3"
+        },
+        {
+          "name": "Humanity's Last Exam",
+          "score": "43.5%",
+          "lab": false,
+          "source": "https://artificialanalysis.ai/models/kimi-k3"
+        },
+        {
+          "name": "SciCode",
+          "score": "58.7%",
+          "lab": false,
+          "source": "https://artificialanalysis.ai/models/kimi-k3"
+        }
+      ],
+      "platforms": [
+        "Kimi API",
+        "Amazon Bedrock",
+        "OpenRouter"
+      ]
     },
     {
       "id": "glm-5-3-flash",
@@ -606,7 +1240,8 @@
       },
       "price": {
         "in": 0.15,
-        "out": 0.5
+        "out": 0.5,
+        "cached": 0.03
       },
       "context": 1000000,
       "openrouter": "z-ai/glm-5.3-flash",
@@ -620,9 +1255,9 @@
         },
         {
           "name": "DeepInfra",
-          "in": 0.075,
-          "out": 0.25,
-          "cached": 0.015
+          "in": 0.15,
+          "out": 0.5,
+          "cached": 0.03
         },
         {
           "name": "Bitdeer AI",
@@ -663,7 +1298,9 @@
       "sources": [
         "https://codersera.com/blog/glm-5-3-flash-complete-guide-2026/",
         "https://artificialanalysis.ai/models/glm-5-3-flash/providers",
-        "https://www.eesel.ai/blog/glm-5-3-flash-pricing"
+        "https://www.eesel.ai/blog/glm-5-3-flash-pricing",
+        "https://github.com/zai-org/GLM-5/blob/c8ad661c6cf4cb0a78064987bc42f97e14355929/resources/bench_53.png",
+        "https://github.com/sst/models.dev/blob/8db4933d347d2c862ed8d6404bd43766f79bde0b/models/zhipuai/glm-5.3-flash.toml"
       ],
       "alsoOn": [
         "Modal"
@@ -674,7 +1311,47 @@
       },
       "auHosting": {
         "status": "none"
-      }
+      },
+      "spec": {
+        "release": "2026-08-26",
+        "maxOutput": 131072,
+        "inputs": "text, image, video",
+        "reasoning": "On by default; effort low, high or max (default max)"
+      },
+      "bestFor": "Lower-cost multimodal GLM model for coding and agent tasks, with image and video input.",
+      "benchmarks": [
+        {
+          "name": "Terminal-Bench 2.1",
+          "score": "84.3%",
+          "lab": true,
+          "source": "https://github.com/zai-org/GLM-5/blob/c8ad661c6cf4cb0a78064987bc42f97e14355929/resources/bench_53.png"
+        },
+        {
+          "name": "Humanity's Last Exam",
+          "score": "55.3%",
+          "lab": true,
+          "source": "https://github.com/zai-org/GLM-5/blob/c8ad661c6cf4cb0a78064987bc42f97e14355929/resources/bench_53.png"
+        },
+        {
+          "name": "DeepSWE v1.1",
+          "score": "63.4%",
+          "lab": true,
+          "source": "https://github.com/zai-org/GLM-5/blob/c8ad661c6cf4cb0a78064987bc42f97e14355929/resources/bench_53.png"
+        },
+        {
+          "name": "GDPval-AA",
+          "score": "1773 Elo",
+          "lab": true,
+          "source": "https://github.com/zai-org/GLM-5/blob/c8ad661c6cf4cb0a78064987bc42f97e14355929/resources/bench_53.png"
+        }
+      ],
+      "platforms": [
+        "Z.ai API",
+        "OpenRouter",
+        "Microsoft Foundry",
+        "Databricks",
+        "Cloudflare Workers AI"
+      ]
     },
     {
       "id": "gemini-3-8-flash",
@@ -686,7 +1363,9 @@
       "open": false,
       "price": {
         "in": 0.75,
-        "out": 3.75
+        "out": 3.75,
+        "cached": 0.075,
+        "batch": 0.5
       },
       "openrouter": "google/gemini-3.8-flash",
       "autoPrice": true,
@@ -697,7 +1376,9 @@
       },
       "sources": [
         "https://www.lindy.ai/blog/gemini-3-8-flash",
-        "https://docs.cloud.google.com/gemini-enterprise-agent-platform/resources/data-residency"
+        "https://docs.cloud.google.com/gemini-enterprise-agent-platform/resources/data-residency",
+        "https://artificialanalysis.ai/models/gemini-3-8-flash",
+        "https://ai.google.dev/gemini-api/docs/models/gemini-3.8-flash"
       ],
       "auHosting": {
         "status": "available",
@@ -708,7 +1389,49 @@
             "https://docs.cloud.google.com/gemini-enterprise-agent-platform/resources/data-residency"
           ]
         ]
-      }
+      },
+      "spec": {
+        "release": "2026-09-02",
+        "maxOutput": 65536,
+        "inputs": "text, image, video, audio, pdf",
+        "cutoff": "2026-03",
+        "reasoning": "Thinking levels low / medium (default) / high; minimal not supported"
+      },
+      "context": 1048576,
+      "speed_tps": 242,
+      "bestFor": "Long-horizon software engineering, autonomous agents and enterprise workflows at Flash-tier cost.",
+      "benchmarks": [
+        {
+          "name": "Humanity's Last Exam",
+          "score": "48%",
+          "lab": false,
+          "source": "https://artificialanalysis.ai/models/gemini-3-8-flash"
+        },
+        {
+          "name": "Terminal-Bench 4.0",
+          "score": "20%",
+          "lab": false,
+          "source": "https://artificialanalysis.ai/models/gemini-3-8-flash"
+        },
+        {
+          "name": "Terminal-Bench 2.1",
+          "score": "89.4%",
+          "lab": true,
+          "source": "https://deepmind.google/models/model-cards/gemini-3-8-flash/"
+        },
+        {
+          "name": "SWE-bench Pro",
+          "score": "61.6%",
+          "lab": true,
+          "source": "https://docs.cloud.google.com/gemini-enterprise-agent-platform/models/guides/gemini-3-8-flash"
+        }
+      ],
+      "platforms": [
+        "Gemini API",
+        "Google Vertex AI",
+        "GitHub Copilot",
+        "OpenRouter"
+      ]
     },
     {
       "id": "deepseek-v4-1-flash",
@@ -732,7 +1455,7 @@
       },
       "context": 1048576,
       "openrouter": "deepseek/deepseek-v4.1-flash",
-      "priceNote": "DeepSeek's own prices double on weekdays from 11am to 2pm and 4pm to 8pm AEST.",
+      "priceNote": "Off-peak price. It doubles on weekdays 11am–2pm and 4pm–8pm AEST.",
       "providers": [
         {
           "name": "DeepSeek (off-peak)",
@@ -772,7 +1495,9 @@
       "sources": [
         "https://www.yottalabs.ai/post/deepseek-v4-1-flash-pricing-specs-v4-pro-routing-2026",
         "https://artificialanalysis.ai/models/deepseek-v4-1-flash/providers",
-        "https://deepinfra.com/blog/deepseek-v4-1-flash-pricing-guide"
+        "https://deepinfra.com/blog/deepseek-v4-1-flash-pricing-guide",
+        "https://build.nvidia.com/deepseek-ai/deepseek-v4.1-flash/modelcard",
+        "https://openrouter.ai/deepseek/deepseek-v4.1-flash"
       ],
       "alsoOn": [
         "DeepInfra",
@@ -782,7 +1507,46 @@
       ],
       "auHosting": {
         "status": "none"
-      }
+      },
+      "spec": {
+        "release": "2026-09-10",
+        "maxOutput": 393216,
+        "inputs": "text, image",
+        "reasoning": "Thinking and non-thinking modes; reasoning_effort 1-100"
+      },
+      "speed_tps": 209,
+      "bestFor": "Cheap high-volume coding and agent work, ideally run in off-peak hours.",
+      "benchmarks": [
+        {
+          "name": "GPQA Diamond",
+          "score": "90.9%",
+          "lab": true,
+          "source": "https://build.nvidia.com/deepseek-ai/deepseek-v4.1-flash/modelcard"
+        },
+        {
+          "name": "Terminal-Bench 2.1",
+          "score": "90.6%",
+          "lab": true,
+          "source": "https://build.nvidia.com/deepseek-ai/deepseek-v4.1-flash/modelcard"
+        },
+        {
+          "name": "DeepSWE v1.1",
+          "score": "74.2%",
+          "lab": true,
+          "source": "https://build.nvidia.com/deepseek-ai/deepseek-v4.1-flash/modelcard"
+        },
+        {
+          "name": "CyberGym",
+          "score": "88.1%",
+          "lab": true,
+          "source": "https://build.nvidia.com/deepseek-ai/deepseek-v4.1-flash/modelcard"
+        }
+      ],
+      "platforms": [
+        "DeepSeek API",
+        "Microsoft Foundry",
+        "OpenRouter"
+      ]
     },
     {
       "id": "gpt-5-6-luna",
@@ -794,7 +1558,8 @@
       "open": false,
       "price": {
         "in": 0.2,
-        "out": 1.2
+        "out": 1.2,
+        "cached": 0.02
       },
       "openrouter": "openai/gpt-5.6-luna",
       "autoPrice": true,
@@ -804,12 +1569,58 @@
       },
       "sources": [
         "https://www.requesty.ai/blog/gpt-6-sol-luna-pricing-release-api",
-        "https://aigeek.au/news/openai-data-residency/"
+        "https://aigeek.au/news/openai-data-residency/",
+        "https://artificialanalysis.ai/models/gpt-5-6-luna",
+        "https://openai.com/index/gpt-5-6/",
+        "https://developers.openai.com/api/docs/models/gpt-5.6-luna"
       ],
       "auHosting": {
         "status": "none",
         "warning": "OpenAI's own Australian data residency stores data in Australia, but prompts are still processed overseas and it costs 10% more."
-      }
+      },
+      "spec": {
+        "release": "2026-07-09",
+        "maxOutput": 128000,
+        "inputs": "text, image",
+        "cutoff": "2026-02",
+        "reasoning": "Reasoning effort none, low, medium (default), high, xhigh, max"
+      },
+      "context": 1050000,
+      "speed_tps": 124,
+      "bestFor": "High-volume classification, summarisation, routing and real-time tasks where cost and latency matter.",
+      "benchmarks": [
+        {
+          "name": "SWE-bench Pro",
+          "score": "62.7%",
+          "lab": false,
+          "source": "https://openai.com/index/gpt-5-6/"
+        },
+        {
+          "name": "Terminal-Bench 2.1",
+          "score": "84.7%",
+          "lab": false,
+          "source": "https://openai.com/index/gpt-5-6/"
+        },
+        {
+          "name": "GPQA Diamond",
+          "score": "92.3%",
+          "lab": false,
+          "source": "https://openai.com/index/gpt-5-6/"
+        },
+        {
+          "name": "AA Coding Agent Index",
+          "score": "74.6",
+          "lab": false,
+          "source": "https://openai.com/index/gpt-5-6/"
+        }
+      ],
+      "platforms": [
+        "OpenAI API",
+        "Microsoft Foundry",
+        "Amazon Bedrock",
+        "GitHub Copilot",
+        "OpenRouter"
+      ]
     },
     {
       "id": "gpt-6-luna",
@@ -817,11 +1628,13 @@
       "variant": "max",
       "lab": "OpenAI",
       "origin": "US",
-      "index": 37,
+      "index": 38,
       "open": false,
       "price": {
         "in": 0.1,
-        "out": 0.5
+        "out": 0.5,
+        "cached": 0.01,
+        "batch": 0.5
       },
       "openrouter": "openai/gpt-6-luna",
       "autoPrice": true,
@@ -830,12 +1643,53 @@
         "note": "Listed under US and EU Data Zones on Azure."
       },
       "sources": [
-        "https://finance.yahoo.com/technology/ai/articles/openai-cuts-gpt-6-sol-111351382.html"
+        "https://finance.yahoo.com/technology/ai/articles/openai-cuts-gpt-6-sol-111351382.html",
+        "https://artificialanalysis.ai/models/gpt-6-luna",
+        "https://artificialanalysis.ai/articles/gpt-6-sol-and-luna-push-the-cost-efficiency-frontier",
+        "https://developers.openai.com/api/docs/models/gpt-6-luna"
       ],
       "auHosting": {
         "status": "none",
         "warning": "Azure offers GPT-6 Luna as a Global Standard deployment, so requests can be processed overseas. OpenAI's own Australian data residency stores data in Australia, but prompts are still processed overseas and it costs 10% more."
-      }
+      },
+      "spec": {
+        "release": "2026-09-22",
+        "maxOutput": 128000,
+        "inputs": "text, image",
+        "cutoff": "2026-05",
+        "reasoning": "Adjustable effort none, low, medium (default), high, xhigh, max"
+      },
+      "context": 1050000,
+      "speed_tps": 126,
+      "bestFor": "High-volume focused tasks such as summarisation, extraction, classification and routing.",
+      "benchmarks": [
+        {
+          "name": "AA Coding Agent Index",
+          "score": "41",
+          "lab": false,
+          "source": "https://artificialanalysis.ai/articles/gpt-6-sol-and-luna-push-the-cost-efficiency-frontier"
+        },
+        {
+          "name": "Terminal-Bench 4.0",
+          "score": "13%",
+          "lab": false,
+          "source": "https://artificialanalysis.ai/articles/gpt-6-sol-and-luna-push-the-cost-efficiency-frontier"
+        },
+        {
+          "name": "DeepSWE v1.1",
+          "score": "66.6%",
+          "lab": false,
+          "source": "https://openai.com/index/introducing-gpt-6-sol-and-luna/"
+        }
+      ],
+      "platforms": [
+        "OpenAI API",
+        "Amazon Bedrock",
+        "Microsoft Foundry",
+        "GitHub Copilot",
+        "OpenRouter"
+      ],
+      "priceNote": "Prompts over 272K tokens cost double for input and 1.5x for output."
     },
     {
       "id": "qwen3-8-27b",
@@ -848,12 +1702,12 @@
       "weights": {
         "params_b": 27,
         "arch": "Dense",
-        "license": "Apache 2.0",
+        "license": "Open weights",
         "hf": "https://huggingface.co/lmstudio-community/Qwen3.8-27B-GGUF"
       },
       "price": {
-        "in": 0.425,
-        "out": 2.55,
+        "in": 0.42,
+        "out": 3.0,
         "cached": 0.085
       },
       "openrouter": "qwen/qwen3.8-27b",
@@ -865,32 +1719,80 @@
       "sources": [
         "https://openrouter.ai/qwen/qwen3.8-27b",
         "https://www.datacamp.com/tutorial/how-to-run-qwen3-8-27b-locally",
-        "https://lmstudio.ai/models/qwen/qwen3.8-27b"
+        "https://lmstudio.ai/models/qwen/qwen3.8-27b",
+        "https://github.com/sst/models.dev/blob/dev/models/alibaba/qwen3.8-27b.toml",
+        "https://github.com/vllm-project/recipes/blob/main/models/Qwen/Qwen3.8-27B.yaml"
       ],
       "providers": [
         {
-          "name": "Alibaba Cloud",
-          "in": 0.425,
-          "out": 2.55,
-          "official": true,
+          "name": "DeepInfra",
+          "in": 0.2,
+          "out": 2.5,
+          "cached": 0.05
+        },
+        {
+          "name": "OpenRouter",
+          "in": 0.42,
+          "out": 3.0,
           "cached": 0.085
         },
         {
-          "name": "DeepInfra",
-          "in": 0.15,
-          "out": 1.875,
-          "cached": 0.038
+          "name": "Nebius",
+          "in": 0.45,
+          "out": 3.0
+        },
+        {
+          "name": "Groq",
+          "in": 0.8,
+          "out": 4.0
         }
       ],
       "context": 262144,
       "localRun": {
         "tier": "laptop",
-        "ram_gb": 16,
+        "ram_gb": 17,
         "lmstudio": "https://lmstudio.ai/models/qwen/qwen3.8-27b"
       },
       "auHosting": {
         "status": "none"
-      }
+      },
+      "spec": {
+        "release": "2026-08-14",
+        "maxOutput": 32768,
+        "inputs": "text, image, video",
+        "reasoning": "Thinking on by default; can be switched off; effort low, medium or xhigh"
+      },
+      "bestFor": "Coding, agent tasks and image or video understanding in a dense 27B model.",
+      "benchmarks": [
+        {
+          "name": "SWE-bench Pro",
+          "score": "61.7%",
+          "lab": true,
+          "source": "https://github.com/sst/models.dev/blob/dev/models/alibaba/qwen3.8-27b.toml"
+        },
+        {
+          "name": "Terminal-Bench 2.1",
+          "score": "73.0%",
+          "lab": true,
+          "source": "https://github.com/sst/models.dev/blob/dev/models/alibaba/qwen3.8-27b.toml"
+        },
+        {
+          "name": "GPQA Diamond",
+          "score": "89.2%",
+          "lab": true,
+          "source": "https://github.com/sst/models.dev/blob/dev/models/alibaba/qwen3.8-27b.toml"
+        },
+        {
+          "name": "Humanity's Last Exam",
+          "score": "30.8%",
+          "lab": true,
+          "source": "https://github.com/sst/models.dev/blob/dev/models/alibaba/qwen3.8-27b.toml"
+        }
+      ],
+      "platforms": [
+        "OpenRouter",
+        "Cloudflare Workers AI"
+      ]
     },
     {
       "id": "k2-horizon-375b",
@@ -925,7 +1827,8 @@
       "sources": [
         "https://featherless.ai/models/IFM/K2-Horizon-375B-A23B",
         "https://www.orcarouter.ai/blog/k2-horizon-family-explained",
-        "https://huggingface.co/IFM/K2-Horizon-375B-A23B"
+        "https://huggingface.co/IFM/K2-Horizon-375B-A23B",
+        "https://artificialanalysis.ai/models/k2-horizon-375b-a23b"
       ],
       "alsoOn": [
         "Cerebras",
@@ -935,7 +1838,41 @@
       "context": 524288,
       "auHosting": {
         "status": "none"
-      }
+      },
+      "spec": {
+        "release": "2026-09-03",
+        "inputs": "text",
+        "reasoning": "Reasoning model with effort setting; high effort recommended"
+      },
+      "speed_tps": 123,
+      "bestFor": "Fully open model for reasoning and agentic work you can audit and self-host.",
+      "benchmarks": [
+        {
+          "name": "GPQA Diamond",
+          "score": "87.3%",
+          "lab": false,
+          "source": "https://huggingface.co/IFM/K2-Horizon-375B-A23B"
+        },
+        {
+          "name": "SWE-bench Pro",
+          "score": "42.6%",
+          "lab": false,
+          "source": "https://huggingface.co/IFM/K2-Horizon-375B-A23B"
+        },
+        {
+          "name": "Terminal-Bench 2.1",
+          "score": "70.2%",
+          "lab": false,
+          "source": "https://huggingface.co/IFM/K2-Horizon-375B-A23B"
+        },
+        {
+          "name": "BrowseComp",
+          "score": "72.8%",
+          "lab": false,
+          "source": "https://huggingface.co/IFM/K2-Horizon-375B-A23B"
+        }
+      ],
+      "platforms": []
     },
     {
       "id": "minimax-m3",
@@ -957,14 +1894,16 @@
       },
       "context": 1000000,
       "openrouter": "minimax/minimax-m3",
-      "priceNote": "Up to 512K input. Above that, US$0.60 in / US$2.40 out.",
+      "priceNote": "Prompts over 512K tokens cost US$0.60 in / US$2.40 out.",
       "au": {
         "status": "self-host",
         "note": "Open weights available for self-hosting."
       },
       "sources": [
         "https://openrouter.ai/minimax/minimax-m3",
-        "https://artificialanalysis.ai/models/minimax-m3/providers"
+        "https://artificialanalysis.ai/models/minimax-m3/providers",
+        "https://www.minimax.io/blog/minimax-m3",
+        "https://artificialanalysis.ai/articles/minimax-m3"
       ],
       "providers": [
         {
@@ -1004,7 +1943,44 @@
       ],
       "auHosting": {
         "status": "none"
-      }
+      },
+      "spec": {
+        "release": "2026-06-01",
+        "inputs": "text, image, video",
+        "reasoning": "Reasoning model (about 81M reasoning tokens in the AA index run)"
+      },
+      "speed_tps": 88,
+      "bestFor": "Low-cost agentic coding and image or video understanding over long context.",
+      "benchmarks": [
+        {
+          "name": "SWE-bench Verified",
+          "score": "80.5%",
+          "lab": true,
+          "source": "https://www.minimax.io/blog/minimax-m3"
+        },
+        {
+          "name": "SWE-bench Pro",
+          "score": "59.0%",
+          "lab": true,
+          "source": "https://www.minimax.io/blog/minimax-m3"
+        },
+        {
+          "name": "Terminal-Bench 2.1",
+          "score": "66.0%",
+          "lab": true,
+          "source": "https://www.minimax.io/blog/minimax-m3"
+        },
+        {
+          "name": "GPQA Diamond",
+          "score": "92.9%",
+          "lab": true,
+          "source": "https://www.minimax.io/blog/minimax-m3"
+        }
+      ],
+      "platforms": [
+        "MiniMax API",
+        "OpenRouter"
+      ]
     },
     {
       "id": "inkling",
@@ -1022,9 +1998,10 @@
       },
       "price": {
         "in": 0.95,
-        "out": 4.05
+        "out": 4.05,
+        "cached": 0.16
       },
-      "context": 1000000,
+      "context": 1048576,
       "openrouter": "thinkingmachines/inkling",
       "priceNote": "Thinking Machines charges more for prompts over 64K tokens: US$3.74 in and US$9.36 out.",
       "providers": [
@@ -1059,11 +2036,51 @@
       },
       "sources": [
         "https://www.datacamp.com/blog/thinking-machines-inkling",
-        "https://pricepertoken.com/pricing-page/model/thinkingmachines-inkling"
+        "https://pricepertoken.com/pricing-page/model/thinkingmachines-inkling",
+        "https://thinkingmachines.ai/news/introducing-inkling/",
+        "https://www.marktechpost.com/2026/07/15/thinking-machines-lab-releases-inkling-a-975b-parameter-open-weights-multimodal-moe-with-41b-active-parameters-and-controllable-thinking-effort/"
       ],
       "auHosting": {
         "status": "none"
-      }
+      },
+      "spec": {
+        "release": "2026-07-15",
+        "maxOutput": 262144,
+        "inputs": "text, image, audio",
+        "reasoning": "Controllable thinking effort dial (low/medium/high/xhigh)"
+      },
+      "speed_tps": 171,
+      "bestFor": "Open-weight multimodal reasoning over text, images and audio with long context.",
+      "benchmarks": [
+        {
+          "name": "SWE-bench Verified",
+          "score": "77.6%",
+          "lab": false,
+          "source": "https://thinkingmachines.ai/news/introducing-inkling/"
+        },
+        {
+          "name": "SWE-bench Pro",
+          "score": "54.3%",
+          "lab": false,
+          "source": "https://thinkingmachines.ai/news/introducing-inkling/"
+        },
+        {
+          "name": "Terminal-Bench 2.1",
+          "score": "63.8%",
+          "lab": false,
+          "source": "https://thinkingmachines.ai/news/introducing-inkling/"
+        },
+        {
+          "name": "GPQA Diamond",
+          "score": "87.2%",
+          "lab": false,
+          "source": "https://thinkingmachines.ai/news/introducing-inkling/"
+        }
+      ],
+      "platforms": [
+        "OpenRouter",
+        "Tinker"
+      ]
     },
     {
       "id": "nemotron-3-ultra",
@@ -1111,7 +2128,9 @@
       "sources": [
         "https://artificialanalysis.ai/models/nvidia-nemotron-3-ultra-550b-a55b",
         "https://modelpricewatch.com/models/fireworks-nemotron-3-ultra/",
-        "https://openrouter.ai/nvidia/nemotron-3-ultra-550b-a55b"
+        "https://openrouter.ai/nvidia/nemotron-3-ultra-550b-a55b",
+        "https://huggingface.co/nvidia/NVIDIA-Nemotron-3-Ultra-550B-A55B-BF16",
+        "https://openrouter.ai/nvidia/nemotron-3-ultra-550b-a55b:free"
       ],
       "alsoOn": [
         "Together AI",
@@ -1122,7 +2141,47 @@
       ],
       "auHosting": {
         "status": "none"
-      }
+      },
+      "spec": {
+        "release": "2026-06-04",
+        "maxOutput": 16384,
+        "inputs": "text",
+        "cutoff": "2025-09",
+        "reasoning": "Reasoning on/off toggle (enable_thinking)"
+      },
+      "context": 1000000,
+      "speed_tps": 164,
+      "bestFor": "Fast open-weight reasoning for long-running agents and coding workflows.",
+      "benchmarks": [
+        {
+          "name": "SWE-bench Verified",
+          "score": "71.9%",
+          "lab": false,
+          "source": "https://huggingface.co/nvidia/NVIDIA-Nemotron-3-Ultra-550B-A55B-BF16"
+        },
+        {
+          "name": "Terminal-Bench 2.1",
+          "score": "56.4%",
+          "lab": false,
+          "source": "https://huggingface.co/nvidia/NVIDIA-Nemotron-3-Ultra-550B-A55B-BF16"
+        },
+        {
+          "name": "GPQA Diamond",
+          "score": "87%",
+          "lab": false,
+          "source": "https://huggingface.co/nvidia/NVIDIA-Nemotron-3-Ultra-550B-A55B-BF16"
+        },
+        {
+          "name": "Humanity's Last Exam",
+          "score": "26.7%",
+          "lab": false,
+          "source": "https://research.nvidia.com/labs/nemotron/files/NVIDIA-Nemotron-3-Ultra-Technical-Report.pdf"
+        }
+      ],
+      "platforms": [
+        "NVIDIA NIM",
+        "OpenRouter"
+      ]
     },
     {
       "id": "gemini-3-5-flash-lite",
@@ -1133,7 +2192,9 @@
       "open": false,
       "price": {
         "in": 0.3,
-        "out": 2.5
+        "out": 2.5,
+        "cached": 0.03,
+        "batch": 0.5
       },
       "openrouter": "google/gemini-3.5-flash-lite",
       "autoPrice": true,
@@ -1143,12 +2204,30 @@
       },
       "sources": [
         "https://openrouter.ai/google/gemini-3.5-flash-lite",
-        "https://docs.cloud.google.com/gemini-enterprise-agent-platform/resources/locations"
+        "https://docs.cloud.google.com/gemini-enterprise-agent-platform/resources/locations",
+        "https://artificialanalysis.ai/models/gemini-3-5-flash-lite",
+        "https://ai.google.dev/gemini-api/docs/models/gemini-3.5-flash-lite"
       ],
       "auHosting": {
         "status": "none",
         "warning": "It has no Sydney endpoint. Google only offers it through global and US or EU endpoints."
-      }
+      },
+      "spec": {
+        "release": "2026-07-21",
+        "maxOutput": 65536,
+        "inputs": "text, image, video, audio, pdf",
+        "cutoff": "2026-03",
+        "reasoning": "Configurable thinking levels, defaults to minimal"
+      },
+      "context": 1048576,
+      "speed_tps": 354,
+      "bestFor": "High-volume, latency-sensitive tasks like subagent work, data extraction and document parsing.",
+      "benchmarks": [],
+      "platforms": [
+        "Gemini API",
+        "Google Vertex AI",
+        "OpenRouter"
+      ]
     },
     {
       "id": "muse-glimmer",
@@ -1175,7 +2254,8 @@
       },
       "sources": [
         "https://venturebeat.com/technology/meta-returns-to-open-source-with-muse-glimmer-an-apache-2-0-licensed-30b-parameter-ai-model-optimized-for-agents-available-now",
-        "https://lmstudio.ai/models/muse-glimmer"
+        "https://lmstudio.ai/models/muse-glimmer",
+        "https://www.fullstack.com/labs/resources/blog/everything-you-need-to-know-about-metas-muse-glimmer"
       ],
       "providers": [
         {
@@ -1196,7 +2276,17 @@
       },
       "auHosting": {
         "status": "none"
-      }
+      },
+      "spec": {
+        "release": "2026-08-10",
+        "inputs": "text, image"
+      },
+      "context": 131072,
+      "bestFor": "Local agentic workflows, coding and tool use on a single consumer GPU.",
+      "benchmarks": [],
+      "platforms": [
+        "Meta Model API"
+      ]
     },
     {
       "id": "mistral-medium-3-5",
@@ -1223,7 +2313,8 @@
       },
       "sources": [
         "https://buildfastwithai.com/blogs/mistral-medium-3-5-review",
-        "https://huggingface.co/mistralai/Mistral-Medium-3.5-128B"
+        "https://huggingface.co/mistralai/Mistral-Medium-3.5-128B",
+        "https://www.aimadetools.com/blog/mistral-medium-3-5-complete-guide/"
       ],
       "providers": [
         {
@@ -1246,7 +2337,26 @@
       "auHosting": {
         "status": "none",
         "warning": "Azure AI Foundry lists Mistral Medium 3.5 in Australia East, but only as a Global Standard deployment, so requests can be processed overseas."
-      }
+      },
+      "spec": {
+        "release": "2026-04-30",
+        "inputs": "text, image",
+        "reasoning": "One merged model for instruct, reasoning and coding (replaces Magistral)"
+      },
+      "bestFor": "Coding, agentic and reasoning workloads; self-hostable on as few as four GPUs.",
+      "benchmarks": [
+        {
+          "name": "SWE-bench Verified",
+          "score": "77.6%",
+          "lab": false,
+          "source": "https://www.aimadetools.com/blog/mistral-medium-3-5-complete-guide/"
+        }
+      ],
+      "platforms": [
+        "Mistral API",
+        "Microsoft Foundry",
+        "OpenRouter"
+      ]
     }
   ]
 }

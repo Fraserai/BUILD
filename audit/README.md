@@ -4,8 +4,9 @@ A one-page static site that lists the leading AI models (ranked by the Artificia
 
 - input and output token prices in **AUD**, converted at the live exchange rate
 - a "Hosted in AU" tag where an Australian data-residency option is confirmed
-- tap any model to open its **model sheet**: score and rank, prices in AUD, Australian hosting, providers, run-it-yourself
-  and specs. Each sheet has its own link (`#model-id`) so it can be shared
+- tap any model to open its **model sheet**: score and rank, release date, AUD pricing (cached and batch), every provider's
+  price, where you can use it (Claude API, Bedrock, Foundry, Vertex...), capabilities, benchmarks and run-it-yourself links.
+  Each sheet has its own link (`#model-id`)
 - open models list **every inference provider** with input, output and cached prices in AUD, the lowest price
   highlighted and the saving against the official API
 - a **Hosted in Australia** check for every model, plus a filter for the ones you can run fully onshore today. A provider is only listed when it runs that exact model fully

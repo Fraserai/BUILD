@@ -80,30 +80,34 @@
       .sort(function (a, b) { return b.index / blendedUsd(b.price) - a.index / blendedUsd(a.price); })[0];
     var open = ms.filter(function (m) { return m.open && /MIT|Apache|OpenMDW/.test(m.weights.license); }).sort(byIndex)[0];
     function tile(label, m, line) {
-      return '<div class="tile glass"><span class="k">' + label + '</span><span class="v">' + esc(m.name) +
-        '</span><span class="s">' + line + "</span></div>";
+      return '<button type="button" class="tile glass" data-id="' + esc(m.id) + '"><span class="k">' + label + '</span><span class="v">' + esc(m.name) +
+        '</span><span class="s">' + line + "</span></button>";
     }
     $("tiles").innerHTML =
-      tile("Smartest", top, "Score " + top.index + " · " + aud(top.price.in) + " in, " + aud(top.price.out) + " out") +
-      tile("Best value", value, "Score " + value.index + " · " + aud(value.price.in) + " in, " + aud(value.price.out) + " out") +
-      tile("Best open model", open, "Score " + open.index + " · free to download and run yourself");
+      tile("Smartest", top, "Score " + top.index + " · " + aud(top.price.in) + " in · " + aud(top.price.out) + " out") +
+      tile("Best value", value, "Score " + value.index + " · " + aud(value.price.in) + " in · " + aud(value.price.out) + " out") +
+      tile("Best open model", open, "Score " + open.index + " · " + esc(open.weights.license) + " licence");
   }
 
-  var COUNTRY = { US: "United States", CN: "China", FR: "France", AE: "United Arab Emirates" };
-  var TIERS = {
-    laptop: { label: "Runs on a laptop", cls: "t-laptop" },
-    workstation: { label: "Runs on a workstation", cls: "t-work" },
-    server: { label: "Needs a GPU server", cls: "t-server" }
-  };
+  var COUNTRY = { US: "United States", CN: "China", FR: "France", AE: "UAE" };
+  var MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
   var ICON = {
     check: '<svg viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>',
     close: '<svg viewBox="0 0 20 20" aria-hidden="true"><path d="M5.5 5.5l9 9M14.5 5.5l-9 9" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>',
-    arrow: '<svg viewBox="0 0 20 20" aria-hidden="true"><path d="M7 13l6-6M8 7h5v5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>'
+    chev: '<svg viewBox="0 0 20 20" aria-hidden="true"><path d="M8 5l5 5-5 5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>'
   };
 
-  function fmtContext(n) {
-    return n >= 1e6 ? +(n / 1e6).toFixed(2) + "M" : Math.round(n / 1000) + "K";
+  function fmtTokens(n) {
+    if (n >= 1e6) return +(n / 1e6).toFixed(2) + "M";
+    return Math.round(n / 1000) + "K";
   }
+
+  function fmtMonth(s) {
+    var p = String(s || "").split("-");
+    return p.length >= 2 ? MONTHS[+p[1] - 1] + " " + p[0] : s;
+  }
+
+  function sentence(s) { return s ? s.charAt(0).toUpperCase() + s.slice(1) : s; }
 
   function byBlended(a, b) { return blendedUsd(a) - blendedUsd(b); }
   function sortedProviders(m) { return (m.providers || []).slice().sort(byBlended); }
@@ -114,135 +118,132 @@
     return c && blendedUsd(c) < blendedUsd(m.price) ? c : m.price;
   }
 
-  function link(label, url) {
-    return '<a class="ext" href="' + esc(url) + '" target="_blank" rel="noopener">' + esc(label) + ICON.arrow + "</a>";
+  function onshore(m) { return m.auHosting && m.auHosting.status === "available"; }
+
+  function rows(pairs) {
+    return '<dl class="kv">' + pairs.filter(function (p) { return p[1] != null && p[1] !== ""; }).map(function (p) {
+      return "<div><dt>" + p[0] + "</dt><dd>" + p[1] + "</dd></div>";
+    }).join("") + "</dl>";
   }
 
-  function badges(m) {
-    var local = m.localRun && (m.localRun.tier === "laptop" || m.localRun.tier === "workstation");
-    return (m.open ? '<span class="badge open">Open weights</span>' : '<span class="badge closed">Closed</span>') +
-      (local ? '<span class="badge local">Runs locally</span>' : "") +
-      (m.auHosting && m.auHosting.status === "available" ? '<span class="badge au">Hosted in AU</span>' : "");
+  function section(title, body) {
+    return body ? '<section class="sec"><h3>' + title + "</h3>" + body + "</section>" : "";
   }
 
   // ---------- model sheet ----------
 
-  function sheetHeader(m) {
+  function head(m) {
     var all = data.models.models;
     var rank = all.filter(function (x) { return x.index > m.index; }).length + 1;
-    return '<header class="sh-head">' +
-      '<p class="sh-lab">' + esc(m.lab) + " · " + esc(COUNTRY[m.origin] || m.origin) + "</p>" +
-      '<h2 id="sheet-title">' + esc(m.name) + "</h2>" +
-      (m.variant ? '<p class="sh-variant">' + (/^\d+$/.test(m.variant) ? "Version " : "Benchmark setting: ") + esc(m.variant) + "</p>" : "") +
-      '<div class="sh-badges">' + badges(m) + "</div>" +
-      '<div class="sh-score"><span class="score-big">' + m.index + "</span>" +
-      '<div class="score-meta"><b>Intelligence score</b><span>Ranked ' + rank + " of " + all.length + " models</span>" +
-      '<span class="meter" role="img" aria-label="' + m.index + ' out of 60"><i style="width:' + Math.round(m.index / 60 * 100) + '%"></i></span></div></div>' +
-      "</header>";
-  }
-
-  function priceTiles(m) {
-    var best = rowPrice(m);
-    var from = best !== m.price ? best.name : (m.open ? "Official API" : m.lab + " API");
-    var cached = best.cached;
-    function tile(label, v, sub) {
-      return '<div class="ptile"><span class="pt-label">' + label + '</span><span class="pt-val">' + v +
-        '</span><span class="pt-sub">' + sub + "</span></div>";
+    var price = rowPrice(m);
+    var meta = [esc(m.lab), esc(COUNTRY[m.origin] || m.origin)];
+    if (m.spec && m.spec.release) meta.push("Released " + fmtMonth(m.spec.release));
+    var tags = (m.open ? '<span class="badge open">Open weights</span>' : "") +
+      (onshore(m) ? '<span class="badge au">Hosted in AU</span>' : "");
+    function stat(label, value, sub) {
+      return '<div class="stat"><span class="st-label">' + label + '</span><span class="st-val">' + value + '</span><span class="st-sub">' + sub + "</span></div>";
     }
-    return '<section class="ptiles" aria-label="Price per million tokens">' +
-      tile("Input", aud(best.in), "per 1M tokens") +
-      tile("Output", aud(best.out), "per 1M tokens") +
-      (cached != null ? tile("Cached input", aud(cached), "per 1M tokens") : tile("Blended", aud(blendedUsd(best)), "3:1 in to out")) +
-      '</section><p class="pt-from">' + (best !== m.price ? "Lowest price, from " : "Price from ") + "<b>" + esc(from) + "</b>" +
-      (m.priceNote ? ". " + esc(inAud(m.priceNote)) : ".") + "</p>";
+    return '<header class="sh-head"><p class="sh-meta">' + meta.join(" · ") + "</p>" +
+      '<h2 id="sheet-title">' + esc(m.name) + "</h2>" + (tags ? '<div class="sh-tags">' + tags + "</div>" : "") +
+      (m.bestFor ? '<p class="sh-best">' + esc(m.bestFor) + "</p>" : "") + "</header>" +
+      '<div class="stats">' +
+      stat("Intelligence", String(m.index), "#" + rank + " of " + all.length) +
+      stat("Input", aud(price.in), price === m.price ? "per 1M tokens" : "cheapest, per 1M") +
+      stat("Output", aud(price.out), price === m.price ? "per 1M tokens" : "cheapest, per 1M") +
+      stat("Context", m.context ? fmtTokens(m.context) : "–", "tokens") +
+      "</div>";
   }
 
-  // Only models that genuinely run onshore get the Australian hosting card.
-  function auCard(m) {
-    var h = m.auHosting;
-    if (!h || h.status !== "available") return "";
-    var links = (h.links || []).map(function (l) { return link(l[0], l[1]); }).join("");
-    return '<section class="card au-card is-ok"><div class="au-title"><span class="au-icon">' + ICON.check +
-      "</span><h3>Runs fully in Australia</h3></div><p>" + esc(h.how) + "</p>" +
-      (links ? '<div class="links">' + links + "</div>" : "") + "</section>";
+  function pricing(m) {
+    var p = m.price;
+    var batch = p.batch ? aud(p.in * p.batch) + " in · " + aud(p.out * p.batch) + " out" : null;
+    var body = rows([
+      ["Input", aud(p.in)],
+      ["Output", aud(p.out)],
+      ["Cached input", p.cached != null ? aud(p.cached) : null],
+      ["Batch", batch]
+    ]);
+    if (m.priceNote) body += '<p class="note">' + esc(inAud(m.priceNote)) + "</p>";
+    var from = m.open ? "Official price" : esc(m.lab) + " price";
+    return section("Pricing <span>" + from + ", per 1M tokens</span>", body);
   }
 
-  function providerCard(m) {
+  function providers(m) {
     var list = sortedProviders(m);
-    if (!list.length) return "";
-    var max = blendedUsd(list[list.length - 1]);
-    var low = list[0];
-    var official = list.filter(function (p) { return p.official; })[0];
-    var saving = official && !low.official && blendedUsd(low) < blendedUsd(official) * 0.97
-      ? Math.round((1 - blendedUsd(low) / blendedUsd(official)) * 100) : 0;
-    var rows = list.map(function (p, i) {
-      var isBest = i === 0 && list.length > 1;
-      var tags = (p.official ? '<span class="tag">Official</span>' : "") + (isBest ? '<span class="tag best">Lowest price</span>' : "");
-      var extra = [p.cached != null ? "Cached " + aud(p.cached) : "", p.tps ? p.tps + " tokens/sec" : ""].filter(Boolean).join(" · ");
-      return '<li class="prow' + (isBest ? " is-best" : "") + '">' +
-        '<div class="p-name"><b>' + esc(p.name) + "</b>" + tags + (extra ? '<span class="p-extra">' + esc(extra) + "</span>" : "") + "</div>" +
-        '<div class="p-bar" title="Blended ' + esc(aud(blendedUsd(p))) + ' per million tokens"><i style="width:' + Math.max(4, Math.round(blendedUsd(p) / max * 100)) + '%"></i></div>' +
-        '<div class="p-num"><span>' + aud(p.in) + '</span><small>in</small></div>' +
-        '<div class="p-num"><span>' + aud(p.out) + '</span><small>out</small></div></li>';
-    }).join("");
-    var head = list.length > 1
-      ? (saving ? esc(low.name) + " is " + saving + "% cheaper than the official API." : "Prices vary up to " + (max / blendedUsd(low)).toFixed(1) + "× between providers.")
-      : "One provider publishes a price for this model.";
-    return '<section class="card"><div class="card-head"><h3>Compare providers</h3><span>' + list.length +
-      (list.length === 1 ? " provider" : " providers") + "</span></div>" +
-      '<p class="card-lede">' + head + " Bars show the blended price.</p>" +
-      '<ol class="plist">' + rows + "</ol>" +
-      (m.alsoOn && m.alsoOn.length ? '<p class="fine">Also offered by ' + esc(m.alsoOn.join(", ")) + ", who don't publish a price yet.</p>" : "") +
-      '<p class="fine">All prices in AUD per million tokens.</p></section>';
+    if (list.length < 2) return "";
+    var hasCached = list.some(function (p) { return p.cached != null; });
+    var body = '<div class="tbl-wrap"><table class="tbl"><thead><tr><th>Provider</th><th class="num">Input</th><th class="num">Output</th>' +
+      (hasCached ? '<th class="num hide-sm">Cached</th>' : "") + "</tr></thead><tbody>" +
+      list.map(function (p, i) {
+        return "<tr" + (i === 0 ? ' class="best"' : "") + "><td>" + esc(p.name) +
+          (i === 0 ? ' <span class="tag best">Lowest</span>' : "") + (p.official ? ' <span class="tag">Official</span>' : "") + "</td>" +
+          '<td class="num">' + aud(p.in) + '</td><td class="num">' + aud(p.out) + "</td>" +
+          (hasCached ? '<td class="num hide-sm">' + (p.cached != null ? aud(p.cached) : "–") + "</td>" : "") + "</tr>";
+      }).join("") + "</tbody></table></div>";
+    if (m.alsoOn && m.alsoOn.length) body += '<p class="note">Also on ' + esc(m.alsoOn.join(", ")) + ".</p>";
+    return section("Providers <span>" + list.length + " with published prices</span>", body);
   }
 
-  function runCard(m) {
-    if (!m.open) return "";
+  function capabilities(m) {
+    var s = m.spec || {};
+    var w = m.open ? m.weights : null;
+    var reasoning = s.reasoning ? sentence(String(s.reasoning).split(";")[0].replace(/\s*\([^)]*\)/g, "").trim()) : null;
+    return section("Capabilities", rows([
+      ["Context window", m.context ? fmtTokens(m.context) + " tokens" : null],
+      ["Max output", s.maxOutput ? fmtTokens(s.maxOutput) + " tokens" : null],
+      ["Inputs", s.inputs ? esc(sentence(String(s.inputs).replace(/pdf/i, "PDF"))) : null],
+      ["Reasoning", reasoning ? esc(reasoning) : null],
+      ["Knowledge cutoff", s.cutoff ? fmtMonth(s.cutoff) : null],
+      ["Speed", m.speed_tps ? m.speed_tps + " tokens/sec" : null],
+      ["Size", w && w.params_b ? (w.params_b >= 1000 ? +(w.params_b / 1000).toFixed(2) + "T" : w.params_b + "B") + " parameters" + (w.active_b ? ", " + w.active_b + "B active" : "") : null],
+      ["Licence", w ? esc(w.license) : null]
+    ]));
+  }
+
+  function benchmarks(m) {
+    var b = m.benchmarks || [];
+    if (!b.length) return "";
+    return section("Benchmarks", rows(b.map(function (x) {
+      return [esc(x.name) + (x.lab ? ' <span class="tag">Lab-reported</span>' : ""), esc(x.score)];
+    })));
+  }
+
+  function availability(m) {
+    var plats = m.platforms || [];
+    var au = onshore(m) ? '<p class="au-line"><span class="au-icon">' + ICON.check + "</span>" + esc(m.auHosting.how) + "</p>" : "";
+    if (!plats.length && !au) return "";
+    return section("Where to use it", au + (plats.length ? '<div class="chips">' + plats.map(function (p) {
+      return '<span class="chip">' + esc(p) + "</span>";
+    }).join("") + "</div>" : ""));
+  }
+
+  function runLocal(m) {
+    if (!m.open || !m.weights.hf) return "";
     var w = m.weights, run = m.localRun || {};
-    if (!w.hf) {
-      return '<section class="card run"><div class="card-head"><h3>Run it yourself</h3><span class="tier t-server">Coming soon</span></div><p class="card-lede">' +
-        esc(w.note || "The weights aren't downloadable yet.") + "</p></section>";
-    }
-    var tier = TIERS[run.tier || "server"];
-    var mem = run.tier === "laptop" ? run.ram_gb + " GB" : (w.params_b ? fmtGb(memoryGb(w.params_b)) : null);
-    var hw = run.tier === "laptop" ? "A recent Mac or a PC with a high-end graphics card runs it comfortably."
-      : (w.params_b ? "Runs on " + localOption(w.params_b, data.hw) + "." : "Needs a multi-GPU server.");
-    if (!run.tier || run.tier === "server") hw += " Most teams use a provider instead.";
-    var btns = (run.lmstudio ? '<a class="btn primary" href="' + esc(run.lmstudio) + '" target="_blank" rel="noopener">Get it in LM Studio</a>' : "") +
+    var mem = run.ram_gb ? "about " + run.ram_gb + " GB" : (w.params_b ? "about " + fmtGb(memoryGb(w.params_b)) : null);
+    var hw = run.tier === "laptop" ? "a recent Mac or a PC with a high-end graphics card"
+      : (w.params_b ? localOption(w.params_b, data.hw) : null);
+    var body = rows([
+      ["Memory needed", mem ? mem + (run.tier === "laptop" ? "" : " at 4-bit") : null],
+      ["Runs on", hw ? esc(sentence(hw)) : null]
+    ]);
+    var btns = (run.lmstudio ? '<a class="btn primary" href="' + esc(run.lmstudio) + '" target="_blank" rel="noopener">Open in LM Studio</a>' : "") +
       (run.gguf ? '<a class="btn primary" href="' + esc(run.gguf) + '" target="_blank" rel="noopener">Download for LM Studio</a>' : "") +
-      '<a class="btn" href="' + esc(w.hf) + '" target="_blank" rel="noopener">' + (/huggingface\.co/.test(w.hf) ? "View on Hugging Face" : "Download weights") + "</a>";
-    return '<section class="card run"><div class="card-head"><h3>Run it yourself</h3><span class="tier ' + tier.cls + '">' + tier.label + "</span></div>" +
-      (mem ? '<div class="mem"><span class="mem-big">' + mem + '</span><span class="mem-label">memory needed' + (run.tier === "laptop" ? "" : " at 4-bit") + "</span></div>" : "") +
-      '<p class="card-lede">' + esc(hw) + "</p>" +
-      (m.local ? '<p class="fine">' + esc(m.local) + "</p>" : "") +
-      (w.note ? '<p class="fine">' + esc(w.note) + "</p>" : "") +
-      '<div class="btns">' + btns + "</div></section>";
-  }
-
-  function specCard(m) {
-    var specs = [];
-    if (m.context) specs.push(["Context window", fmtContext(m.context), "tokens"]);
-    if (m.open && m.weights.params_b) specs.push(["Size", m.weights.params_b >= 1000 ? (m.weights.params_b / 1000).toFixed(2).replace(/0+$/, "").replace(/\.$/, "") + "T" : m.weights.params_b + "B", "parameters"]);
-    if (m.open && m.weights.active_b) specs.push(["Active", m.weights.active_b + "B", "parameters per token"]);
-    if (m.speed_tps) specs.push(["Speed", String(m.speed_tps), "tokens per second"]);
-    if (m.open) specs.push(["Licence", m.weights.license, m.weights.arch || "Open weights"]);
-    specs.push(["Made in", COUNTRY[m.origin] || m.origin, m.lab]);
-    return '<section class="card"><div class="card-head"><h3>Specs</h3></div><div class="specs">' + specs.map(function (s) {
-      return '<div class="spec"><span class="s-label">' + esc(s[0]) + '</span><span class="s-val">' + esc(s[1]) + '</span><span class="s-sub">' + esc(s[2]) + "</span></div>";
-    }).join("") + "</div></section>";
+      '<a class="btn" href="' + esc(w.hf) + '" target="_blank" rel="noopener">' + (/huggingface\.co/.test(w.hf) ? "Hugging Face" : "Model weights") + "</a>";
+    return section("Run it yourself", body + '<div class="btns">' + btns + "</div>");
   }
 
   function sources(m) {
-    var hosts = (m.sources || []).map(function (u) {
-      return link(u.replace(/^https?:\/\/(www\.)?/, "").split("/")[0], u);
+    var links = (m.sources || []).map(function (u) {
+      return '<a href="' + esc(u) + '" target="_blank" rel="noopener">' + esc(u.replace(/^https?:\/\/(www\.)?/, "").split("/")[0]) + "</a>";
     }).join("");
-    return '<footer class="sh-foot"><span>Sources</span><div class="links">' + hosts + "</div></footer>";
+    return links ? '<footer class="sh-foot">Sources ' + links + "</footer>" : "";
   }
 
   function renderSheet(m) {
     return '<button class="sh-close" type="button" aria-label="Close" data-close>' + ICON.close + "</button>" +
       '<div class="grabber" aria-hidden="true"></div>' +
-      sheetHeader(m) + priceTiles(m) + auCard(m) + providerCard(m) + runCard(m) + specCard(m) + sources(m);
+      head(m) + pricing(m) + providers(m) + availability(m) + capabilities(m) + benchmarks(m) + runLocal(m) + sources(m);
   }
 
   var lastFocus = null;
@@ -276,30 +277,28 @@
   // ---------- leaderboard ----------
 
   function renderRows() {
+    var q = state.query.trim().toLowerCase();
     var list = data.models.models.filter(function (m) {
-      if (state.filter === "au") return m.auHosting && m.auHosting.status === "available";
+      if (q && (m.name + " " + m.lab).toLowerCase().indexOf(q) < 0) return false;
+      if (state.filter === "au") return onshore(m);
       return state.filter === "all" || (state.filter === "open") === m.open;
     }).sort(function (a, b) { return b.index - a.index || blendedUsd(a.price) - blendedUsd(b.price); });
+    if (!list.length) { $("rows").innerHTML = '<li class="state">No models match.</li>'; return; }
     $("rows").innerHTML = list.map(function (m, i) {
       var price = rowPrice(m);
-      var from = m.providers && m.providers.length > 1 ? '<span class="from">from</span>' : "";
-      var count = m.providers && m.providers.length > 1 ? '<span class="count">' + m.providers.length + " providers</span>" : "";
-      var local = m.localRun && (m.localRun.tier === "laptop" || m.localRun.tier === "workstation");
-      var tags = (m.open ? '<span class="badge open">Open</span>' : "") +
-        (local ? '<span class="badge local">Runs locally</span>' : "") +
-        (m.auHosting && m.auHosting.status === "available" ? '<span class="badge au">Hosted in AU</span>' : "");
+      var tags = (m.open ? '<span class="badge open">Open</span>' : "") + (onshore(m) ? '<span class="badge au">Hosted in AU</span>' : "");
       return '<li><button type="button" class="row-sum" data-id="' + esc(m.id) + '" aria-haspopup="dialog">' +
         '<span class="name"><span class="rank">' + (i + 1) + '</span><span class="name-text"><b>' + esc(m.name) + "</b>" +
-        '<span class="sub">' + esc(m.lab) + tags + count + "</span></span></span>" +
+        '<span class="sub">' + esc(m.lab) + tags + "</span></span></span>" +
         '<span class="score"><span class="bar"><i style="width:' + Math.round(m.index / 60 * 100) + '%"></i></span><span class="lbl">Score</span><b>' + m.index + "</b></span>" +
-        '<span class="price num p-in"><span class="lbl">In</span>' + from + aud(price.in) + "</span>" +
-        '<span class="price num p-out"><span class="lbl">Out</span>' + from + aud(price.out) + "</span>" +
-        '<span class="chev" aria-hidden="true"><svg viewBox="0 0 20 20"><path d="M8 5l5 5-5 5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>' +
-        "</button></li>";
+        '<span class="price num p-in"><span class="lbl">In</span>' + aud(price.in) + "</span>" +
+        '<span class="price num p-out"><span class="lbl">Out</span>' + aud(price.out) + "</span>" +
+        '<span class="chev" aria-hidden="true">' + ICON.chev + "</span></button></li>";
     }).join("");
   }
 
   function start() {
+    state.query = "";
     $("filter-seg").addEventListener("click", function (e) {
       var b = e.target.closest("button[data-filter]");
       if (!b) return;
@@ -307,7 +306,8 @@
       this.querySelectorAll("button").forEach(function (x) { x.setAttribute("aria-pressed", String(x === b)); });
       renderRows();
     });
-    $("rows").addEventListener("click", function (e) {
+    $("search").addEventListener("input", function () { state.query = this.value; renderRows(); });
+    document.addEventListener("click", function (e) {
       var b = e.target.closest("button[data-id]");
       if (b) openSheet(b.dataset.id);
     });
