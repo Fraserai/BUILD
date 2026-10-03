@@ -32,6 +32,9 @@ def test_models_are_complete(models):
             assert p["in"] > 0 and p["out"] > 0, f"{m['id']} provider {p['name']} needs input and output prices"
         if m["open"]:
             assert "weights" in m and m["weights"]["license"]
+            assert m["auHosting"]["status"] in {"none", "available"}
+            for label, url in m["auHosting"].get("links", []):
+                assert label and url.startswith("https://")
         else:
             assert m["au"]["status"] != "self-host"
 

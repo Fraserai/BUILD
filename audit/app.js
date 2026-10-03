@@ -141,7 +141,23 @@
     var also = m.alsoOn && m.alsoOn.length ? '<p class="also">Also on ' + esc(m.alsoOn.join(", ")) + ". Their prices aren't published yet.</p>" : "";
     return '<section class="prov"><div class="prov-head"><h3>Inference providers</h3><span>' + summary + "</span></div>" +
       '<div class="table-scroll"><table class="hosts"><thead><tr>' + head + "</tr></thead><tbody>" + rows + "</tbody></table></div>" +
-      also + '<p class="also">AUD per million tokens.</p></section>';
+      also + '<p class="also">AUD per million tokens.</p>' + auHosting(m) + "</section>";
+  }
+
+  function auHosting(m) {
+    var h = m.auHosting;
+    if (!h) return "";
+    var local = m.localRun && m.localRun.tier === "laptop";
+    var lines = '<p>No provider runs this model fully in Australia yet.</p>';
+    if (h.warning) lines += '<p class="au-warn">' + esc(h.warning) + "</p>";
+    if (h.closest) lines += "<p>" + esc(h.closest) + "</p>";
+    lines += "<p>" + (local ? "It runs on your own computer, so you can keep every prompt onshore today."
+      : "To keep data onshore today, run it on your own hardware or an Australian GPU cloud.") + "</p>";
+    var links = (h.links || []).map(function (l) {
+      return '<a href="' + esc(l[1]) + '" target="_blank" rel="noopener">' + esc(l[0]) + "</a>";
+    }).join("");
+    return '<div class="au-box"><div class="au-head"><h3>Hosted in Australia</h3><span class="pill-none">Not available yet</span></div>' +
+      lines + (links ? '<div class="au-links">' + links + "</div>" : "") + "</div>";
   }
 
   var TIERS = {

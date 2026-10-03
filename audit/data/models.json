@@ -247,7 +247,10 @@
         "PrimaLabs",
         "Novita",
         "Requesty"
-      ]
+      ],
+      "auHosting": {
+        "status": "none"
+      }
     },
     {
       "id": "qwen3-8-max",
@@ -305,6 +308,16 @@
       "au": {
         "status": "self-host",
         "note": "Self-hosting a 2.4T model needs a multi-GPU server cluster."
+      },
+      "auHosting": {
+        "status": "none",
+        "closest": "Qwen3 models such as Qwen3 235B and Qwen3 Coder run in-region on Amazon Bedrock Sydney.",
+        "links": [
+          [
+            "Bedrock Sydney",
+            "https://aws.amazon.com/about-aws/whats-new/2026/02/amazon-bedrock-support-latest-open-weight-models-asia-pacific-sydney"
+          ]
+        ]
       }
     },
     {
@@ -366,7 +379,21 @@
       ],
       "alsoOn": [
         "DeepInfra"
-      ]
+      ],
+      "auHosting": {
+        "status": "none",
+        "closest": "Older GLM models run fully in Australia: GLM-5.2 at AI Compute AU in Melbourne (billed in AUD, A$0.49 in / A$1.53 out) and GLM 5 in-region on Amazon Bedrock Sydney.",
+        "links": [
+          [
+            "AI Compute AU",
+            "https://aicompute.au/"
+          ],
+          [
+            "Bedrock Sydney",
+            "https://aws.amazon.com/about-aws/whats-new/2026/02/amazon-bedrock-support-latest-open-weight-models-asia-pacific-sydney"
+          ]
+        ]
+      }
     },
     {
       "id": "grok-4-6",
@@ -436,7 +463,10 @@
           "in": 1.0,
           "out": 2.7
         }
-      ]
+      ],
+      "auHosting": {
+        "status": "none"
+      }
     },
     {
       "id": "kimi-k3",
@@ -522,7 +552,11 @@
       ],
       "alsoOn": [
         "Relace"
-      ]
+      ],
+      "auHosting": {
+        "status": "none",
+        "warning": "Amazon Bedrock lists Kimi K3 in Sydney, but only through global routing, so requests can be processed overseas."
+      }
     },
     {
       "id": "glm-5-3-flash",
@@ -605,6 +639,20 @@
       "localRun": {
         "tier": "workstation",
         "gguf": "https://huggingface.co/unsloth/GLM-5.3-Flash-GGUF"
+      },
+      "auHosting": {
+        "status": "none",
+        "closest": "Older GLM models run fully in Australia: GLM-5.2 at AI Compute AU in Melbourne and GLM 5 in-region on Amazon Bedrock Sydney.",
+        "links": [
+          [
+            "AI Compute AU",
+            "https://aicompute.au/"
+          ],
+          [
+            "Bedrock Sydney",
+            "https://aws.amazon.com/about-aws/whats-new/2026/02/amazon-bedrock-support-latest-open-weight-models-asia-pacific-sydney"
+          ]
+        ]
       }
     },
     {
@@ -699,7 +747,21 @@
         "Nebius",
         "Baseten",
         "Databricks"
-      ]
+      ],
+      "auHosting": {
+        "status": "none",
+        "closest": "DeepSeek V3.2 runs fully in Australia, in-region on Amazon Bedrock Sydney and at SCX.ai in Sydney.",
+        "links": [
+          [
+            "Bedrock Sydney",
+            "https://aws.amazon.com/about-aws/whats-new/2026/02/amazon-bedrock-support-latest-open-weight-models-asia-pacific-sydney"
+          ],
+          [
+            "SCX.ai",
+            "https://scx.ai/models"
+          ]
+        ]
+      }
     },
     {
       "id": "gpt-5-6-luna",
@@ -795,6 +857,16 @@
         "tier": "laptop",
         "ram_gb": 16,
         "lmstudio": "https://lmstudio.ai/models/qwen/qwen3.8-27b"
+      },
+      "auHosting": {
+        "status": "none",
+        "closest": "Qwen3 models such as Qwen3 32B run in-region on Amazon Bedrock Sydney.",
+        "links": [
+          [
+            "Bedrock Sydney",
+            "https://aws.amazon.com/about-aws/whats-new/2026/02/amazon-bedrock-support-latest-open-weight-models-asia-pacific-sydney"
+          ]
+        ]
       }
     },
     {
@@ -837,7 +909,10 @@
         "Nebius",
         "AWS"
       ],
-      "context": 524288
+      "context": 524288,
+      "auHosting": {
+        "status": "none"
+      }
     },
     {
       "id": "minimax-m3",
@@ -903,7 +978,21 @@
       "alsoOn": [
         "CoreWeave",
         "SambaNova"
-      ]
+      ],
+      "auHosting": {
+        "status": "none",
+        "closest": "Older MiniMax models run fully in Australia: MiniMax M2.5 in-region on Amazon Bedrock Sydney and MiniMax M2.7 at SCX.ai in Sydney.",
+        "links": [
+          [
+            "Bedrock Sydney",
+            "https://aws.amazon.com/about-aws/whats-new/2026/02/amazon-bedrock-support-latest-open-weight-models-asia-pacific-sydney"
+          ],
+          [
+            "SCX.ai",
+            "https://scx.ai/models"
+          ]
+        ]
+      }
     },
     {
       "id": "inkling",
@@ -959,7 +1048,10 @@
       "sources": [
         "https://www.datacamp.com/blog/thinking-machines-inkling",
         "https://pricepertoken.com/pricing-page/model/thinkingmachines-inkling"
-      ]
+      ],
+      "auHosting": {
+        "status": "none"
+      }
     },
     {
       "id": "nemotron-3-ultra",
@@ -1015,7 +1107,17 @@
         "CoreWeave",
         "GMI Cloud",
         "Lightning AI"
-      ]
+      ],
+      "auHosting": {
+        "status": "none",
+        "closest": "You can deploy it to your own dedicated endpoint with Amazon SageMaker JumpStart and choose the region yourself. You pay for the GPUs by the hour, not per token.",
+        "links": [
+          [
+            "SageMaker JumpStart",
+            "https://aws.amazon.com/blogs/machine-learning/nvidia-nemotron-3-ultra-now-available-on-amazon-sagemaker-jumpstart/"
+          ]
+        ]
+      }
     },
     {
       "id": "gemini-3-5-flash-lite",
@@ -1081,6 +1183,9 @@
         "tier": "laptop",
         "ram_gb": 26,
         "lmstudio": "https://lmstudio.ai/models/muse-glimmer"
+      },
+      "auHosting": {
+        "status": "none"
       }
     },
     {
@@ -1127,6 +1232,10 @@
       "localRun": {
         "tier": "workstation",
         "gguf": "https://huggingface.co/unsloth/Mistral-Medium-3.5-128B-GGUF"
+      },
+      "auHosting": {
+        "status": "none",
+        "warning": "Azure AI Foundry lists Mistral Medium 3.5 in Australia East, but only as a Global Standard deployment, so requests can be processed overseas."
       }
     }
   ]
