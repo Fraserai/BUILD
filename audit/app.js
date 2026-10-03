@@ -1,4 +1,4 @@
-/* AUDit: renders AI model prices in AUD from the JSON files in data/. */
+/* Renders AI model prices in AUD from the JSON files in data/. */
 (function () {
   "use strict";
 
@@ -176,7 +176,6 @@
       })
       .then(function (rate) {
         data.rate = rate;
-        $("fx-chip").textContent = "US$1 = A$" + rate.toFixed(2);
         renderTiles();
         renderRows();
       })

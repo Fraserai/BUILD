@@ -1,4 +1,4 @@
-# AUDit: AI model prices in Australian dollars
+# Aussie AI model prices
 
 A one-page static site that lists the leading AI models (ranked by the Artificial Analysis Intelligence Index) with:
 
