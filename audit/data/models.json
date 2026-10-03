@@ -31,7 +31,17 @@
       "sources": [
         "https://docs.aws.amazon.com/bedrock/latest/userguide/model-card-anthropic-claude-opus-5-5.html",
         "https://artificialanalysis.ai/models/comparisons/claude-opus-5-5-vs-gpt-6-astra"
-      ]
+      ],
+      "auHosting": {
+        "status": "available",
+        "how": "Runs fully in Australia on Amazon Bedrock. Use the AU profile (au.anthropic.claude-opus-5-5) and requests stay in Sydney and Melbourne.",
+        "links": [
+          [
+            "Bedrock model card",
+            "https://docs.aws.amazon.com/bedrock/latest/userguide/model-card-anthropic-claude-opus-5-5.html"
+          ]
+        ]
+      }
     },
     {
       "id": "claude-fable-5-1",
@@ -54,8 +64,14 @@
         "note": "Australian-region hosting not yet verified. Check Amazon Bedrock and Google Cloud region lists."
       },
       "sources": [
-        "https://platform.claude.com/docs/en/about-claude/pricing"
-      ]
+        "https://platform.claude.com/docs/en/about-claude/pricing",
+        "https://docs.aws.amazon.com/bedrock/latest/userguide/model-card-anthropic-claude-fable-5-1.html"
+      ],
+      "auHosting": {
+        "status": "none",
+        "warning": "Amazon Bedrock offers Fable 5.1 in Sydney only through global routing, so requests can be processed overseas.",
+        "closest": "Claude Opus 5.5 and Claude Opus 5 run fully in Australia on Amazon Bedrock."
+      }
     },
     {
       "id": "gpt-6-astra",
@@ -80,7 +96,11 @@
       "sources": [
         "https://artificialanalysis.ai/models/comparisons/claude-opus-5-5-vs-gpt-6-astra",
         "https://foundrymap.fyi/models/gpt-6-astra"
-      ]
+      ],
+      "auHosting": {
+        "status": "none",
+        "warning": "Azure lists GPT-6 Astra in Australia East, but only as Global deployments, so requests can be processed overseas. OpenAI's own Australian data residency stores data in Australia, but prompts are still processed overseas and it costs 10% more."
+      }
     },
     {
       "id": "claude-opus-5",
@@ -98,12 +118,22 @@
       "openrouter": "anthropic/claude-opus-5",
       "autoPrice": true,
       "au": {
-        "status": "offshore",
+        "status": "au-region",
         "note": "Available on Amazon Bedrock. AU geo profile not yet verified for this model."
       },
       "sources": [
         "https://docs.aws.amazon.com/bedrock/latest/userguide/model-card-anthropic-claude-opus-5.html"
-      ]
+      ],
+      "auHosting": {
+        "status": "available",
+        "how": "Runs fully in Australia on Amazon Bedrock. Use the AU profile (au.anthropic.claude-opus-5) and requests stay in Sydney and Melbourne.",
+        "links": [
+          [
+            "Bedrock model card",
+            "https://docs.aws.amazon.com/bedrock/latest/userguide/model-card-anthropic-claude-opus-5.html"
+          ]
+        ]
+      }
     },
     {
       "id": "muse-spark-1-3",
@@ -126,7 +156,11 @@
       },
       "sources": [
         "https://openrouter.ai/meta/muse-spark-1.3"
-      ]
+      ],
+      "auHosting": {
+        "status": "none",
+        "warning": "Meta hasn't said where its API processes requests."
+      }
     },
     {
       "id": "gpt-6-sol",
@@ -149,7 +183,11 @@
       "sources": [
         "https://finance.yahoo.com/technology/ai/articles/openai-cuts-gpt-6-sol-111351382.html",
         "https://foundrymap.fyi/models/gpt-6-1-sol"
-      ]
+      ],
+      "auHosting": {
+        "status": "none",
+        "warning": "Azure lists GPT-6 Sol in Australia East, but only as a Global deployment, so requests can be processed overseas. OpenAI's own Australian data residency stores data in Australia, but prompts are still processed overseas and it costs 10% more."
+      }
     },
     {
       "id": "gpt-5-6-sol",
@@ -171,7 +209,11 @@
       },
       "sources": [
         "https://www.finout.io/blog/gpt-5.6-pricing-2026-sol-terra-and-luna-tiers-explained"
-      ]
+      ],
+      "auHosting": {
+        "status": "none",
+        "warning": "Azure offers GPT-5.6 Sol in Australia East as a Data Zone deployment, which keeps requests in the Asia Pacific zone but not only in Australia. OpenAI's own Australian data residency stores data in Australia, but prompts are still processed overseas and it costs 10% more."
+      }
     },
     {
       "id": "grok-4-7",
@@ -195,8 +237,13 @@
         "note": "No Australian-region hosting found."
       },
       "sources": [
-        "https://www.eesel.ai/blog/grok-4-7-pricing"
-      ]
+        "https://www.eesel.ai/blog/grok-4-7-pricing",
+        "https://codersera.com/blog/grok-4-7-complete-guide-2026/"
+      ],
+      "auHosting": {
+        "status": "none",
+        "warning": "xAI's API runs in US regions only."
+      }
     },
     {
       "id": "mimo-v2-6-pro",
@@ -418,7 +465,11 @@
       },
       "sources": [
         "https://www.lindy.ai/blog/grok-4-7"
-      ]
+      ],
+      "auHosting": {
+        "status": "none",
+        "warning": "xAI's API runs in US regions only."
+      }
     },
     {
       "id": "step-5-preview",
@@ -671,12 +722,23 @@
       "autoPrice": true,
       "priceNote": "Introductory price until 31 Dec 2026. From 1 Jan 2027 it doubles to US$1.50 in / US$7.50 out.",
       "au": {
-        "status": "offshore",
+        "status": "au-region",
         "note": "Check Google Cloud australia-southeast1 availability for this model."
       },
       "sources": [
-        "https://www.lindy.ai/blog/gemini-3-8-flash"
-      ]
+        "https://www.lindy.ai/blog/gemini-3-8-flash",
+        "https://docs.cloud.google.com/gemini-enterprise-agent-platform/resources/data-residency"
+      ],
+      "auHosting": {
+        "status": "available",
+        "how": "Runs fully in Australia on Google Cloud when you send requests to the Sydney region (australia-southeast1). The global endpoint can process data anywhere.",
+        "links": [
+          [
+            "Google Cloud data residency",
+            "https://docs.cloud.google.com/gemini-enterprise-agent-platform/resources/data-residency"
+          ]
+        ]
+      }
     },
     {
       "id": "deepseek-v4-1-flash",
@@ -782,8 +844,13 @@
         "note": "Check Azure Foundry region availability."
       },
       "sources": [
-        "https://www.requesty.ai/blog/gpt-6-sol-luna-pricing-release-api"
-      ]
+        "https://www.requesty.ai/blog/gpt-6-sol-luna-pricing-release-api",
+        "https://aigeek.au/news/openai-data-residency/"
+      ],
+      "auHosting": {
+        "status": "none",
+        "warning": "OpenAI's own Australian data residency stores data in Australia, but prompts are still processed overseas and it costs 10% more."
+      }
     },
     {
       "id": "gpt-6-luna",
@@ -805,7 +872,11 @@
       },
       "sources": [
         "https://finance.yahoo.com/technology/ai/articles/openai-cuts-gpt-6-sol-111351382.html"
-      ]
+      ],
+      "auHosting": {
+        "status": "none",
+        "warning": "Azure offers GPT-6 Luna as a Global Standard deployment, so requests can be processed overseas. OpenAI's own Australian data residency stores data in Australia, but prompts are still processed overseas and it costs 10% more."
+      }
     },
     {
       "id": "qwen3-8-27b",
@@ -1137,8 +1208,14 @@
         "note": "Check Google Cloud australia-southeast1 availability for this model."
       },
       "sources": [
-        "https://openrouter.ai/google/gemini-3.5-flash-lite"
-      ]
+        "https://openrouter.ai/google/gemini-3.5-flash-lite",
+        "https://docs.cloud.google.com/gemini-enterprise-agent-platform/resources/locations"
+      ],
+      "auHosting": {
+        "status": "none",
+        "warning": "It has no Sydney endpoint. Google only offers it through global and US or EU endpoints.",
+        "closest": "Gemini 3.8 Flash runs fully in Australia on Google Cloud."
+      }
     },
     {
       "id": "muse-glimmer",

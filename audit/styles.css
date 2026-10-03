@@ -159,7 +159,7 @@ p { margin: 0; }
 .board-top { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px; padding-inline: 24px; margin-bottom: 12px; }
 .board-top h2 { font-size: 1.5rem; font-weight: 750; letter-spacing: -0.02em; }
 .seg { display: flex; gap: 3px; padding: 3px; border-radius: 999px; background: var(--track); }
-.seg button { border: 0; cursor: pointer; font: 600 0.875rem/1 var(--font); color: var(--ink-2); background: transparent; padding: 9px 16px; border-radius: 999px; transition: background 0.2s, color 0.2s; }
+.seg button { white-space: nowrap; border: 0; cursor: pointer; font: 600 0.875rem/1 var(--font); color: var(--ink-2); background: transparent; padding: 9px 16px; border-radius: 999px; transition: background 0.2s, color 0.2s; }
 .seg button[aria-pressed="true"] { background: var(--glass-hi); color: var(--ink); box-shadow: 0 1px 6px -2px var(--shadow); }
 :root[data-theme="dark"] .seg button[aria-pressed="true"] { background: var(--glass-soft); }
 
@@ -236,6 +236,7 @@ p { margin: 0; }
 .au-box { margin-top: 8px; padding: 16px 18px; border-radius: 18px; background: var(--glass-soft); box-shadow: inset 0 1px 0 var(--glass-hi); display: grid; gap: 8px; }
 .au-box p { font-size: 0.875rem; line-height: 1.5; color: var(--ink-2); }
 .au-head { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 8px; }
+.pill-yes { font-size: 0.75rem; font-weight: 650; padding: 4px 10px; border-radius: 999px; background: var(--green); color: var(--bg); }
 .pill-none { font-size: 0.75rem; font-weight: 650; padding: 4px 10px; border-radius: 999px; background: var(--amber-bg); color: var(--amber); }
 .au-box .au-warn { color: var(--amber); }
 .au-links { display: flex; flex-wrap: wrap; gap: 6px 14px; font-size: 0.875rem; font-weight: 600; }
@@ -253,6 +254,7 @@ p { margin: 0; }
 @media (max-width: 720px) {
   .cols { display: none; }
   .board-top { padding-inline: 16px; }
+  .seg button { padding: 9px 12px; font-size: 0.8125rem; }
   .row-sum {
     grid-template-columns: minmax(0, 1fr) auto auto;
     grid-template-areas: "name name name" "score in out";

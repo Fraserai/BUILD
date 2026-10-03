@@ -30,11 +30,13 @@ def test_models_are_complete(models):
         assert m["sources"], f"{m['id']} has no sources"
         for p in m.get("providers", []):
             assert p["in"] > 0 and p["out"] > 0, f"{m['id']} provider {p['name']} needs input and output prices"
+        assert m["auHosting"]["status"] in {"none", "available"}
+        if m["auHosting"]["status"] == "available":
+            assert m["auHosting"]["how"], f"{m['id']} must say how to get Australian hosting"
+        for label, url in m["auHosting"].get("links", []):
+            assert label and url.startswith("https://")
         if m["open"]:
             assert "weights" in m and m["weights"]["license"]
-            assert m["auHosting"]["status"] in {"none", "available"}
-            for label, url in m["auHosting"].get("links", []):
-                assert label and url.startswith("https://")
         else:
             assert m["au"]["status"] != "self-host"
 

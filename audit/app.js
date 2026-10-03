@@ -147,16 +147,19 @@
   function auHosting(m) {
     var h = m.auHosting;
     if (!h) return "";
-    var local = m.localRun && m.localRun.tier === "laptop";
-    var lines = '<p>No provider runs this model fully in Australia yet.</p>';
+    var ok = h.status === "available";
+    var lines = ok ? "<p>" + esc(h.how) + "</p>" : "<p>No provider runs this model fully in Australia yet.</p>";
     if (h.warning) lines += '<p class="au-warn">' + esc(h.warning) + "</p>";
     if (h.closest) lines += "<p>" + esc(h.closest) + "</p>";
-    lines += "<p>" + (local ? "It runs on your own computer, so you can keep every prompt onshore today."
-      : "To keep data onshore today, run it on your own hardware or an Australian GPU cloud.") + "</p>";
+    if (!ok && m.open) {
+      lines += "<p>" + (m.localRun && m.localRun.tier === "laptop" ? "It runs on your own computer, so you can keep every prompt onshore today."
+        : "To keep data onshore today, run it on your own hardware or an Australian GPU cloud.") + "</p>";
+    }
     var links = (h.links || []).map(function (l) {
       return '<a href="' + esc(l[1]) + '" target="_blank" rel="noopener">' + esc(l[0]) + "</a>";
     }).join("");
-    return '<div class="au-box"><div class="au-head"><h3>Hosted in Australia</h3><span class="pill-none">Not available yet</span></div>' +
+    return '<div class="au-box"><div class="au-head"><h3>Hosted in Australia</h3>' +
+      (ok ? '<span class="pill-yes">Available</span>' : '<span class="pill-none">Not available yet</span>') + "</div>" +
       lines + (links ? '<div class="au-links">' + links + "</div>" : "") + "</div>";
   }
 
@@ -194,13 +197,14 @@
 
   function detail(m) {
     var notes = (m.priceNote ? '<p class="note">' + esc(inAud(m.priceNote)) + "</p>" : "") +
-      (m.au && m.au.status === "au-region" ? '<p class="note au-note">' + esc(m.au.note) + "</p>" : "");
-    var side = runCard(m) + "<section><h3>Details</h3>" + facts(m) + notes + "</section>";
+      "";
+    var side = (m.open ? "" : auHosting(m)) + runCard(m) + "<section><h3>Details</h3>" + facts(m) + notes + "</section>";
     return '<div class="detail' + (m.open ? " is-open" : "") + '">' + providers(m) + '<div class="side">' + side + "</div></div>";
   }
 
   function renderRows() {
     var list = data.models.models.filter(function (m) {
+      if (state.filter === "au") return m.auHosting && m.auHosting.status === "available";
       return state.filter === "all" || (state.filter === "open") === m.open;
     }).sort(function (a, b) { return b.index - a.index || blendedUsd(a.price) - blendedUsd(b.price); });
     $("rows").innerHTML = list.map(function (m, i) {
@@ -209,7 +213,7 @@
       var local = m.localRun && (m.localRun.tier === "laptop" || m.localRun.tier === "workstation");
       var badges = (m.open ? '<span class="badge open">Open</span>' : "") +
         (local ? '<span class="badge local">Runs locally</span>' : "") +
-        (m.au && m.au.status === "au-region" ? '<span class="badge au">Hosted in AU</span>' : "");
+        (m.auHosting && m.auHosting.status === "available" ? '<span class="badge au">Hosted in AU</span>' : "");
       var count = m.providers && m.providers.length > 1 ? '<span class="count">' + m.providers.length + " providers</span>" : "";
       return '<li><details><summary class="row-sum">' +
         '<span class="name"><span class="rank">' + (i + 1) + '</span><span class="name-text"><b>' + esc(m.name) + "</b>" +

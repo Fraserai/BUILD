@@ -6,7 +6,7 @@ A one-page static site that lists the leading AI models (ranked by the Artificia
 - a "Hosted in AU" tag where an Australian data-residency option is confirmed
 - open models list **every inference provider** with input, output and cached prices in AUD, the lowest price
   highlighted and the saving against the official API
-- a **Hosted in Australia** check for each open model. A provider is only listed when it runs that exact model fully
+- a **Hosted in Australia** check for every model, plus a filter for the ones you can run fully onshore today. A provider is only listed when it runs that exact model fully
   onshore. Otherwise the page says so, flags "Australian" listings that route overseas, and names the closest onshore option
 - a **Run it yourself** card for open models: whether it fits a laptop, a workstation or needs a server, the
   hardware in AUD, and links to LM Studio and Hugging Face
