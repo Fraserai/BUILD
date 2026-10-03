@@ -1,0 +1,56 @@
+{
+  "updated": "2026-10-03",
+  "notes": "Local hardware prices are Australian retail in AUD including GST. Cloud GPU rates are USD per GPU-hour and are converted on the page.",
+  "local": [
+    {
+      "id": "rtx-5090",
+      "name": "GeForce RTX 5090",
+      "kind": "Desktop GPU",
+      "memory_gb": 32,
+      "aud": 7299,
+      "aud_note": "Typical street price over the last 3 months. NVIDIA's local MSRP is A$4,039 but stock rarely sells near it.",
+      "watts": 575,
+      "best_for": "Dense models up to about 30B at 4-bit. Fast: Qwen3.8 27B runs at 140+ tokens/s.",
+      "source": "https://gpuprix.com/australia/gpus/geforce-rtx-5090"
+    },
+    {
+      "id": "dgx-spark",
+      "name": "NVIDIA DGX Spark (GB10)",
+      "kind": "Desktop AI box",
+      "memory_gb": 128,
+      "aud": 6249,
+      "aud_note": "ASUS Ascent GX10 1TB at Centrecom. Founders Edition 4TB is about A$8,999.",
+      "watts": 240,
+      "best_for": "Mid-size MoE models at 4-bit. Lots of memory, modest speed.",
+      "source": "https://www.glukhov.org/hardware/ai/dgx-spark-pricing-in-australia/"
+    },
+    {
+      "id": "rtx-pro-6000",
+      "name": "RTX PRO 6000 Blackwell 96GB",
+      "kind": "Workstation GPU",
+      "memory_gb": 96,
+      "aud": 18499,
+      "aud_note": "PCCaseGear workstation edition. Other retailers list A$20,999 to A$34,499.",
+      "watts": 600,
+      "best_for": "Stack 2 to 8 cards for 100B to 750B-class open models.",
+      "source": "https://www.pccasegear.com/products/69711/nvidia-rtx-pro-6000-blackwell-workstation-edition-gddr7-96gb"
+    },
+    {
+      "id": "mac-studio-m5-ultra",
+      "name": "Mac Studio M5 Ultra 256GB",
+      "kind": "Desktop computer",
+      "memory_gb": 256,
+      "aud": 28699,
+      "aud_note": "Top configuration currently on sale in Australia. A 512GB option is due in late October, price not yet announced.",
+      "watts": 480,
+      "best_for": "Quiet single-box option for 300B-class MoE models at 4-bit.",
+      "source": "https://manofmany.com/tech/mac-studio-m5-max-m5-ultra"
+    }
+  ],
+  "cloud": [
+    { "id": "h100", "name": "H100 80GB", "memory_gb": 80, "usd_hr": 2.65, "note": "On-demand, Spheron, 2 Oct 2026", "source": "https://www.spheron.network/blog/gpu-cloud-pricing-comparison-2026/" },
+    { "id": "h200", "name": "H200 141GB", "memory_gb": 141, "usd_hr": 3.99, "note": "Lowest tracked on-demand, Hyperbolic, Oct 2026", "source": "https://www.thundercompute.com/blog/nvidia-h200-pricing" },
+    { "id": "b200", "name": "B200 180GB", "memory_gb": 180, "usd_hr": 8.63, "note": "On-demand, Spheron. Spot from US$4.53", "source": "https://www.spheron.network/blog/gpu-cloud-pricing-comparison-2026/" }
+  ],
+  "cloud_note": "These are global marketplace rates. Sydney-region capacity usually costs more and is scarcer. Australian sovereign options include SCX.ai (Equinix SY5, Sydney) and SharonAI."
+}
