@@ -4,8 +4,10 @@ A one-page static site that lists the leading AI models (ranked by the Artificia
 
 - input and output token prices in **AUD**, converted at the live exchange rate
 - a "Hosted in AU" tag where an Australian data-residency option is confirmed
-- tap a model for its details: context window, cached-input price, **prices by provider** for open models,
-  and **what it takes to run it yourself** (memory needed and the cheapest Australian-priced hardware that fits)
+- open models list **every inference provider** with input, output and cached prices in AUD, the lowest price
+  highlighted and the saving against the official API
+- a **Run it yourself** card for open models: whether it fits a laptop, a workstation or needs a server, the
+  hardware in AUD, and links to LM Studio and Hugging Face
 
 No build step and no dependencies. The design uses a liquid-glass style inspired by Apple's newest iOS look.
 

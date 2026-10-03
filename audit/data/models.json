@@ -209,7 +209,8 @@
         "params_b": 1020,
         "active_b": 42,
         "arch": "MoE",
-        "license": "MIT"
+        "license": "MIT",
+        "hf": "https://huggingface.co/XiaomiMiMo/MiMo-V2.6-Pro-RL"
       },
       "price": {
         "in": 0.43,
@@ -224,7 +225,28 @@
       },
       "sources": [
         "https://openrouter.ai/xiaomi/mimo-v2.6-pro",
-        "https://venturebeat.com/technology/better-than-deepseek-xiaomis-mimo-v2-6-pro-debuts-as-the-top-open-weights-model-in-the-world-alongside-cheaper-v2-6-flash"
+        "https://venturebeat.com/technology/better-than-deepseek-xiaomis-mimo-v2-6-pro-debuts-as-the-top-open-weights-model-in-the-world-alongside-cheaper-v2-6-flash",
+        "https://artificialanalysis.ai/models/mimo-v2-6-pro/providers"
+      ],
+      "providers": [
+        {
+          "name": "Xiaomi",
+          "in": 0.43,
+          "out": 0.87,
+          "official": true,
+          "tps": 42
+        },
+        {
+          "name": "OpenRouter",
+          "in": 0.4133,
+          "out": 0.8265
+        }
+      ],
+      "alsoOn": [
+        "DeepInfra",
+        "PrimaLabs",
+        "Novita",
+        "Requesty"
       ]
     },
     {
@@ -237,9 +259,11 @@
       "open": true,
       "weights": {
         "params_b": 2400,
+        "active_b": 95,
         "arch": "MoE",
-        "license": "Announced",
-        "note": "Qwen announced open weights at launch. Confirm the release on Hugging Face before planning a deployment."
+        "license": "Apache 2.0",
+        "note": "The downloadable version is text-only and has a shorter context window than the hosted API.",
+        "hf": "https://huggingface.co/Qwen/Qwen3.8-2.4T-A95B"
       },
       "price": {
         "in": 2.0,
@@ -248,14 +272,40 @@
       },
       "context": 1000000,
       "openrouter": "qwen/qwen3.8-max-0902",
+      "sources": [
+        "https://openrouter.ai/qwen/qwen3.8-max-0902",
+        "https://www.developersdigest.tech/blog/qwen-3-8-max-release-2026",
+        "https://llm-stats.com/blog/research/qwen3-8-max-open-weights",
+        "https://aireiter.com/blog/qwen3-8-max-api-pricing"
+      ],
+      "providers": [
+        {
+          "name": "Alibaba Cloud",
+          "in": 2.0,
+          "out": 6.0,
+          "official": true,
+          "cached": 0.25
+        },
+        {
+          "name": "DeepInfra",
+          "in": 1.65,
+          "out": 4.95
+        },
+        {
+          "name": "Fireworks",
+          "in": 2.0,
+          "out": 6.0
+        },
+        {
+          "name": "Together AI",
+          "in": 2.5,
+          "out": 6.25
+        }
+      ],
       "au": {
         "status": "self-host",
         "note": "Self-hosting a 2.4T model needs a multi-GPU server cluster."
-      },
-      "sources": [
-        "https://openrouter.ai/qwen/qwen3.8-max-0902",
-        "https://www.developersdigest.tech/blog/qwen-3-8-max-release-2026"
-      ]
+      }
     },
     {
       "id": "glm-5-3",
@@ -268,7 +318,8 @@
       "weights": {
         "params_b": 753,
         "arch": "MoE",
-        "license": "Open weights"
+        "license": "GLM-5.3 licence",
+        "hf": "https://huggingface.co/zai-org/GLM-5.3"
       },
       "price": {
         "in": 1.4,
@@ -280,19 +331,28 @@
         {
           "name": "Z.ai",
           "in": 1.4,
+          "out": 4.4,
+          "official": true
+        },
+        {
+          "name": "Together AI",
+          "in": 1.4,
           "out": 4.4
         },
         {
           "name": "Fireworks",
-          "in": 1.4
+          "in": 1.4,
+          "out": 4.4
         },
         {
-          "name": "DeepInfra",
-          "blended": 0.45
+          "name": "Baseten",
+          "in": 1.4,
+          "out": 4.4
         },
         {
-          "name": "Supernova (FP4)",
-          "blended": 0.41
+          "name": "Novita",
+          "in": 1.4,
+          "out": 4.4
         }
       ],
       "au": {
@@ -301,7 +361,11 @@
       },
       "sources": [
         "https://www.layer3labs.io/guides/glm-5-3-explained",
-        "https://artificialanalysis.ai/models/glm-5-3/providers"
+        "https://artificialanalysis.ai/models/glm-5-3/providers",
+        "https://pricepertoken.com/pricing-page/model/z-ai-glm-5.3"
+      ],
+      "alsoOn": [
+        "DeepInfra"
       ]
     },
     {
@@ -356,7 +420,22 @@
       },
       "sources": [
         "https://www.eesel.ai/blog/stepfun-step-5",
-        "https://www.datastudios.org/post/stepfun-launches-step-5-preview-with-600b-parameters-1m-context-and-open-weights-coming-october-15"
+        "https://www.datastudios.org/post/stepfun-launches-step-5-preview-with-600b-parameters-1m-context-and-open-weights-coming-october-15",
+        "https://artificialanalysis.ai/models/step-5/providers"
+      ],
+      "providers": [
+        {
+          "name": "StepFun",
+          "in": 1.0,
+          "out": 2.7,
+          "official": true,
+          "cached": 0.05
+        },
+        {
+          "name": "Vercel AI Gateway",
+          "in": 1.0,
+          "out": 2.7
+        }
       ]
     },
     {
@@ -370,7 +449,9 @@
       "weights": {
         "params_b": 2800,
         "arch": "MoE",
-        "license": "Open weights"
+        "license": "Open weights",
+        "hf": "https://huggingface.co/moonshotai/Kimi-K3",
+        "active_b": 104
       },
       "price": {
         "in": 3.0,
@@ -383,24 +464,51 @@
         {
           "name": "Moonshot AI",
           "in": 3.0,
-          "out": 15.0
+          "out": 15.0,
+          "official": true,
+          "cached": 0.3
         },
         {
           "name": "DeepInfra",
           "in": 2.85,
-          "out": 14.25
+          "out": 14.25,
+          "cached": 0.28
+        },
+        {
+          "name": "EcoHash",
+          "in": 2.0,
+          "out": 12.0
         },
         {
           "name": "Together AI",
           "in": 3.0,
-          "out": 15.0,
-          "ttft": 1.09
+          "out": 15.0
         },
         {
           "name": "Fireworks",
           "in": 3.0,
           "out": 15.0,
           "tps": 69
+        },
+        {
+          "name": "Baseten",
+          "in": 3.0,
+          "out": 15.0
+        },
+        {
+          "name": "Parasail",
+          "in": 3.0,
+          "out": 15.0
+        },
+        {
+          "name": "Novita",
+          "in": 3.0,
+          "out": 15.0
+        },
+        {
+          "name": "Modal",
+          "in": 3.0,
+          "out": 15.0
         }
       ],
       "au": {
@@ -409,7 +517,11 @@
       },
       "sources": [
         "https://www.developersdigest.tech/blog/where-to-access-kimi-k3-2026",
-        "https://codersera.com/blog/kimi-k3-complete-guide-2026/"
+        "https://codersera.com/blog/kimi-k3-complete-guide-2026/",
+        "https://pricepertoken.com/pricing-page/model/moonshotai-kimi-k3"
+      ],
+      "alsoOn": [
+        "Relace"
       ]
     },
     {
@@ -423,7 +535,8 @@
         "params_b": 320,
         "active_b": 18,
         "arch": "MoE",
-        "license": "MIT"
+        "license": "MIT",
+        "hf": "https://huggingface.co/zai-org/GLM-5.3-Flash"
       },
       "price": {
         "in": 0.15,
@@ -435,12 +548,15 @@
         {
           "name": "Z.ai",
           "in": 0.15,
-          "out": 0.5
+          "out": 0.5,
+          "official": true,
+          "cached": 0.03
         },
         {
           "name": "DeepInfra",
-          "in": 0.07,
-          "out": 0.25
+          "in": 0.075,
+          "out": 0.25,
+          "cached": 0.015
         },
         {
           "name": "Bitdeer AI",
@@ -448,8 +564,30 @@
           "out": 0.25
         },
         {
+          "name": "Together AI",
+          "in": 0.15,
+          "out": 0.5
+        },
+        {
           "name": "Fireworks",
-          "in": 0.15
+          "in": 0.15,
+          "out": 0.5
+        },
+        {
+          "name": "Baseten",
+          "in": 0.15,
+          "out": 0.5
+        },
+        {
+          "name": "Novita",
+          "in": 0.15,
+          "out": 0.5,
+          "cached": 0.03
+        },
+        {
+          "name": "Cloudflare Workers AI",
+          "in": 0.15,
+          "out": 0.5
         }
       ],
       "au": {
@@ -458,8 +596,16 @@
       },
       "sources": [
         "https://codersera.com/blog/glm-5-3-flash-complete-guide-2026/",
-        "https://artificialanalysis.ai/models/glm-5-3-flash/providers"
-      ]
+        "https://artificialanalysis.ai/models/glm-5-3-flash/providers",
+        "https://www.eesel.ai/blog/glm-5-3-flash-pricing"
+      ],
+      "alsoOn": [
+        "Modal"
+      ],
+      "localRun": {
+        "tier": "workstation",
+        "gguf": "https://huggingface.co/unsloth/GLM-5.3-Flash-GGUF"
+      }
     },
     {
       "id": "gemini-3-8-flash",
@@ -496,7 +642,8 @@
         "params_b": 552,
         "active_b": 16,
         "arch": "MoE",
-        "license": "MIT"
+        "license": "MIT",
+        "hf": "https://huggingface.co/deepseek-ai/DeepSeek-V4.1-Flash"
       },
       "price": {
         "in": 0.15,
@@ -505,25 +652,25 @@
       },
       "context": 1048576,
       "openrouter": "deepseek/deepseek-v4.1-flash",
-      "priceNote": "Off-peak price. Prices double on weekdays from 11am to 2pm and 4pm to 8pm AEST.",
+      "priceNote": "DeepSeek's own prices double on weekdays from 11am to 2pm and 4pm to 8pm AEST.",
       "providers": [
         {
           "name": "DeepSeek (off-peak)",
           "in": 0.15,
-          "out": 0.6
+          "out": 0.6,
+          "official": true,
+          "cached": 0.003
         },
         {
           "name": "DeepSeek (peak)",
           "in": 0.3,
-          "out": 1.2
-        },
-        {
-          "name": "DeepInfra",
-          "in": 0.2
+          "out": 1.2,
+          "official": true
         },
         {
           "name": "Fireworks",
           "in": 0.22,
+          "out": 0.66,
           "tps": 250
         },
         {
@@ -544,7 +691,14 @@
       "gov": "In February 2025 the Australian Government directed Commonwealth entities to remove DeepSeek products, applications and web services from government systems and devices. Read the current PSPF direction before using this model.",
       "sources": [
         "https://www.yottalabs.ai/post/deepseek-v4-1-flash-pricing-specs-v4-pro-routing-2026",
-        "https://artificialanalysis.ai/models/deepseek-v4-1-flash/providers"
+        "https://artificialanalysis.ai/models/deepseek-v4-1-flash/providers",
+        "https://deepinfra.com/blog/deepseek-v4-1-flash-pricing-guide"
+      ],
+      "alsoOn": [
+        "DeepInfra",
+        "Nebius",
+        "Baseten",
+        "Databricks"
       ]
     },
     {
@@ -602,14 +756,15 @@
       "weights": {
         "params_b": 27,
         "arch": "Dense",
-        "license": "Open weights"
+        "license": "Apache 2.0",
+        "hf": "https://huggingface.co/lmstudio-community/Qwen3.8-27B-GGUF"
       },
       "price": {
-        "in": 0.15,
-        "out": 2.0
+        "in": 0.425,
+        "out": 2.55,
+        "cached": 0.085
       },
       "openrouter": "qwen/qwen3.8-27b",
-      "priceNote": "Cheapest host shown. Hosts range up to US$0.45 in / US$3.20 out.",
       "local": "On one RTX 5090 with NVFP4 weights, llama.cpp averages about 142 tokens/s, and SGLang with speculative decoding reports 200+ tokens/s.",
       "au": {
         "status": "self-host",
@@ -617,8 +772,30 @@
       },
       "sources": [
         "https://openrouter.ai/qwen/qwen3.8-27b",
-        "https://www.datacamp.com/tutorial/how-to-run-qwen3-8-27b-locally"
-      ]
+        "https://www.datacamp.com/tutorial/how-to-run-qwen3-8-27b-locally",
+        "https://lmstudio.ai/models/qwen/qwen3.8-27b"
+      ],
+      "providers": [
+        {
+          "name": "Alibaba Cloud",
+          "in": 0.425,
+          "out": 2.55,
+          "official": true,
+          "cached": 0.085
+        },
+        {
+          "name": "DeepInfra",
+          "in": 0.15,
+          "out": 1.875,
+          "cached": 0.038
+        }
+      ],
+      "context": 262144,
+      "localRun": {
+        "tier": "laptop",
+        "ram_gb": 16,
+        "lmstudio": "https://lmstudio.ai/models/qwen/qwen3.8-27b"
+      }
     },
     {
       "id": "k2-horizon-375b",
@@ -631,13 +808,14 @@
         "params_b": 375,
         "active_b": 23,
         "arch": "MoE",
-        "license": "Apache 2.0"
+        "license": "Apache 2.0",
+        "hf": "https://huggingface.co/IFM/K2-Horizon-375B-A23B"
       },
       "price": {
         "in": 1.0,
         "out": 4.0
       },
-      "priceNote": "No first-party API. Price shown is Featherless AI, which also sells flat-rate plans.",
+      "priceNote": "No official API yet. Featherless also sells flat-rate monthly plans.",
       "providers": [
         {
           "name": "Featherless AI",
@@ -651,8 +829,15 @@
       },
       "sources": [
         "https://featherless.ai/models/IFM/K2-Horizon-375B-A23B",
-        "https://www.orcarouter.ai/blog/k2-horizon-family-explained"
-      ]
+        "https://www.orcarouter.ai/blog/k2-horizon-family-explained",
+        "https://huggingface.co/IFM/K2-Horizon-375B-A23B"
+      ],
+      "alsoOn": [
+        "Cerebras",
+        "Nebius",
+        "AWS"
+      ],
+      "context": 524288
     },
     {
       "id": "minimax-m3",
@@ -665,7 +850,8 @@
         "params_b": 428,
         "active_b": 23,
         "arch": "MoE",
-        "license": "Open weights"
+        "license": "Open weights",
+        "hf": "https://huggingface.co/MiniMaxAI/MiniMax-M3"
       },
       "price": {
         "in": 0.3,
@@ -679,7 +865,44 @@
         "note": "Open weights available for self-hosting."
       },
       "sources": [
-        "https://openrouter.ai/minimax/minimax-m3"
+        "https://openrouter.ai/minimax/minimax-m3",
+        "https://artificialanalysis.ai/models/minimax-m3/providers"
+      ],
+      "providers": [
+        {
+          "name": "MiniMax",
+          "in": 0.3,
+          "out": 1.2,
+          "official": true
+        },
+        {
+          "name": "DeepInfra",
+          "in": 0.28,
+          "out": 1.1,
+          "cached": 0.056
+        },
+        {
+          "name": "Fireworks",
+          "in": 0.3,
+          "out": 1.2,
+          "cached": 0.059
+        },
+        {
+          "name": "Novita",
+          "in": 0.3,
+          "out": 1.2,
+          "cached": 0.06
+        },
+        {
+          "name": "Together AI",
+          "in": 0.3,
+          "out": 1.2,
+          "cached": 0.06
+        }
+      ],
+      "alsoOn": [
+        "CoreWeave",
+        "SambaNova"
       ]
     },
     {
@@ -690,31 +913,43 @@
       "index": 25,
       "open": true,
       "weights": {
+        "params_b": 975,
+        "active_b": 41,
         "arch": "MoE",
-        "license": "Open weights"
+        "license": "Apache 2.0",
+        "hf": "https://thinkingmachines.ai/inkling/"
       },
       "price": {
         "in": 0.95,
         "out": 4.05
       },
-      "context": 64000,
+      "context": 1000000,
       "openrouter": "thinkingmachines/inkling",
-      "priceNote": "Third-party price. Thinking Machines' own Tinker platform charges US$1.87 in / US$4.68 out at 64K context.",
+      "priceNote": "Thinking Machines charges more for prompts over 64K tokens: US$3.74 in and US$9.36 out.",
       "providers": [
         {
-          "name": "OpenRouter",
+          "name": "Thinking Machines",
+          "in": 1.87,
+          "out": 4.68,
+          "official": true,
+          "cached": 0.374
+        },
+        {
+          "name": "DeepInfra",
           "in": 0.95,
+          "out": 4.05,
+          "cached": 0.16
+        },
+        {
+          "name": "Together AI",
+          "in": 1.0,
           "out": 4.05
         },
         {
-          "name": "Tinker (64K context)",
-          "in": 1.87,
-          "out": 4.68
-        },
-        {
-          "name": "Tinker (256K context)",
-          "in": 3.74,
-          "out": 9.36
+          "name": "Fireworks",
+          "in": 1.0,
+          "out": 4.05,
+          "cached": 0.17
         }
       ],
       "au": {
@@ -722,7 +957,8 @@
         "note": "Open weights. Parameter count not confirmed in our sources, so hardware sizing is not shown."
       },
       "sources": [
-        "https://www.datacamp.com/blog/thinking-machines-inkling"
+        "https://www.datacamp.com/blog/thinking-machines-inkling",
+        "https://pricepertoken.com/pricing-page/model/thinkingmachines-inkling"
       ]
     },
     {
@@ -736,19 +972,27 @@
         "params_b": 550,
         "active_b": 55,
         "arch": "Hybrid Mamba-Transformer MoE",
-        "license": "OpenMDW-1.1"
+        "license": "OpenMDW-1.1",
+        "hf": "https://huggingface.co/nvidia/NVIDIA-Nemotron-3-Ultra-550B-A55B-BF16"
       },
       "price": {
-        "in": 0.6,
-        "out": 2.5
+        "in": 0.5,
+        "out": 2.2,
+        "cached": 0.1
       },
       "openrouter": "nvidia/nemotron-3-ultra-550b-a55b",
-      "priceNote": "Median across hosts. A free tier exists on some routers.",
       "providers": [
         {
-          "name": "OpenRouter",
+          "name": "DeepInfra",
           "in": 0.5,
-          "out": 2.2
+          "out": 2.2,
+          "cached": 0.1
+        },
+        {
+          "name": "Baseten",
+          "in": 0.6,
+          "out": 2.4,
+          "cached": 0.12
         },
         {
           "name": "Fireworks",
@@ -762,7 +1006,15 @@
       },
       "sources": [
         "https://artificialanalysis.ai/models/nvidia-nemotron-3-ultra-550b-a55b",
-        "https://modelpricewatch.com/models/fireworks-nemotron-3-ultra/"
+        "https://modelpricewatch.com/models/fireworks-nemotron-3-ultra/",
+        "https://openrouter.ai/nvidia/nemotron-3-ultra-550b-a55b"
+      ],
+      "alsoOn": [
+        "Together AI",
+        "Nebius",
+        "CoreWeave",
+        "GMI Cloud",
+        "Lightning AI"
       ]
     },
     {
@@ -797,7 +1049,8 @@
       "weights": {
         "params_b": 30,
         "arch": "Dense",
-        "license": "Apache 2.0"
+        "license": "Apache 2.0",
+        "hf": "https://huggingface.co/lmstudio-community/Muse-Glimmer-30B-GGUF"
       },
       "price": {
         "in": 0.3,
@@ -809,8 +1062,26 @@
         "note": "Apache 2.0, built to run on a single consumer GPU or a Mac."
       },
       "sources": [
-        "https://venturebeat.com/technology/meta-returns-to-open-source-with-muse-glimmer-an-apache-2-0-licensed-30b-parameter-ai-model-optimized-for-agents-available-now"
-      ]
+        "https://venturebeat.com/technology/meta-returns-to-open-source-with-muse-glimmer-an-apache-2-0-licensed-30b-parameter-ai-model-optimized-for-agents-available-now",
+        "https://lmstudio.ai/models/muse-glimmer"
+      ],
+      "providers": [
+        {
+          "name": "DeepInfra",
+          "in": 0.3,
+          "out": 1.2
+        },
+        {
+          "name": "Together AI",
+          "in": 0.35,
+          "out": 1.5
+        }
+      ],
+      "localRun": {
+        "tier": "laptop",
+        "ram_gb": 26,
+        "lmstudio": "https://lmstudio.ai/models/muse-glimmer"
+      }
     },
     {
       "id": "mistral-medium-3-5",
@@ -823,7 +1094,8 @@
         "params_b": 128,
         "arch": "Dense",
         "license": "Modified MIT",
-        "note": "Companies with more than about US$20M in monthly revenue need a commercial licence."
+        "note": "Companies with more than about US$20M in monthly revenue need a commercial licence.",
+        "hf": "https://huggingface.co/mistralai/Mistral-Medium-3.5-128B"
       },
       "price": {
         "in": 1.5,
@@ -835,8 +1107,27 @@
         "note": "Self-hostable on as few as four GPUs. Check the revenue cap in the licence."
       },
       "sources": [
-        "https://buildfastwithai.com/blogs/mistral-medium-3-5-review"
-      ]
+        "https://buildfastwithai.com/blogs/mistral-medium-3-5-review",
+        "https://huggingface.co/mistralai/Mistral-Medium-3.5-128B"
+      ],
+      "providers": [
+        {
+          "name": "Mistral",
+          "in": 1.5,
+          "out": 7.5,
+          "official": true
+        },
+        {
+          "name": "Azure AI Foundry",
+          "in": 1.5,
+          "out": 7.5
+        }
+      ],
+      "context": 256000,
+      "localRun": {
+        "tier": "workstation",
+        "gguf": "https://huggingface.co/unsloth/Mistral-Medium-3.5-128B-GGUF"
+      }
     }
   ]
 }

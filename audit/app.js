@@ -89,38 +89,98 @@
       tile("Best open model", open, "Score " + open.index + " · free to download and run yourself");
   }
 
+  function fmtContext(n) {
+    return (n >= 1e6 ? +(n / 1e6).toFixed(2) + "M" : Math.round(n / 1000) + "K") + " tokens";
+  }
+
+  function byBlended(a, b) { return blendedUsd(a) - blendedUsd(b); }
+
+  // Open models are listed at the lowest price any provider charges.
+  function rowPrice(m) {
+    var c = (m.providers || []).slice().sort(byBlended)[0];
+    return c && blendedUsd(c) < blendedUsd(m.price) ? c : m.price;
+  }
+
   function facts(m) {
-    var rows = [];
-    if (m.context) rows.push(["Context window", (m.context >= 1e6 ? (m.context / 1e6).toFixed(m.context % 1e6 ? 2 : 0) + "M" : Math.round(m.context / 1000) + "K") + " tokens"]);
+    var rows = [["Made by", m.lab]];
+    if (m.context) rows.push(["Context window", fmtContext(m.context)]);
     if (m.price.cached != null) rows.push(["Cached input", aud(m.price.cached) + " per 1M"]);
     if (m.speed_tps) rows.push(["Speed", m.speed_tps + " tokens/sec"]);
-    if (m.open) rows.push(["Licence", m.weights.license]);
-    if (!rows.length) rows.push(["Made by", m.lab]);
+    if (m.open) {
+      rows.push(["Licence", m.weights.license]);
+      if (m.weights.params_b) rows.push(["Size", m.weights.params_b.toLocaleString("en-AU") + "B parameters" + (m.weights.active_b ? ", " + m.weights.active_b + "B active" : "")]);
+    }
     return '<dl class="facts">' + rows.map(function (r) {
       return "<div><dt>" + esc(r[0]) + "</dt><dd>" + esc(r[1]) + "</dd></div>";
     }).join("") + "</dl>";
   }
 
-  function hosts(m) {
-    var list = (m.providers || []).filter(function (p) { return p.in != null && p.out != null; });
-    if (list.length < 2) return "";
-    return '<section><h3>Price by provider</h3><table class="hosts"><thead><tr><th>Provider</th><th class="num">Input</th><th class="num">Output</th></tr></thead><tbody>' +
-      list.map(function (p) {
-        return "<tr><td>" + esc(p.name) + '</td><td class="num">' + aud(p.in) + '</td><td class="num">' + aud(p.out) + "</td></tr>";
-      }).join("") + "</tbody></table></section>";
+  function providers(m) {
+    var list = (m.providers || []).slice().sort(byBlended);
+    if (!list.length) return "";
+    var hasSpeed = list.some(function (p) { return p.tps; });
+    var hasCached = list.some(function (p) { return p.cached != null; });
+    var low = list[0], high = list[list.length - 1];
+    var official = list.filter(function (p) { return p.official; })[0];
+    var summary = list.length + (list.length === 1 ? " provider" : " providers");
+    if (official && !low.official && blendedUsd(low) < blendedUsd(official) * 0.97) {
+      summary += " · " + esc(low.name) + " is " + Math.round((1 - blendedUsd(low) / blendedUsd(official)) * 100) + "% cheaper than " + esc(official.name.replace(/ \(.*\)$/, ""));
+    } else if (list.length > 1 && blendedUsd(high) > blendedUsd(low) * 1.05) {
+      summary += " · prices vary up to " + (blendedUsd(high) / blendedUsd(low)).toFixed(1) + "×";
+    }
+    var head = "<th>Provider</th><th class=\"num\">Input</th><th class=\"num\">Output</th>" +
+      (hasCached ? "<th class=\"num hide-sm\">Cached</th>" : "") + (hasSpeed ? "<th class=\"num hide-sm\">Speed</th>" : "");
+    var rows = list.map(function (p, i) {
+      var tags = (p.official ? '<span class="tag official">Official</span>' : "") +
+        (i === 0 && list.length > 1 ? '<span class="tag best">Lowest price</span>' : "");
+      return '<tr class="' + (i === 0 && list.length > 1 ? "is-best" : "") + '"><td><span class="pname">' + esc(p.name) + "</span>" + tags + "</td>" +
+        '<td class="num">' + aud(p.in) + '</td><td class="num">' + aud(p.out) + "</td>" +
+        (hasCached ? '<td class="num hide-sm">' + (p.cached != null ? aud(p.cached) : "–") + "</td>" : "") +
+        (hasSpeed ? '<td class="num hide-sm">' + (p.tps ? p.tps + " tok/s" : "–") + "</td>" : "") + "</tr>";
+    }).join("");
+    var also = m.alsoOn && m.alsoOn.length ? '<p class="also">Also on ' + esc(m.alsoOn.join(", ")) + ". Their prices aren't published yet.</p>" : "";
+    return '<section class="prov"><div class="prov-head"><h3>Inference providers</h3><span>' + summary + "</span></div>" +
+      '<div class="table-scroll"><table class="hosts"><thead><tr>' + head + "</tr></thead><tbody>" + rows + "</tbody></table></div>" +
+      also + '<p class="also">AUD per million tokens.</p></section>';
   }
 
-  function runLocal(m) {
-    if (!m.open || !m.weights.params_b) return "";
-    return '<section><h3>Run it yourself</h3><p class="note">Needs about ' + fmtGb(memoryGb(m.weights.params_b)) +
-      " of memory at 4-bit. Runs on " + esc(localOption(m.weights.params_b, data.hw)) + ".</p>" +
-      (m.local ? '<p class="note">' + esc(m.local) + "</p>" : "") + "</section>";
+  var TIERS = {
+    laptop: ["Runs on a laptop", "t-laptop"],
+    workstation: ["Runs on a workstation", "t-work"],
+    server: ["Needs a GPU server", "t-server"]
+  };
+
+  function runCard(m) {
+    if (!m.open) return "";
+    var w = m.weights, run = m.localRun || {};
+    var tier = TIERS[run.tier || "server"];
+    var body;
+    if (!w.hf) {
+      return '<div class="run-card"><span class="tier t-server">Coming soon</span><p>' + esc(w.note || "Weights are not downloadable yet.") + "</p></div>";
+    }
+    if (run.tier === "laptop") {
+      body = "Needs about " + run.ram_gb + " GB of memory. A recent Mac or a PC with a high-end graphics card runs it comfortably.";
+    } else if (w.params_b) {
+      body = "Needs about " + fmtGb(memoryGb(w.params_b)) + " of memory at 4-bit. Runs on " + localOption(w.params_b, data.hw) + ".";
+      if (run.tier !== "workstation") body += " Most teams use a provider instead.";
+    } else {
+      body = "Needs a multi-GPU server. Most teams use a provider instead.";
+    }
+    var btns = "";
+    if (run.lmstudio) btns += '<a class="btn primary" href="' + esc(run.lmstudio) + '" target="_blank" rel="noopener">Get it in LM Studio</a>';
+    if (run.gguf) btns += '<a class="btn primary" href="' + esc(run.gguf) + '" target="_blank" rel="noopener">Download for LM Studio</a>';
+    btns += '<a class="btn" href="' + esc(w.hf) + '" target="_blank" rel="noopener">' + (/huggingface\.co/.test(w.hf) ? "Hugging Face" : "Download weights") + "</a>";
+    return '<div class="run-card"><span class="tier ' + tier[1] + '">' + tier[0] + "</span><p>" + esc(body) + "</p>" +
+      (m.local ? '<p class="muted">' + esc(m.local) + "</p>" : "") +
+      (w.note ? '<p class="muted">' + esc(w.note) + "</p>" : "") +
+      '<div class="btns">' + btns + "</div></div>";
   }
 
   function detail(m) {
-    return '<div class="detail"><section><h3>Details</h3>' + facts(m) +
-      (m.priceNote ? '<p class="note">' + esc(inAud(m.priceNote)) + "</p>" : "") + "</section>" +
-      hosts(m) + runLocal(m) + "</div>";
+    var notes = (m.priceNote ? '<p class="note">' + esc(inAud(m.priceNote)) + "</p>" : "") +
+      (m.au && m.au.status === "au-region" ? '<p class="note au-note">' + esc(m.au.note) + "</p>" : "");
+    var side = runCard(m) + "<section><h3>Details</h3>" + facts(m) + notes + "</section>";
+    return '<div class="detail' + (m.open ? " is-open" : "") + '">' + providers(m) + '<div class="side">' + side + "</div></div>";
   }
 
   function renderRows() {
@@ -128,14 +188,19 @@
       return state.filter === "all" || (state.filter === "open") === m.open;
     }).sort(function (a, b) { return b.index - a.index || blendedUsd(a.price) - blendedUsd(b.price); });
     $("rows").innerHTML = list.map(function (m, i) {
+      var price = rowPrice(m);
+      var from = m.providers && m.providers.length > 1 ? '<span class="from">from</span>' : "";
+      var local = m.localRun && (m.localRun.tier === "laptop" || m.localRun.tier === "workstation");
       var badges = (m.open ? '<span class="badge open">Open</span>' : "") +
+        (local ? '<span class="badge local">Runs locally</span>' : "") +
         (m.au && m.au.status === "au-region" ? '<span class="badge au">Hosted in AU</span>' : "");
+      var count = m.providers && m.providers.length > 1 ? '<span class="count">' + m.providers.length + " providers</span>" : "";
       return '<li><details><summary class="row-sum">' +
         '<span class="name"><span class="rank">' + (i + 1) + '</span><span class="name-text"><b>' + esc(m.name) + "</b>" +
-        '<span class="sub">' + esc(m.lab) + badges + "</span></span></span>" +
-        '<span class="score"><span class="bar"><i style="width:' + Math.round(m.index / 60 * 100) + '%"></i></span><b>' + m.index + "</b></span>" +
-        '<span class="price num p-in"><span class="lbl">In</span>' + aud(m.price.in) + "</span>" +
-        '<span class="price num p-out"><span class="lbl">Out</span>' + aud(m.price.out) + "</span>" +
+        '<span class="sub">' + esc(m.lab) + badges + count + "</span></span></span>" +
+        '<span class="score"><span class="bar"><i style="width:' + Math.round(m.index / 60 * 100) + '%"></i></span><span class="lbl">Score</span><b>' + m.index + "</b></span>" +
+        '<span class="price num p-in"><span class="lbl">In</span>' + from + aud(price.in) + "</span>" +
+        '<span class="price num p-out"><span class="lbl">Out</span>' + from + aud(price.out) + "</span>" +
         "</summary>" + detail(m) + "</details></li>";
     }).join("");
   }

@@ -28,6 +28,8 @@ def test_models_are_complete(models):
         assert m["price"]["in"] > 0 and m["price"]["out"] > 0
         assert m["au"]["status"] in AU_STATUSES
         assert m["sources"], f"{m['id']} has no sources"
+        for p in m.get("providers", []):
+            assert p["in"] > 0 and p["out"] > 0, f"{m['id']} provider {p['name']} needs input and output prices"
         if m["open"]:
             assert "weights" in m and m["weights"]["license"]
         else:
@@ -68,23 +70,25 @@ def test_apply_list_price_updates_and_keeps_bad_data_out():
 def test_merge_providers_replaces_covered_hosts_and_keeps_others():
     model = {
         "providers": [
-            {"name": "Z.ai (first party)", "in": 1.4, "out": 4.4},
+            {"name": "Z.ai", "in": 1.4, "out": 4.4, "official": True},
             {"name": "Supernova (FP4)", "blended": 0.41},
             {"name": "OldHost", "in": 9.0, "via": "openrouter"},
         ]
     }
     endpoints = [
-        {"provider_name": "Z.AI", "pricing": {"prompt": "0.0000014", "completion": "0.0000044"}, "quantization": "fp8"},
+        {"provider_name": "Z.AI", "pricing": {"prompt": "0.0000014", "completion": "0.0000044", "input_cache_read": "0.0000003"}, "quantization": "fp8"},
         {"provider_name": "DeepInfra", "pricing": {"prompt": "0.0000004", "completion": "0.000002"},
          "throughput_last_30m": {"p50": 88.4}, "latency_last_30m": {"p50": 950}},
         {"provider_name": "Broken", "pricing": {"prompt": "0"}},
+        {"provider_name": "NoOutput", "pricing": {"prompt": "0.000001"}},
     ]
     assert refresh.merge_providers(model, endpoints)
     names = [p["name"] for p in model["providers"]]
     assert names == ["Supernova (FP4)", "DeepInfra", "Z.AI"]
     deepinfra = model["providers"][1]
     assert deepinfra == {"name": "DeepInfra", "in": 0.4, "out": 2.0, "via": "openrouter", "tps": 88, "ttft": 0.95}
-    assert model["providers"][2]["quant"] == "fp8"
+    zai = model["providers"][2]
+    assert zai["quant"] == "fp8" and zai["cached"] == 0.3 and zai["official"] is True
 
 
 def test_merge_providers_ignores_empty_response():

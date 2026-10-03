@@ -117,9 +117,12 @@ def merge_providers(model: dict, endpoints: list[dict]) -> bool:
         name = ep.get("provider_name") or ep.get("name")
         if not name or p_in is None:
             continue
-        row = {"name": name, "in": p_in, "via": "openrouter"}
-        if p_out is not None:
-            row["out"] = p_out
+        if p_out is None:
+            continue
+        row = {"name": name, "in": p_in, "out": p_out, "via": "openrouter"}
+        cached = per_million(pricing.get("input_cache_read"))
+        if cached is not None:
+            row["cached"] = cached
         if ep.get("quantization") and ep["quantization"] not in ("unknown", ""):
             row["quant"] = ep["quantization"]
         tps = _metric(ep.get("throughput_last_30m"))
@@ -135,6 +138,10 @@ def merge_providers(model: dict, endpoints: list[dict]) -> bool:
     fresh.sort(key=lambda r: (r["in"], r.get("out", 0)))
     fresh = fresh[:MAX_PROVIDERS]
     covered = {r["name"].lower() for r in fresh}
+    official = {p["name"].split(" (")[0].lower() for p in model.get("providers", []) if p.get("official")}
+    for r in fresh:
+        if r["name"].lower() in official:
+            r["official"] = True
     kept = [
         p
         for p in model.get("providers", [])

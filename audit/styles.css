@@ -188,7 +188,9 @@ p { margin: 0; }
 .lbl { display: none; }
 
 /* Expanded detail */
-.detail { padding: 4px 24px 24px 58px; display: grid; gap: 22px; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); }
+.detail { padding: 6px 24px 26px 58px; display: grid; gap: 28px; grid-template-columns: minmax(0, 1fr); max-width: 560px; }
+.detail.is-open { grid-template-columns: minmax(0, 1.55fr) minmax(0, 1fr); max-width: none; }
+.side { display: grid; gap: 22px; align-content: start; min-width: 0; }
 .detail section { display: grid; gap: 10px; align-content: start; min-width: 0; }
 .detail h3 { margin: 0; font-size: 0.75rem; font-weight: 600; letter-spacing: 0.05em; text-transform: uppercase; color: var(--ink-3); }
 .facts { margin: 0; display: grid; gap: 8px; max-width: 420px; }
@@ -196,7 +198,38 @@ p { margin: 0; }
 .facts dt { color: var(--ink-2); }
 .facts dd { margin: 0; font-weight: 600; text-align: right; }
 .note { font-size: 0.875rem; color: var(--ink-2); line-height: 1.5; max-width: 60ch; }
+.prov { gap: 12px; }
+.prov-head { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 6px 14px; }
+.prov-head span { font-size: 0.875rem; color: var(--ink-2); }
+.table-scroll { overflow-x: auto; }
 .hosts { width: 100%; border-collapse: collapse; font-size: 0.9375rem; }
+.hosts tr.is-best td { background: var(--green-bg); }
+.hosts tr.is-best td:first-child { border-radius: 10px 0 0 10px; }
+.hosts tr.is-best td:last-child { border-radius: 0 10px 10px 0; }
+.hosts td:first-child { padding-left: 10px; }
+.hosts th:first-child { padding-left: 10px; }
+.hosts td:last-child, .hosts th:last-child { padding-right: 10px; }
+.pname { font-weight: 600; margin-right: 8px; }
+.tag { display: inline-block; font-size: 0.6875rem; font-weight: 650; padding: 2px 7px; border-radius: 999px; margin-right: 4px; vertical-align: 1px; white-space: nowrap; }
+.tag.official { background: var(--track); color: var(--ink-2); }
+.tag.best { background: var(--green); color: var(--bg); }
+.also { font-size: 0.8125rem; color: var(--ink-3); }
+.run-card { display: grid; gap: 10px; padding: 18px; border-radius: 20px; background: var(--glass-soft); box-shadow: inset 0 1px 0 var(--glass-hi); }
+.run-card p { font-size: 0.9375rem; line-height: 1.5; }
+.run-card .muted { font-size: 0.8125rem; color: var(--ink-2); }
+.tier { justify-self: start; font-size: 0.75rem; font-weight: 700; padding: 5px 11px; border-radius: 999px; }
+.t-laptop { background: var(--green); color: var(--bg); }
+.t-work { background: var(--teal); color: var(--bg); }
+.t-server { background: var(--track); color: var(--ink-2); }
+.btns { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 4px; }
+.btn { display: inline-flex; align-items: center; font-size: 0.875rem; font-weight: 600; padding: 10px 16px; border-radius: 999px; background: var(--glass); color: var(--ink); box-shadow: inset 0 1px 0 var(--glass-hi), 0 0 0 1px var(--hairline); }
+.btn:hover { text-decoration: none; background: var(--glass-hi); }
+.btn.primary { background: var(--accent); color: #fff; box-shadow: 0 6px 18px -8px var(--accent); }
+.btn.primary:hover { filter: brightness(1.08); background: var(--accent); }
+.au-note { color: var(--green); }
+.from { font-size: 0.7rem; font-weight: 500; color: var(--ink-3); margin-right: 4px; }
+.count { font-size: 0.8125rem; color: var(--ink-3); }
+.badge.local { background: var(--green-bg); color: var(--green); }
 .hosts th { text-align: left; font-size: 0.75rem; font-weight: 600; color: var(--ink-3); padding: 0 0 6px; }
 .hosts td { padding: 7px 0; border-top: 1px solid var(--hairline); }
 .hosts .num { padding-left: 12px; }
@@ -215,14 +248,18 @@ p { margin: 0; }
     padding-inline: 16px;
   }
   .row-sum .name { grid-area: name; }
-  .row-sum .score { grid-area: score; }
+  .row-sum .score { grid-area: score; min-width: 0; padding-left: calc(1.4rem + 12px); }
+  .score .bar { display: none; }
+  .score b { width: auto; }
+  .row-sum .from { display: none; }
+  .row-sum { gap: 10px 12px; }
   .row-sum .p-in { grid-area: in; }
   .row-sum .p-out { grid-area: out; }
   .lbl { display: inline; font-size: 0.75rem; font-weight: 500; color: var(--ink-3); margin-right: 5px; }
-  .detail { padding: 4px 16px 20px; grid-template-columns: minmax(0, 1fr); }
+  .detail, .detail.is-open { padding: 4px 16px 22px; grid-template-columns: minmax(0, 1fr); }
+  .hide-sm { display: none; }
   .hero { padding-block: 16px 22px; }
   .hero-top { margin-bottom: 16px; }
 }
 @media (max-width: 720px) {
-  .row-sum .score { padding-left: calc(1.4rem + 12px); min-width: 0; }
 }
