@@ -225,25 +225,7 @@
     }).join("");
   }
 
-  function bindTheme() {
-    var modes = ["auto", "light", "dark"];
-    var mode = "auto";
-    try { mode = modes.indexOf(localStorage.getItem("audit-theme")) >= 0 ? localStorage.getItem("audit-theme") : "auto"; } catch (e) { /* storage blocked */ }
-    function apply() {
-      if (mode === "auto") document.documentElement.removeAttribute("data-theme");
-      else document.documentElement.setAttribute("data-theme", mode);
-      $("theme-label").textContent = mode.charAt(0).toUpperCase() + mode.slice(1);
-    }
-    apply();
-    $("theme-btn").addEventListener("click", function () {
-      mode = modes[(modes.indexOf(mode) + 1) % modes.length];
-      try { localStorage.setItem("audit-theme", mode); } catch (e) { /* storage blocked */ }
-      apply();
-    });
-  }
-
   function start() {
-    bindTheme();
     $("filter-seg").addEventListener("click", function (e) {
       var b = e.target.closest("button[data-filter]");
       if (!b) return;

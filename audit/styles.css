@@ -1,6 +1,7 @@
 /* Layout: one centred column. A soft, slow ambient wash sits behind frosted
    liquid-glass sheets; the glass is opaque enough that text always reads cleanly. */
 :root {
+  color-scheme: light;
   --bg: #eef2f6;
   --ink: #0d1520;
   --ink-2: #4f5c6c;
@@ -27,61 +28,6 @@
 
   --font: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Geist", "Segoe UI", system-ui, sans-serif;
   --font-display: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Geist", "Segoe UI", system-ui, sans-serif;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) {
-    --bg: #080c13;
-    --ink: #f1f5fb;
-    --ink-2: #a8b4c3;
-    --ink-3: #6f7c8a;
-    --accent: #5aa2ff;
-    --accent-2: #4fd1bc;
-    --hairline: rgba(255, 255, 255, 0.08);
-    --glass: rgba(22, 28, 40, 0.72);
-    --glass-soft: rgba(40, 48, 64, 0.6);
-    --glass-hi: rgba(255, 255, 255, 0.14);
-    --rim: rgba(255, 255, 255, 0.16);
-    --shadow: rgba(0, 0, 0, 0.5);
-    --row-hover: rgba(90, 162, 255, 0.07);
-    --track: rgba(255, 255, 255, 0.09);
-    --blob-1: #1c4aa8;
-    --blob-2: #0e6f62;
-    --blob-3: #6f5212;
-    --green: #4ad597;
-    --green-bg: rgba(74, 213, 151, 0.13);
-    --teal: #57d3e2;
-    --teal-bg: rgba(87, 211, 226, 0.12);
-    --amber: #ffc266;
-    --amber-bg: rgba(255, 194, 102, 0.12);
-    color-scheme: dark;
-  }
-}
-:root[data-theme="dark"] {
-  --bg: #080c13;
-  --ink: #f1f5fb;
-  --ink-2: #a8b4c3;
-  --ink-3: #6f7c8a;
-  --accent: #5aa2ff;
-  --accent-2: #4fd1bc;
-  --hairline: rgba(255, 255, 255, 0.08);
-  --glass: rgba(22, 28, 40, 0.72);
-  --glass-soft: rgba(40, 48, 64, 0.6);
-  --glass-hi: rgba(255, 255, 255, 0.14);
-  --rim: rgba(255, 255, 255, 0.16);
-  --shadow: rgba(0, 0, 0, 0.5);
-  --row-hover: rgba(90, 162, 255, 0.07);
-  --track: rgba(255, 255, 255, 0.09);
-  --blob-1: #1c4aa8;
-  --blob-2: #0e6f62;
-  --blob-3: #6f5212;
-  --green: #4ad597;
-  --green-bg: rgba(74, 213, 151, 0.13);
-  --teal: #57d3e2;
-  --teal-bg: rgba(87, 211, 226, 0.12);
-  --amber: #ffc266;
-  --amber-bg: rgba(255, 194, 102, 0.12);
-  color-scheme: dark;
 }
 
 *, *::before, *::after { box-sizing: border-box; }
@@ -138,8 +84,6 @@ p { margin: 0; }
   pointer-events: none;
 }
 
-.theme-btn { border: 0; cursor: pointer; font: 600 0.8125rem/1 var(--font); color: var(--ink); padding: 10px 16px; border-radius: 999px; }
-
 /* Hero */
 .hero { padding-block: 20px 28px; display: grid; gap: 14px; }
 .hero-top { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 28px; padding-top: env(safe-area-inset-top, 0px); }
@@ -161,7 +105,6 @@ p { margin: 0; }
 .seg { display: flex; gap: 3px; padding: 3px; border-radius: 999px; background: var(--track); }
 .seg button { white-space: nowrap; border: 0; cursor: pointer; font: 600 0.875rem/1 var(--font); color: var(--ink-2); background: transparent; padding: 9px 16px; border-radius: 999px; transition: background 0.2s, color 0.2s; }
 .seg button[aria-pressed="true"] { background: var(--glass-hi); color: var(--ink); box-shadow: 0 1px 6px -2px var(--shadow); }
-:root[data-theme="dark"] .seg button[aria-pressed="true"] { background: var(--glass-soft); }
 
 .cols, .row-sum {
   display: grid;
