@@ -89,118 +89,202 @@
       tile("Best open model", open, "Score " + open.index + " · free to download and run yourself");
   }
 
+  var COUNTRY = { US: "United States", CN: "China", FR: "France", AE: "United Arab Emirates" };
+  var TIERS = {
+    laptop: { label: "Runs on a laptop", cls: "t-laptop" },
+    workstation: { label: "Runs on a workstation", cls: "t-work" },
+    server: { label: "Needs a GPU server", cls: "t-server" }
+  };
+  var ICON = {
+    check: '<svg viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+    clock: '<svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="7" fill="none" stroke="currentColor" stroke-width="2"/><path d="M10 6.5V10l2.5 1.8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>',
+    warn: '<svg viewBox="0 0 20 20" aria-hidden="true"><path d="M10 3.5l7 12.5H3z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M10 8.5v3.2M10 13.9v.1" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>',
+    close: '<svg viewBox="0 0 20 20" aria-hidden="true"><path d="M5.5 5.5l9 9M14.5 5.5l-9 9" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>',
+    arrow: '<svg viewBox="0 0 20 20" aria-hidden="true"><path d="M7 13l6-6M8 7h5v5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>'
+  };
+
   function fmtContext(n) {
-    return (n >= 1e6 ? +(n / 1e6).toFixed(2) + "M" : Math.round(n / 1000) + "K") + " tokens";
+    return n >= 1e6 ? +(n / 1e6).toFixed(2) + "M" : Math.round(n / 1000) + "K";
   }
 
   function byBlended(a, b) { return blendedUsd(a) - blendedUsd(b); }
+  function sortedProviders(m) { return (m.providers || []).slice().sort(byBlended); }
 
   // Open models are listed at the lowest price any provider charges.
   function rowPrice(m) {
-    var c = (m.providers || []).slice().sort(byBlended)[0];
+    var c = sortedProviders(m)[0];
     return c && blendedUsd(c) < blendedUsd(m.price) ? c : m.price;
   }
 
-  function facts(m) {
-    var rows = [["Made by", m.lab]];
-    if (m.context) rows.push(["Context window", fmtContext(m.context)]);
-    if (m.price.cached != null) rows.push(["Cached input", aud(m.price.cached) + " per 1M"]);
-    if (m.speed_tps) rows.push(["Speed", m.speed_tps + " tokens/sec"]);
-    if (m.open) {
-      rows.push(["Licence", m.weights.license]);
-      if (m.weights.params_b) rows.push(["Size", m.weights.params_b.toLocaleString("en-AU") + "B parameters" + (m.weights.active_b ? ", " + m.weights.active_b + "B active" : "")]);
-    }
-    return '<dl class="facts">' + rows.map(function (r) {
-      return "<div><dt>" + esc(r[0]) + "</dt><dd>" + esc(r[1]) + "</dd></div>";
-    }).join("") + "</dl>";
+  function link(label, url) {
+    return '<a class="ext" href="' + esc(url) + '" target="_blank" rel="noopener">' + esc(label) + ICON.arrow + "</a>";
   }
 
-  function providers(m) {
-    var list = (m.providers || []).slice().sort(byBlended);
-    if (!list.length) return "";
-    var hasSpeed = list.some(function (p) { return p.tps; });
-    var hasCached = list.some(function (p) { return p.cached != null; });
-    var low = list[0], high = list[list.length - 1];
-    var official = list.filter(function (p) { return p.official; })[0];
-    var summary = list.length + (list.length === 1 ? " provider" : " providers");
-    if (official && !low.official && blendedUsd(low) < blendedUsd(official) * 0.97) {
-      summary += " · " + esc(low.name) + " is " + Math.round((1 - blendedUsd(low) / blendedUsd(official)) * 100) + "% cheaper than " + esc(official.name.replace(/ \(.*\)$/, ""));
-    } else if (list.length > 1 && blendedUsd(high) > blendedUsd(low) * 1.05) {
-      summary += " · prices vary up to " + (blendedUsd(high) / blendedUsd(low)).toFixed(1) + "×";
-    }
-    var head = "<th>Provider</th><th class=\"num\">Input</th><th class=\"num\">Output</th>" +
-      (hasCached ? "<th class=\"num hide-sm\">Cached</th>" : "") + (hasSpeed ? "<th class=\"num hide-sm\">Speed</th>" : "");
-    var rows = list.map(function (p, i) {
-      var tags = (p.official ? '<span class="tag official">Official</span>' : "") +
-        (i === 0 && list.length > 1 ? '<span class="tag best">Lowest price</span>' : "");
-      return '<tr class="' + (i === 0 && list.length > 1 ? "is-best" : "") + '"><td><span class="pname">' + esc(p.name) + "</span>" + tags + "</td>" +
-        '<td class="num">' + aud(p.in) + '</td><td class="num">' + aud(p.out) + "</td>" +
-        (hasCached ? '<td class="num hide-sm">' + (p.cached != null ? aud(p.cached) : "–") + "</td>" : "") +
-        (hasSpeed ? '<td class="num hide-sm">' + (p.tps ? p.tps + " tok/s" : "–") + "</td>" : "") + "</tr>";
-    }).join("");
-    var also = m.alsoOn && m.alsoOn.length ? '<p class="also">Also on ' + esc(m.alsoOn.join(", ")) + ". Their prices aren't published yet.</p>" : "";
-    return '<section class="prov"><div class="prov-head"><h3>Inference providers</h3><span>' + summary + "</span></div>" +
-      '<div class="table-scroll"><table class="hosts"><thead><tr>' + head + "</tr></thead><tbody>" + rows + "</tbody></table></div>" +
-      also + '<p class="also">AUD per million tokens.</p>' + auHosting(m) + "</section>";
+  function badges(m) {
+    var local = m.localRun && (m.localRun.tier === "laptop" || m.localRun.tier === "workstation");
+    return (m.open ? '<span class="badge open">Open weights</span>' : '<span class="badge closed">Closed</span>') +
+      (local ? '<span class="badge local">Runs locally</span>' : "") +
+      (m.auHosting && m.auHosting.status === "available" ? '<span class="badge au">Hosted in AU</span>' : "");
   }
 
-  function auHosting(m) {
+  // ---------- model sheet ----------
+
+  function sheetHeader(m) {
+    var all = data.models.models;
+    var rank = all.filter(function (x) { return x.index > m.index; }).length + 1;
+    return '<header class="sh-head">' +
+      '<p class="sh-lab">' + esc(m.lab) + " · " + esc(COUNTRY[m.origin] || m.origin) + "</p>" +
+      '<h2 id="sheet-title">' + esc(m.name) + "</h2>" +
+      (m.variant ? '<p class="sh-variant">' + (/^\d+$/.test(m.variant) ? "Version " : "Benchmark setting: ") + esc(m.variant) + "</p>" : "") +
+      '<div class="sh-badges">' + badges(m) + "</div>" +
+      '<div class="sh-score"><span class="score-big">' + m.index + "</span>" +
+      '<div class="score-meta"><b>Intelligence score</b><span>Ranked ' + rank + " of " + all.length + " models</span>" +
+      '<span class="meter" role="img" aria-label="' + m.index + ' out of 60"><i style="width:' + Math.round(m.index / 60 * 100) + '%"></i></span></div></div>' +
+      "</header>";
+  }
+
+  function priceTiles(m) {
+    var best = rowPrice(m);
+    var from = best !== m.price ? best.name : (m.open ? "Official API" : m.lab + " API");
+    var cached = best.cached;
+    function tile(label, v, sub) {
+      return '<div class="ptile"><span class="pt-label">' + label + '</span><span class="pt-val">' + v +
+        '</span><span class="pt-sub">' + sub + "</span></div>";
+    }
+    return '<section class="ptiles" aria-label="Price per million tokens">' +
+      tile("Input", aud(best.in), "per 1M tokens") +
+      tile("Output", aud(best.out), "per 1M tokens") +
+      (cached != null ? tile("Cached input", aud(cached), "per 1M tokens") : tile("Blended 3:1", aud(blendedUsd(best)), "per 1M tokens")) +
+      '</section><p class="pt-from">' + (best !== m.price ? "Lowest price, from " : "Price from ") + "<b>" + esc(from) + "</b>" +
+      (m.priceNote ? ". " + esc(inAud(m.priceNote)) : ".") + "</p>";
+  }
+
+  function auCard(m) {
     var h = m.auHosting;
     if (!h) return "";
     var ok = h.status === "available";
-    var lines = ok ? "<p>" + esc(h.how) + "</p>" : "<p>No provider runs this model fully in Australia yet.</p>";
-    if (h.warning) lines += '<p class="au-warn">' + esc(h.warning) + "</p>";
-    if (h.closest) lines += "<p>" + esc(h.closest) + "</p>";
+    var body = ok ? "<p>" + esc(h.how) + "</p>" : "<p>No provider runs this model fully in Australia yet.</p>";
+    if (h.warning) body += '<p class="warn-line">' + ICON.warn + "<span>" + esc(h.warning) + "</span></p>";
+    if (h.closest) body += "<p>" + esc(h.closest) + "</p>";
     if (!ok && m.open) {
-      lines += "<p>" + (m.localRun && m.localRun.tier === "laptop" ? "It runs on your own computer, so you can keep every prompt onshore today."
+      body += "<p>" + (m.localRun && m.localRun.tier === "laptop"
+        ? "It runs on your own computer, so every prompt can stay onshore today."
         : "To keep data onshore today, run it on your own hardware or an Australian GPU cloud.") + "</p>";
     }
-    var links = (h.links || []).map(function (l) {
-      return '<a href="' + esc(l[1]) + '" target="_blank" rel="noopener">' + esc(l[0]) + "</a>";
-    }).join("");
-    return '<div class="au-box"><div class="au-head"><h3>Hosted in Australia</h3>' +
-      (ok ? '<span class="pill-yes">Available</span>' : '<span class="pill-none">Not available yet</span>') + "</div>" +
-      lines + (links ? '<div class="au-links">' + links + "</div>" : "") + "</div>";
+    var links = (h.links || []).map(function (l) { return link(l[0], l[1]); }).join("");
+    return '<section class="card au-card ' + (ok ? "is-ok" : "is-no") + '">' +
+      '<div class="au-title"><span class="au-icon">' + (ok ? ICON.check : ICON.clock) + "</span><div><h3>" +
+      (ok ? "Runs fully in Australia" : "Not hosted in Australia yet") + "</h3><span>Data residency</span></div></div>" +
+      body + (links ? '<div class="links">' + links + "</div>" : "") + "</section>";
   }
 
-  var TIERS = {
-    laptop: ["Runs on a laptop", "t-laptop"],
-    workstation: ["Runs on a workstation", "t-work"],
-    server: ["Needs a GPU server", "t-server"]
-  };
+  function providerCard(m) {
+    var list = sortedProviders(m);
+    if (!list.length) return "";
+    var max = blendedUsd(list[list.length - 1]);
+    var low = list[0];
+    var official = list.filter(function (p) { return p.official; })[0];
+    var saving = official && !low.official && blendedUsd(low) < blendedUsd(official) * 0.97
+      ? Math.round((1 - blendedUsd(low) / blendedUsd(official)) * 100) : 0;
+    var rows = list.map(function (p, i) {
+      var isBest = i === 0 && list.length > 1;
+      var tags = (p.official ? '<span class="tag">Official</span>' : "") + (isBest ? '<span class="tag best">Lowest price</span>' : "");
+      var extra = [p.cached != null ? "Cached " + aud(p.cached) : "", p.tps ? p.tps + " tokens/sec" : ""].filter(Boolean).join(" · ");
+      return '<li class="prow' + (isBest ? " is-best" : "") + '">' +
+        '<div class="p-name"><b>' + esc(p.name) + "</b>" + tags + (extra ? '<span class="p-extra">' + esc(extra) + "</span>" : "") + "</div>" +
+        '<div class="p-bar" title="Blended ' + esc(aud(blendedUsd(p))) + ' per million tokens"><i style="width:' + Math.max(4, Math.round(blendedUsd(p) / max * 100)) + '%"></i></div>' +
+        '<div class="p-num"><span>' + aud(p.in) + '</span><small>in</small></div>' +
+        '<div class="p-num"><span>' + aud(p.out) + '</span><small>out</small></div></li>';
+    }).join("");
+    var head = list.length > 1
+      ? (saving ? esc(low.name) + " is " + saving + "% cheaper than the official API." : "Prices vary up to " + (max / blendedUsd(low)).toFixed(1) + "× between providers.")
+      : "One provider publishes a price for this model.";
+    return '<section class="card"><div class="card-head"><h3>Compare providers</h3><span>' + list.length +
+      (list.length === 1 ? " provider" : " providers") + "</span></div>" +
+      '<p class="card-lede">' + head + " Bars show the blended price.</p>" +
+      '<ol class="plist">' + rows + "</ol>" +
+      (m.alsoOn && m.alsoOn.length ? '<p class="fine">Also offered by ' + esc(m.alsoOn.join(", ")) + ", who don't publish a price yet.</p>" : "") +
+      '<p class="fine">All prices in AUD per million tokens.</p></section>';
+  }
 
   function runCard(m) {
     if (!m.open) return "";
     var w = m.weights, run = m.localRun || {};
-    var tier = TIERS[run.tier || "server"];
-    var body;
     if (!w.hf) {
-      return '<div class="run-card"><span class="tier t-server">Coming soon</span><p>' + esc(w.note || "Weights are not downloadable yet.") + "</p></div>";
+      return '<section class="card run"><div class="card-head"><h3>Run it yourself</h3><span class="tier t-server">Coming soon</span></div><p class="card-lede">' +
+        esc(w.note || "The weights aren't downloadable yet.") + "</p></section>";
     }
-    if (run.tier === "laptop") {
-      body = "Needs about " + run.ram_gb + " GB of memory. A recent Mac or a PC with a high-end graphics card runs it comfortably.";
-    } else if (w.params_b) {
-      body = "Needs about " + fmtGb(memoryGb(w.params_b)) + " of memory at 4-bit. Runs on " + localOption(w.params_b, data.hw) + ".";
-      if (run.tier !== "workstation") body += " Most teams use a provider instead.";
-    } else {
-      body = "Needs a multi-GPU server. Most teams use a provider instead.";
-    }
-    var btns = "";
-    if (run.lmstudio) btns += '<a class="btn primary" href="' + esc(run.lmstudio) + '" target="_blank" rel="noopener">Get it in LM Studio</a>';
-    if (run.gguf) btns += '<a class="btn primary" href="' + esc(run.gguf) + '" target="_blank" rel="noopener">Download for LM Studio</a>';
-    btns += '<a class="btn" href="' + esc(w.hf) + '" target="_blank" rel="noopener">' + (/huggingface\.co/.test(w.hf) ? "Hugging Face" : "Download weights") + "</a>";
-    return '<div class="run-card"><span class="tier ' + tier[1] + '">' + tier[0] + "</span><p>" + esc(body) + "</p>" +
-      (m.local ? '<p class="muted">' + esc(m.local) + "</p>" : "") +
-      (w.note ? '<p class="muted">' + esc(w.note) + "</p>" : "") +
-      '<div class="btns">' + btns + "</div></div>";
+    var tier = TIERS[run.tier || "server"];
+    var mem = run.tier === "laptop" ? run.ram_gb + " GB" : (w.params_b ? fmtGb(memoryGb(w.params_b)) : null);
+    var hw = run.tier === "laptop" ? "A recent Mac or a PC with a high-end graphics card runs it comfortably."
+      : (w.params_b ? "Runs on " + localOption(w.params_b, data.hw) + "." : "Needs a multi-GPU server.");
+    if (!run.tier || run.tier === "server") hw += " Most teams use a provider instead.";
+    var btns = (run.lmstudio ? '<a class="btn primary" href="' + esc(run.lmstudio) + '" target="_blank" rel="noopener">Get it in LM Studio</a>' : "") +
+      (run.gguf ? '<a class="btn primary" href="' + esc(run.gguf) + '" target="_blank" rel="noopener">Download for LM Studio</a>' : "") +
+      '<a class="btn" href="' + esc(w.hf) + '" target="_blank" rel="noopener">' + (/huggingface\.co/.test(w.hf) ? "View on Hugging Face" : "Download weights") + "</a>";
+    return '<section class="card run"><div class="card-head"><h3>Run it yourself</h3><span class="tier ' + tier.cls + '">' + tier.label + "</span></div>" +
+      (mem ? '<div class="mem"><span class="mem-big">' + mem + '</span><span class="mem-label">memory needed' + (run.tier === "laptop" ? "" : " at 4-bit") + "</span></div>" : "") +
+      '<p class="card-lede">' + esc(hw) + "</p>" +
+      (m.local ? '<p class="fine">' + esc(m.local) + "</p>" : "") +
+      (w.note ? '<p class="fine">' + esc(w.note) + "</p>" : "") +
+      '<div class="btns">' + btns + "</div></section>";
   }
 
-  function detail(m) {
-    var notes = (m.priceNote ? '<p class="note">' + esc(inAud(m.priceNote)) + "</p>" : "") +
-      "";
-    var side = (m.open ? "" : auHosting(m)) + runCard(m) + "<section><h3>Details</h3>" + facts(m) + notes + "</section>";
-    return '<div class="detail' + (m.open ? " is-open" : "") + '">' + providers(m) + '<div class="side">' + side + "</div></div>";
+  function specCard(m) {
+    var specs = [];
+    if (m.context) specs.push(["Context window", fmtContext(m.context), "tokens"]);
+    if (m.open && m.weights.params_b) specs.push(["Size", m.weights.params_b >= 1000 ? (m.weights.params_b / 1000).toFixed(2).replace(/0+$/, "").replace(/\.$/, "") + "T" : m.weights.params_b + "B", "parameters"]);
+    if (m.open && m.weights.active_b) specs.push(["Active", m.weights.active_b + "B", "parameters per token"]);
+    if (m.speed_tps) specs.push(["Speed", String(m.speed_tps), "tokens per second"]);
+    if (m.open) specs.push(["Licence", m.weights.license, m.weights.arch || "Open weights"]);
+    specs.push(["Made in", COUNTRY[m.origin] || m.origin, m.lab]);
+    return '<section class="card"><div class="card-head"><h3>Specs</h3></div><div class="specs">' + specs.map(function (s) {
+      return '<div class="spec"><span class="s-label">' + esc(s[0]) + '</span><span class="s-val">' + esc(s[1]) + '</span><span class="s-sub">' + esc(s[2]) + "</span></div>";
+    }).join("") + "</div></section>";
   }
+
+  function sources(m) {
+    var hosts = (m.sources || []).map(function (u) {
+      return link(u.replace(/^https?:\/\/(www\.)?/, "").split("/")[0], u);
+    }).join("");
+    return '<footer class="sh-foot"><span>Sources</span><div class="links">' + hosts + "</div></footer>";
+  }
+
+  function renderSheet(m) {
+    return '<button class="sh-close" type="button" aria-label="Close" data-close>' + ICON.close + "</button>" +
+      '<div class="grabber" aria-hidden="true"></div>' +
+      sheetHeader(m) + priceTiles(m) + auCard(m) + providerCard(m) + runCard(m) + specCard(m) + sources(m);
+  }
+
+  var lastFocus = null;
+
+  function openSheet(id) {
+    var m = data.models.models.filter(function (x) { return x.id === id; })[0];
+    var dlg = $("sheet");
+    if (!m || !dlg) return;
+    lastFocus = document.activeElement;
+    $("sheet-panel").innerHTML = renderSheet(m);
+    $("sheet-panel").scrollTop = 0;
+    if (!dlg.open) {
+      if (dlg.showModal) dlg.showModal(); else dlg.setAttribute("open", "");
+    }
+    document.documentElement.classList.add("sheet-open");
+    try { history.replaceState(null, "", "#" + id); } catch (e) { /* not allowed in some frames */ }
+  }
+
+  function closeSheet() {
+    var dlg = $("sheet");
+    if (!dlg || !dlg.open) return;
+    if (dlg.close) dlg.close(); else dlg.removeAttribute("open");
+  }
+
+  function onSheetClosed() {
+    document.documentElement.classList.remove("sheet-open");
+    try { history.replaceState(null, "", location.pathname + location.search); } catch (e) { /* ignore */ }
+    if (lastFocus && lastFocus.focus) lastFocus.focus();
+  }
+
+  // ---------- leaderboard ----------
 
   function renderRows() {
     var list = data.models.models.filter(function (m) {
@@ -210,18 +294,19 @@
     $("rows").innerHTML = list.map(function (m, i) {
       var price = rowPrice(m);
       var from = m.providers && m.providers.length > 1 ? '<span class="from">from</span>' : "";
+      var count = m.providers && m.providers.length > 1 ? '<span class="count">' + m.providers.length + " providers</span>" : "";
       var local = m.localRun && (m.localRun.tier === "laptop" || m.localRun.tier === "workstation");
-      var badges = (m.open ? '<span class="badge open">Open</span>' : "") +
+      var tags = (m.open ? '<span class="badge open">Open</span>' : "") +
         (local ? '<span class="badge local">Runs locally</span>' : "") +
         (m.auHosting && m.auHosting.status === "available" ? '<span class="badge au">Hosted in AU</span>' : "");
-      var count = m.providers && m.providers.length > 1 ? '<span class="count">' + m.providers.length + " providers</span>" : "";
-      return '<li><details><summary class="row-sum">' +
+      return '<li><button type="button" class="row-sum" data-id="' + esc(m.id) + '" aria-haspopup="dialog">' +
         '<span class="name"><span class="rank">' + (i + 1) + '</span><span class="name-text"><b>' + esc(m.name) + "</b>" +
-        '<span class="sub">' + esc(m.lab) + badges + count + "</span></span></span>" +
+        '<span class="sub">' + esc(m.lab) + tags + count + "</span></span></span>" +
         '<span class="score"><span class="bar"><i style="width:' + Math.round(m.index / 60 * 100) + '%"></i></span><span class="lbl">Score</span><b>' + m.index + "</b></span>" +
         '<span class="price num p-in"><span class="lbl">In</span>' + from + aud(price.in) + "</span>" +
         '<span class="price num p-out"><span class="lbl">Out</span>' + from + aud(price.out) + "</span>" +
-        "</summary>" + detail(m) + "</details></li>";
+        '<span class="chev" aria-hidden="true"><svg viewBox="0 0 20 20"><path d="M8 5l5 5-5 5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>' +
+        "</button></li>";
     }).join("");
   }
 
@@ -233,6 +318,17 @@
       this.querySelectorAll("button").forEach(function (x) { x.setAttribute("aria-pressed", String(x === b)); });
       renderRows();
     });
+    $("rows").addEventListener("click", function (e) {
+      var b = e.target.closest("button[data-id]");
+      if (b) openSheet(b.dataset.id);
+    });
+    var dlg = $("sheet");
+    dlg.addEventListener("click", function (e) {
+      if (e.target === dlg || e.target.closest("[data-close]")) closeSheet();
+    });
+    dlg.addEventListener("close", onSheetClosed);
+    document.addEventListener("keydown", function (e) { if (e.key === "Escape") closeSheet(); });
+
     Promise.all([getJson("data/models.json"), getJson("data/hardware.json"), getJson("data/fx.json")])
       .then(function (res) {
         data.models = res[0];
@@ -245,6 +341,8 @@
         data.rate = rate;
         renderTiles();
         renderRows();
+        var id = (location.hash || "").slice(1);
+        if (id) openSheet(id);
       })
       .catch(function () {
         $("rows").innerHTML = '<li class="state">Prices couldn\'t load. Please refresh the page.</li>';
