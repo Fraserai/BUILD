@@ -97,8 +97,6 @@
   };
   var ICON = {
     check: '<svg viewBox="0 0 20 20" aria-hidden="true"><path d="M5 10.5l3.2 3.2L15 7" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>',
-    clock: '<svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="7" fill="none" stroke="currentColor" stroke-width="2"/><path d="M10 6.5V10l2.5 1.8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>',
-    warn: '<svg viewBox="0 0 20 20" aria-hidden="true"><path d="M10 3.5l7 12.5H3z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M10 8.5v3.2M10 13.9v.1" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>',
     close: '<svg viewBox="0 0 20 20" aria-hidden="true"><path d="M5.5 5.5l9 9M14.5 5.5l-9 9" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>',
     arrow: '<svg viewBox="0 0 20 20" aria-hidden="true"><path d="M7 13l6-6M8 7h5v5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>'
   };
@@ -154,26 +152,19 @@
     return '<section class="ptiles" aria-label="Price per million tokens">' +
       tile("Input", aud(best.in), "per 1M tokens") +
       tile("Output", aud(best.out), "per 1M tokens") +
-      (cached != null ? tile("Cached input", aud(cached), "per 1M tokens") : tile("Blended 3:1", aud(blendedUsd(best)), "per 1M tokens")) +
+      (cached != null ? tile("Cached input", aud(cached), "per 1M tokens") : tile("Blended", aud(blendedUsd(best)), "3:1 in to out")) +
       '</section><p class="pt-from">' + (best !== m.price ? "Lowest price, from " : "Price from ") + "<b>" + esc(from) + "</b>" +
       (m.priceNote ? ". " + esc(inAud(m.priceNote)) : ".") + "</p>";
   }
 
+  // Only models that genuinely run onshore get the Australian hosting card.
   function auCard(m) {
     var h = m.auHosting;
-    if (!h) return "";
-    var ok = h.status === "available";
-    var body = ok ? "<p>" + esc(h.how) + "</p>" : "<p>No provider runs this model fully in Australia yet.</p>";
-    if (h.warning) body += '<p class="warn-line">' + ICON.warn + "<span>" + esc(h.warning) + "</span></p>";
-    if (h.closest) body += "<p>" + esc(h.closest) + "</p>";
-    if (!ok && m.localRun && m.localRun.tier === "laptop") {
-      body += "<p>It runs on your own computer, so every prompt can stay onshore today.</p>";
-    }
+    if (!h || h.status !== "available") return "";
     var links = (h.links || []).map(function (l) { return link(l[0], l[1]); }).join("");
-    return '<section class="card au-card ' + (ok ? "is-ok" : "is-no") + '">' +
-      '<div class="au-title"><span class="au-icon">' + (ok ? ICON.check : ICON.clock) + "</span><div><h3>" +
-      (ok ? "Runs fully in Australia" : "Not hosted in Australia yet") + "</h3><span>Data residency</span></div></div>" +
-      body + (links ? '<div class="links">' + links + "</div>" : "") + "</section>";
+    return '<section class="card au-card is-ok"><div class="au-title"><span class="au-icon">' + ICON.check +
+      "</span><h3>Runs fully in Australia</h3></div><p>" + esc(h.how) + "</p>" +
+      (links ? '<div class="links">' + links + "</div>" : "") + "</section>";
   }
 
   function providerCard(m) {
