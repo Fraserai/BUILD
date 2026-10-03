@@ -4,132 +4,48 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>AUDit AI Prices</title>
-<meta name="description" content="The leading AI models priced in Australian dollars: token costs, hosting providers, Australian data residency and the hardware you need to run open models yourself.">
+<meta name="description" content="The world's leading AI models, ranked by intelligence, with token prices in Australian dollars.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700;800&family=Geist+Mono:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700;800&display=swap">
 <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-<div class="ambient" aria-hidden="true"><i class="blob b1"></i><i class="blob b2"></i><i class="blob b3"></i><i class="blob b4"></i></div>
+<div class="ambient" aria-hidden="true"><i class="blob b1"></i><i class="blob b2"></i><i class="blob b3"></i></div>
 
 <header class="nav glass" id="top">
-  <a class="brand" href="#top" aria-label="AUDit home">
-    <span class="brand-mark">A$</span>
-    <span class="brand-name">AUDit</span>
-  </a>
-  <span class="fx-chip" id="fx-chip" title="Exchange rate used for every price on this page">US$1 = A$…</span>
-  <button class="icon-btn" id="theme-btn" type="button" aria-label="Switch colour theme"><span id="theme-label">Auto</span></button>
+  <a class="brand" href="#top"><span class="brand-mark">A$</span><span class="brand-name">AUDit</span></a>
+  <span class="fx-chip" id="fx-chip">US$1 = A$1.44</span>
+  <button class="theme-btn" id="theme-btn" type="button" aria-label="Switch colour theme"><span id="theme-label">Auto</span></button>
 </header>
 
 <main class="wrap">
   <section class="hero">
-    <p class="eyebrow" id="hero-eyebrow">AI model prices in Australian dollars</p>
-    <h1>What the world's best AI models cost in Aussie dollars.</h1>
-    <p class="lede">Token prices from every major lab converted at today's exchange rate, with GST if you want it. For open models you also get prices from each host, Australian hosting options and the hardware to run them yourself.</p>
-    <div class="tiles" id="tiles"></div>
+    <h1>AI model prices in Australian dollars.</h1>
+    <p class="lede">The world's leading AI models, ranked by intelligence, with token prices converted to AUD at today's rate.</p>
+    <p class="updated" id="updated">Updated 3 October 2026</p>
   </section>
 
-  <section class="controls glass" aria-label="Filters and usage">
-    <div class="seg" role="group" aria-label="Show models" id="filter-seg">
-      <button type="button" data-filter="all" aria-pressed="true">All</button>
-      <button type="button" data-filter="open" aria-pressed="false">Open weights</button>
-      <button type="button" data-filter="closed" aria-pressed="false">Closed</button>
-      <button type="button" data-filter="au" aria-pressed="false">AU hosting</button>
-    </div>
-    <div class="ctl-grid">
-      <label class="field" for="in-tokens"><span>Input per month</span>
-        <span class="input-wrap"><input id="in-tokens" type="number" min="0" step="1" value="20" inputmode="decimal"><em>M tokens</em></span>
-      </label>
-      <label class="field" for="out-tokens"><span>Output per month</span>
-        <span class="input-wrap"><input id="out-tokens" type="number" min="0" step="1" value="5" inputmode="decimal"><em>M tokens</em></span>
-      </label>
-      <label class="field" for="sort"><span>Sort by</span>
-        <select id="sort">
-          <option value="index">Intelligence</option>
-          <option value="cost">Monthly cost</option>
-          <option value="value">Points per dollar</option>
-        </select>
-      </label>
-      <label class="field" for="fx-margin"><span>Card FX fee</span>
-        <select id="fx-margin">
-          <option value="0">None</option>
-          <option value="0.01">1%</option>
-          <option value="0.02">2%</option>
-          <option value="0.03">3%</option>
-        </select>
-      </label>
-      <label class="switch" for="gst">
-        <input id="gst" type="checkbox">
-        <span class="track" aria-hidden="true"><span class="knob"></span></span>
-        <span>Add 10% GST</span>
-      </label>
-    </div>
-  </section>
+  <section class="tiles" id="tiles" aria-label="Highlights"></section>
 
   <section class="board glass" aria-labelledby="board-title">
-    <div class="board-head">
+    <div class="board-top">
       <h2 id="board-title">Leaderboard</h2>
-      <p class="muted" id="board-sub">Intelligence score from the Artificial Analysis Intelligence Index. Tap a model for host prices, hardware and sources.</p>
+      <div class="seg" role="group" aria-label="Show models" id="filter-seg">
+        <button type="button" data-filter="all" aria-pressed="true">All</button>
+        <button type="button" data-filter="open" aria-pressed="false">Open</button>
+        <button type="button" data-filter="closed" aria-pressed="false">Closed</button>
+      </div>
     </div>
     <div class="cols" aria-hidden="true">
-      <span>#</span><span>Model</span><span>Intelligence</span><span class="num">Input /1M</span><span class="num">Output /1M</span><span class="num">Your month</span>
+      <span>Model</span><span>Intelligence</span><span class="num">Input</span><span class="num">Output</span>
     </div>
     <ol class="rows" id="rows"></ol>
-  </section>
-
-  <section class="chart-panel glass" aria-labelledby="chart-title">
-    <div class="board-head">
-      <h2 id="chart-title">Intelligence per Aussie dollar</h2>
-      <p class="muted">Each dot is a model. Further left is cheaper, higher is smarter. The line joins the models nothing else beats on both. Price is a 3:1 input-to-output blend per million tokens.</p>
-    </div>
-    <div class="chart-scroll"><svg id="chart" viewBox="0 0 760 400" role="img" aria-label="Scatter chart of intelligence score against blended price in AUD"></svg></div>
-    <div class="legend"><span><i class="dot closed"></i>Closed</span><span><i class="dot open"></i>Open weights</span><span><i class="line"></i>Best value frontier</span></div>
-  </section>
-
-  <section class="hw" aria-labelledby="hw-title">
-    <div class="section-head">
-      <h2 id="hw-title">Run it in Australia</h2>
-      <p class="muted">Open-weight models can run on hardware you own, so your data never leaves the building. Prices are Australian retail, GST included.</p>
-    </div>
-    <div class="hw-grid" id="hw-grid"></div>
-    <div class="cloud glass">
-      <div class="cloud-head">
-        <h3>Rent instead</h3>
-        <label class="field inline" for="kwh"><span>Your power price</span>
-          <span class="input-wrap"><input id="kwh" type="number" min="0" step="0.01" value="0.33" inputmode="decimal"><em>A$/kWh</em></span>
-        </label>
-      </div>
-      <div class="table-scroll"><table class="cloud-table" id="cloud-table"></table></div>
-      <p class="muted small" id="cloud-note"></p>
-    </div>
-  </section>
-
-  <section class="notes" aria-labelledby="gov-title">
-    <div class="note glass">
-      <h2 id="gov-title">For government and regulated teams</h2>
-      <ul>
-        <li><strong>Data residency.</strong> Models tagged <span class="badge au-region">AU region</span> have a verified option that keeps inference in Australian data centres. <span class="badge self-host">Self-host</span> models can be run entirely on infrastructure you control.</li>
-        <li><strong>Country of origin.</strong> Each model shows where its lab is based. Some agencies restrict products from particular vendors. Check current PSPF directions before you buy.</li>
-        <li><strong>Licences.</strong> Open weights are not all the same. MIT and Apache 2.0 have no usage caps. Mistral's licence excludes companies above a revenue threshold.</li>
-        <li><strong>GST.</strong> Overseas AI providers charge GST to customers who are not GST registered. Registered businesses that quote an ABN are usually invoiced without it.</li>
-      </ul>
-    </div>
-    <div class="note glass">
-      <h2>How this page stays current</h2>
-      <ul>
-        <li>The exchange rate loads live from the European Central Bank feed each time you open the page. If that fails, the last saved daily rate is used.</li>
-        <li>A scheduled job refreshes the saved rate and closed-model API prices every day, and pulls the latest host prices for open models.</li>
-        <li>Every model links to its sources. If a number looks wrong, the source link is the place to check.</li>
-        <li>Builders can use the raw data directly: <a href="data/models.json">models.json</a>, <a href="data/hardware.json">hardware.json</a>, <a href="data/fx.json">fx.json</a>.</li>
-      </ul>
-    </div>
   </section>
 </main>
 
 <footer class="foot wrap">
-  <p id="foot-updated">Prices checked 3 October 2026.</p>
-  <p>Prices change often and differ by region, tier and volume. Confirm with the provider before you commit. Benchmark scores from <a href="https://artificialanalysis.ai/">Artificial Analysis</a>.</p>
+  <p>Prices are in Australian dollars per million tokens. Intelligence scores are from the <a href="https://artificialanalysis.ai/">Artificial Analysis Intelligence Index</a>. Prices change often, so check with the provider before you commit.</p>
 </footer>
 
 <script src="app.js"></script>

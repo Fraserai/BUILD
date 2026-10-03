@@ -15,7 +15,7 @@
     },
     {
       "id": "dgx-spark",
-      "name": "NVIDIA DGX Spark (GB10)",
+      "name": "NVIDIA DGX Spark",
       "kind": "Desktop AI box",
       "memory_gb": 128,
       "aud": 6249,
@@ -26,7 +26,7 @@
     },
     {
       "id": "rtx-pro-6000",
-      "name": "RTX PRO 6000 Blackwell 96GB",
+      "name": "RTX PRO 6000 (96 GB)",
       "kind": "Workstation GPU",
       "memory_gb": 96,
       "aud": 18499,
@@ -37,7 +37,7 @@
     },
     {
       "id": "mac-studio-m5-ultra",
-      "name": "Mac Studio M5 Ultra 256GB",
+      "name": "Mac Studio M5 Ultra (256 GB)",
       "kind": "Desktop computer",
       "memory_gb": 256,
       "aud": 28699,
@@ -48,9 +48,30 @@
     }
   ],
   "cloud": [
-    { "id": "h100", "name": "H100 80GB", "memory_gb": 80, "usd_hr": 2.65, "note": "On-demand, Spheron, 2 Oct 2026", "source": "https://www.spheron.network/blog/gpu-cloud-pricing-comparison-2026/" },
-    { "id": "h200", "name": "H200 141GB", "memory_gb": 141, "usd_hr": 3.99, "note": "Lowest tracked on-demand, Hyperbolic, Oct 2026", "source": "https://www.thundercompute.com/blog/nvidia-h200-pricing" },
-    { "id": "b200", "name": "B200 180GB", "memory_gb": 180, "usd_hr": 8.63, "note": "On-demand, Spheron. Spot from US$4.53", "source": "https://www.spheron.network/blog/gpu-cloud-pricing-comparison-2026/" }
+    {
+      "id": "h100",
+      "name": "H100 80GB",
+      "memory_gb": 80,
+      "usd_hr": 2.65,
+      "note": "On-demand, Spheron, 2 Oct 2026",
+      "source": "https://www.spheron.network/blog/gpu-cloud-pricing-comparison-2026/"
+    },
+    {
+      "id": "h200",
+      "name": "H200 141GB",
+      "memory_gb": 141,
+      "usd_hr": 3.99,
+      "note": "Lowest tracked on-demand, Hyperbolic, Oct 2026",
+      "source": "https://www.thundercompute.com/blog/nvidia-h200-pricing"
+    },
+    {
+      "id": "b200",
+      "name": "B200 180GB",
+      "memory_gb": 180,
+      "usd_hr": 8.63,
+      "note": "On-demand, Spheron. Spot from US$4.53",
+      "source": "https://www.spheron.network/blog/gpu-cloud-pricing-comparison-2026/"
+    }
   ],
   "cloud_note": "These are global marketplace rates. Sydney-region capacity usually costs more and is scarcer. Australian sovereign options include SCX.ai (Equinix SY5, Sydney) and SharonAI."
 }

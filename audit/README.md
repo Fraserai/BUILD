@@ -2,13 +2,10 @@
 
 A one-page static site that lists the leading AI models (ranked by the Artificial Analysis Intelligence Index) with:
 
-- input, output and cached token prices converted to **AUD** at the live exchange rate
-- optional **10% GST** and **card FX fee**, plus a monthly cost for your own token volume
-- **Australian hosting** status for each model: AU region, self-hostable, or offshore
-- **per-host prices** for open-weight models (DeepInfra, Fireworks, Together and others)
-- **self-hosting sizing**: memory needed at 4/8/16-bit and which Australian-priced hardware fits
-- a price-vs-intelligence chart with the best-value frontier
-- notes for government buyers (PSPF directions, licences, GST)
+- input and output token prices in **AUD**, converted at the live exchange rate
+- a "Hosted in AU" tag where an Australian data-residency option is confirmed
+- tap a model for its details: context window, cached-input price, **prices by provider** for open models,
+  and **what it takes to run it yourself** (memory needed and the cheapest Australian-priced hardware that fits)
 
 No build step and no dependencies. The design uses a liquid-glass style inspired by Apple's newest iOS look.
 
@@ -28,7 +25,7 @@ The page loads its data with `fetch`, so opening `index.html` straight from disk
 | --- | --- |
 | `index.html`, `styles.css`, `app.js` | The page |
 | `data/models.json` | Models, USD prices, open-weight details, AU hosting notes, sources |
-| `data/hardware.json` | Australian retail hardware prices (AUD, incl. GST) and cloud GPU rates |
+| `data/hardware.json` | Australian retail hardware prices (AUD), used for the "Run it yourself" line |
 | `data/fx.json` | Saved USD→AUD rate, used when the live rate can't load |
 | `scripts/refresh_data.py` | Daily refresh of the FX rate and prices (standard library only) |
 
